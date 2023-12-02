@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="dtm_list_material_producto_view_tree" model="ir.ui.view">
+            <field name="name">dtm_list_material_producto.view.tree</field>
+            <field name="model">dtm.list.material.producto</field>
+            <field name="arch" type="xml">
+                <tree >
+                    <field name="material_servicio"></field>
+                    <field name="descripcion"></field>
+                    <field name="cantidad" options='{"type": "number"}'></field>
+                    <field name="precio" widget="monetary" options='{"type": "number"}' ></field>
+                </tree>
+            </field>
+        </record>
+
+        <record id="dtm_list_material_producto_view_form" model="ir.ui.view">
+            <field name="name">dtm_list_material_producto.view.form</field>
+            <field name="model">dtm.list.material.producto</field>
+            <field name="arch" type="xml">
+                <form >
+                    <sheet>
+                        <group>
+                            <field name="material_servicio"></field>
+                            <field name="descripcion"></field>
+                            <field name="cantidad" options='{"type": "number"}'></field>
+                            <field name="precio" widget="monetary" options='{"type": "number"}' ></field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

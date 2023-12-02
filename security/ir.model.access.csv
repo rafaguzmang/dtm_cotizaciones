@@ -1,0 +1,10 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+access_dtm_client_needs,access.dtm.client.needs,model_dtm_client_needs,base.group_user,1,1,1,1
+access_cot_list_material,access.cot.list.material,model_cot_list_material,base.group_user,1,1,1,1
+access_dtm_documentos_anexos,access.dtm.documentos.anexos,model_dtm_documentos_anexos,base.group_user,1,1,1,1
+access_dtm_contactos_anexos,access.dtm.contactos.anexos,model_dtm_contactos_anexos,base.group_user,1,1,1,1
+access_dtm_list_material_producto,access.dtm.list.material.producto,model_dtm_list_material_producto,base.group_user,1,1,1,1
+access_dtm_contactos_anexos,access.dtm.contactos.anexos,model_dtm_contactos_anexos,base.group_user,1,1,1,1
+access_dtm_precotizacion,access.dtm.precotizacion,model_dtm_precotizacion,base.group_user,1,1,1,1
+access_dtm_requerimientos,access.dtm.requerimientos,model_dtm_requerimientos,base.group_user,1,1,1,1
+

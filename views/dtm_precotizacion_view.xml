@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <record id="dtm_precotizacion_action" model="ir.actions.act_window">
+        <field name="name">precotizacion</field>
+        <field name="res_model">dtm.precotizacion</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <record id="dtm_precotizacion_view_tree" model="ir.ui.view">
+        <field name="name">dtm_precotizacion.view.tree</field>
+        <field name="model">dtm.precotizacion</field>
+        <field name="arch" type="xml">
+            <tree create='false' edit="false">
+                <field name="no_cotizacion"></field>
+                <field name="cliente_ids"></field>
+            </tree>
+        </field>
+    </record>
+
+    <record id="dtm_precotizacion_view_form" model="ir.ui.view">
+        <field name="name">dtm_precotizacion.view.form</field>
+        <field name="model">dtm.precotizacion</field>
+        <field name="arch" type="xml">
+            <form create='false' edit="false">                
+                <sheet>
+                    <group>
+                        <field name="no_cotizacion"></field>
+                        <field name="cliente_ids"></field>
+                        
+                    </group>
+                    <notebook>
+                        <page name="requerimientos" string="Requerimientos">
+                            <field name="servicios_id"></field>
+                        </page>
+                        <page name="notas" string="Notas">
+                            <field name="notas"></field>
+                        </page>                         
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <menuitem
+            id="dtm_precotizacion_menu"            
+            action="dtm_precotizacion_action"
+    />
+</odoo>
+

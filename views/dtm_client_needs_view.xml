@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="dtm_client_needs_action" model="ir.actions.act_window">
+            <field name="name">Necesidades del cliente</field>
+            <field name="res_model">dtm.client.needs</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="dtm_client_needs_view_tree" model="ir.ui.view">
+            <field name="name">dtm_client_needs.view.tree</field>
+            <field name="model">dtm.client.needs</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="cliente_ids"></field>
+                    <field name="no_cotizacion"></field>
+                    <field name="date"></field> 
+                </tree>
+            </field>
+        </record>
+
+        <record id="dtm_client_needs_view_form" model="ir.ui.view">
+            <field name="name">dtm_client_needs.view.form</field>
+            <field name="model">dtm.client.needs</field>
+            <field name="arch" type="xml">
+                <form  >
+                    <sheet>
+                        <group name="orden_servicio" >
+                             <div>
+                                 <h1>
+                                    <field name="no_cotizacion" readonly="1"></field>
+                                </h1>
+                            </div>                             
+                        </group>
+                        <group >
+                            <group>
+                                <field name="cliente_ids" readonly="0"></field>
+                                <field name="atencion" widget="many2many_tags" readonly="0"></field> 
+                                <field name="date"></field> 
+                            </group>
+                            <group> 
+                                <field name="correo"></field>
+                                <field name="telefono"></field>
+                            </group>  
+                        </group>
+                        <notebook>
+                            <page string="Requerimientos"  >
+                                 <field name="list_materials_ids" readonly="0"  >                              
+                                    <tree name="listmat" > 
+                                        <field name="name" readonly="0"></field>
+                                        <field name="descripcion" readonly="0"></field>
+                                        <field name="cantidad"  options='{"type": "number"}' readonly="0"></field>                                        
+                                    </tree>
+                                    <form >
+                                        <group >
+                                            <field name="name"  readonly="0"></field>
+                                            <field name="descripcion"  readonly="0"></field>
+                                            <field name="cantidad" options='{"type": "number"}'  readonly="0"></field>
+                                            <!-- <field name="material_serv_ids" ></field> -->
+                                           
+                                            <field name="attachment_ids" widget='one2many' readonly='0' >  
+                                                <tree>
+                                                    <field name="nombre" invisible="0"></field>
+                                                </tree>                           
+                                                <form>
+                                                    <group widget='one2many'>
+                                                        <field name="documentos" filename="nombre"></field>
+                                                        <field name="nombre" invisible="1"></field>
+                                                    </group>
+                                                </form>
+                                            </field>
+                                        </group>
+                                    </form>
+                                </field>
+                            </page>
+
+                            <page name="notas" string="Anotaciones">
+                                <field name="notes"></field>
+                            </page>
+                        </notebook>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids"></field>
+                            <field name="activity_ids"></field>
+                            <field name="message_ids"></field>
+                        </div>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+       <menuitem id="dtm_client_needs_menu" action="dtm_client_needs_action" />
+    
+    </data>
+    
+
+</odoo>
