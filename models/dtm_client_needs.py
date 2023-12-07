@@ -83,6 +83,13 @@ class ClientNeeds(models.Model):
     list_materials_ids = fields.One2many('cot.list.material', 'model_id',readonly=False)
 
 #-----------------------------------------------------
+    has_message = fields.Boolean()
+
+
+    @api.onchange('has_message')
+    def _onchange_has_message(self):
+        print("Esta mamada si funciona")
+    
 
     @api.model
     def create(self, vals):
@@ -102,16 +109,11 @@ class ClientNeeds(models.Model):
         print('res: ',res)
         print('vals: ',vals)
 
-        get_info = self.env['cot.list.material'].search([('id','=','15')])
-        print(get_info)
-
-        for result in get_info:
-            print(result.attachment_ids)
-
-
-        return res
+        print("Esta mamada si funciona")
     
-
+    @api.model
+    def send_mail(self):
+        print("algo")
 
 class ListMaterial(models.Model):
     _name = "cot.list.material"

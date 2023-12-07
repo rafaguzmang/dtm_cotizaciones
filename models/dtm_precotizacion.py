@@ -32,7 +32,11 @@ class Precotizacion(models.Model):
         get_info = self.env['dtm.client.needs'].search([])
         self.env.cr.execute("DELETE FROM dtm_precotizacion")
         for result in get_info:
-            self.env.cr.execute("INSERT INTO dtm_precotizacion (no_cotizacion, cliente_ids) VALUES ('"+ result.no_cotizacion +"','"+str( result.cliente_ids['name'])+"')")
+            if not str( result.cliente_ids['name']):
+                cliente = ""
+            else:
+                cliente = str( result.cliente_ids['name'])
+            self.env.cr.execute("INSERT INTO dtm_precotizacion (no_cotizacion, cliente_ids) VALUES ('"+ result.no_cotizacion +"','"+cliente+"')")
         return res
     
 
