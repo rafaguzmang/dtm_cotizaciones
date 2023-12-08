@@ -1,6 +1,5 @@
 from odoo import api,fields,models
 from datetime import datetime
-import re
 
 
 class ClientNeeds(models.Model):
@@ -83,13 +82,20 @@ class ClientNeeds(models.Model):
     list_materials_ids = fields.One2many('cot.list.material', 'model_id',readonly=False)
 
 #-----------------------------------------------------
-    has_message = fields.Boolean()
+   
 
-
-    @api.onchange('has_message')
-    def _onchange_has_message(self):
-        print("Esta mamada si funciona")
+    message_ids = fields.One2many()
     
+    has_message = fields.Boolean()
+    
+    @api.model
+    @api.onchange('message_ids')
+    def _onchange_message_ids(self):        
+        print("Esta mamada si funciona")
+
+
+    def action_sendmessage(self): 
+        self.message_post(body="Esto si funciona")
 
     @api.model
     def create(self, vals):
@@ -109,11 +115,12 @@ class ClientNeeds(models.Model):
         print('res: ',res)
         print('vals: ',vals)
 
-        print("Esta mamada si funciona")
+        
+
+   
     
-    @api.model
-    def send_mail(self):
-        print("algo")
+    
+
 
 class ListMaterial(models.Model):
     _name = "cot.list.material"

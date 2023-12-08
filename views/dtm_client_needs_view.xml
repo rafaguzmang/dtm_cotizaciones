@@ -24,7 +24,11 @@
             <field name="name">dtm_client_needs.view.form</field>
             <field name="model">dtm.client.needs</field>
             <field name="arch" type="xml">
-                <form  >
+                <form>
+                    <header>
+                        <button string="Send" name="action_sendmessage" type="object"/>
+                        <p>Esta cosa si funciona</p>
+                    </header>
                     <sheet>
                         <group name="orden_servicio" >
                              <div>
@@ -81,7 +85,7 @@
                         </notebook>
                         <div class="oe_chatter">
                             <field name="message_follower_ids"></field>
-                            <field name="activity_ids"></field>
+                            <!-- <field name="activity_ids"></field> -->
                             <field name="message_ids"></field>
                         </div>
 
