@@ -82,20 +82,34 @@ class ClientNeeds(models.Model):
     list_materials_ids = fields.One2many('cot.list.material', 'model_id',readonly=False)
 
 #-----------------------------------------------------
-   
-
-    message_ids = fields.One2many()
-    
+    message_ids = fields.One2many()    
     has_message = fields.Boolean()
+    body = fields.Html()
     
-    @api.model
-    @api.onchange('message_ids')
-    def _onchange_message_ids(self):        
-        print("Esta mamada si funciona")
+    
+  
+    # def message_post(self,attachment_ids=None, body='', message_type='notification',parent_id=False,partner_ids=None,subtype_xmlid=None):
+    @api.returns('mail.message', lambda value: value.id)  
+    def message_post(self,*, 
+                     body='', subject=None, message_type='notification',
+                     email_from=None, author_id=None, parent_id=False,
+                     subtype_xmlid=None, subtype_id=False, partner_ids=None,
+                     attachments=None, attachment_ids=None,
+                     add_sign=True, record_name=False,
+                     **kwargs):
+        res =  super(ClientNeeds,self).message_post(body=body,subject=subject,message_type=message_type,email_from=email_from,
+                                                    author_id=author_id,parent_id=parent_id,subtype_xmlid=subtype_xmlid,subtype_id=subtype_id,
+                                                    partner_ids=partner_ids, attachments=attachments, attachment_ids=attachment_ids,
+                                                    add_sign=add_sign, record_name=record_name)   
+        
+        print('res: ',res)
 
+        return res
 
     def action_sendmessage(self): 
-        self.message_post(body="Esto si funciona")
+        # self.message_post(body="Esto si funciona")
+        pass
+
 
     @api.model
     def create(self, vals):
