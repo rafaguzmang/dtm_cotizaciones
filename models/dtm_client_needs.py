@@ -18,11 +18,11 @@ class Probando():
         time.sleep(5)
         pg.hotkey("ctrl","w")
         
-
+#------------------- Clase principal
 class ClientNeeds(models.Model):
     _name = "dtm.client.needs"
     _inherit = ["mail.thread","mail.activity.mixin"]
-    
+
     #---------------Function------------------
     def _default_init(self): # Genera número consecutivo de NPI y OT del campo no_cotizacion        
         res=[]
@@ -115,20 +115,17 @@ class ClientNeeds(models.Model):
     has_message = fields.Boolean()
     body = fields.Html()        
 
-    def action_sendmessage(self): 
-        print('Push')
+    # def action_sendmessage(self): 
+    #     print('Push')
         
-        phones = ["6141198993","6141842833","6141966364","6143740084"]
+    #     phones = ["6141198993","6141842833","6141966364","6143740084"]
            
-        for resul in phones:
-            x  = Probando(resul,"Test from odoo")
-            x.send()
-            
+    #     for resul in phones:
+    #         x  = Probando(resul,"Test from odoo")
+    #         x.send()
 
-            
 
-  
-    
+    #------------------------------- Función para mandar mensajería -----------------------
     def message_post(self,*, 
                      body='', subject=None, message_type='notification',
                      email_from=None, author_id=None, parent_id=False,
@@ -154,7 +151,7 @@ class ClientNeeds(models.Model):
             print(res.body[3:len(res.body)-4])
             x  = Probando(resul,res.body[3:len(res.body)-4])
             x.send()
-      
+            #Depende de la funcion Probanda para mandar la mensajeria vía Whatsapp
 
         return res
     

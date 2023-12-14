@@ -25,10 +25,10 @@
             <field name="model">dtm.client.needs</field>
             <field name="arch" type="xml">
                 <form>
-                    <header>
+                    <!-- <header>
                         <button string="Send" name="action_sendmessage" type="object"/>
                         <p>Esta cosa si funciona</p>
-                    </header>
+                    </header> -->
                     <sheet>
                         <group name="orden_servicio" >
                              <div>
