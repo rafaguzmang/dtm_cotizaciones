@@ -4,6 +4,8 @@ from datetime import datetime
 
 class Precotizacion(models.Model):
     _name = "dtm.precotizacion"
+    _inherit = ["mail.thread","mail.activity.mixin"]
+    
     no_cotizacion = fields.Char(readonly=True) 
     cliente_ids = fields.Char(readonly=True) 
     notas = fields.Text()

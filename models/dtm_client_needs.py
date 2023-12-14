@@ -21,9 +21,8 @@ class Probando():
 
 class ClientNeeds(models.Model):
     _name = "dtm.client.needs"
-
-
     _inherit = ["mail.thread","mail.activity.mixin"]
+    
     #---------------Function------------------
     def _default_init(self): # Genera número consecutivo de NPI y OT del campo no_cotizacion        
         res=[]
@@ -46,8 +45,6 @@ class ClientNeeds(models.Model):
 
     cliente_ids = fields.Many2one("res.partner",string="Cliente", readonly=False)
 
-
-
     atencion = fields.Many2many("dtm.contactos.anexos",string="Nombre del requisitor", readonly=False)
     d = datetime
     date = fields.Date(string="Fecha" ,default= d.datetime.today(), readonly=True)   
@@ -55,20 +52,28 @@ class ClientNeeds(models.Model):
     attachment_ids = fields.Many2many("dtm.documentos.anexos",string="Anexos", readonly=False)
 
     #--------------Onchange-----------------
+    @api.onchange('cliente_ids') # Carga correo y número de telefono de los contactos del campo atencion
+    def onchange_cliente_ids(self):
+        data = self.env['res.partner'].search([('id','=',self.cliente_ids.id)])
+        self.correo = ""
+        self.telefono = ""
+        if data:
+            for result in data:
+                self.correo = result.email + "; "
+                self.telefono = result.phone + "; " 
+
     @api.onchange('atencion') # Carga correo y número de telefono de los contactos del campo atencion
     def _compute_onchange(self): 
-
-        #print(self.no_cotizacion)
-
         servicio = self.env['dtm.client.needs'].search([])
-
         for result in servicio:
             if result == self.no_cotizacion:
                 self.env.cr.execute("UPDATE  cot_list_material SET no_servicio ='"+self.no_cotizacion+"'  WHERE model_id =" + str(self.id))
-                self.env.cr.execute("UPDATE  dtm_documentos_anexos SET no_servicio = '"+self.no_cotizacion+"'  WHERE no_servicio = '-----'" )
+                # self.env.cr.execute("UPDATE  dtm_documentos_anexos SET no_servicio = '"+self.no_cotizacion+"'  WHERE no_servicio = '-----'" )
         
         self.correo = ""
         self.telefono = ""
+
+        self.onchange_cliente_ids()
 
         #print(self.atencion)
         for record in self.atencion:
@@ -78,6 +83,7 @@ class ClientNeeds(models.Model):
             self.correo = self.correo[:-2]
         if self.telefono:
             self.telefono = self.telefono[:-2]
+            
     telefono = fields.Char(string="Telefono(s)", readonly=True , compute="_compute_onchange")
 
     correo = fields.Char(string = "email(s)", readonly=True, compute="_compute_onchange")
@@ -86,10 +92,11 @@ class ClientNeeds(models.Model):
     def _compute_cliente_ids(self): 
         print(self.cliente_ids.commercial_company_name)
         if self.cliente_ids.commercial_company_name:
-            contactos = self.env['res.partner'].search([])
+            contactos = self.env['res.partner'].search([('commercial_company_name','=',self.cliente_ids.commercial_company_name),
+                                                        ('display_name','!=',self.cliente_ids.commercial_company_name)])
             self.env.cr.execute("DELETE FROM   dtm_contactos_anexos" )
             for result in contactos:
-                if result.commercial_company_name == self.cliente_ids.commercial_company_name:  
+                # if result.commercial_company_name == self.cliente_ids.commercial_company_name:  
                     if result.name == False:
                         result.name = 'N/A'
                     if result.email == False:
