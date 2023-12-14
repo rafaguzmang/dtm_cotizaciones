@@ -1,13 +1,33 @@
 from odoo import api,fields,models
-from datetime import datetime
+import datetime 
+import time
+import webbrowser as web
+import pyautogui as pg
 
+class Probando():
+    def __init__(self,phone,message):
+        self.phone = phone
+        self.message = message
+
+    def send(self):
+        web.open("https://web.whatsapp.com/send?phone={}".format(self.phone))
+        time.sleep(10)
+        pg.typewrite(self.message)
+        time.sleep(3)
+        pg.press("enter")
+        time.sleep(5)
+        pg.hotkey("ctrl","w")
+        
 
 class ClientNeeds(models.Model):
     _name = "dtm.client.needs"
+
+
     _inherit = ["mail.thread","mail.activity.mixin"]
     #---------------Function------------------
     def _default_init(self): # Genera número consecutivo de NPI y OT del campo no_cotizacion        
         res=[]
+
         no = ""       
         no_cotizacion = self.env['dtm.client.needs'].search([]) # Consulta los números de cotización de la tabla de dtm.client.needs
         #print(no_cotizacion)
@@ -26,9 +46,11 @@ class ClientNeeds(models.Model):
 
     cliente_ids = fields.Many2one("res.partner",string="Cliente", readonly=False)
 
-    atencion = fields.Many2many("dtm.contactos.anexos",string="Nombre del requisitor", readonly=False)
 
-    date = fields.Date(string="Fecha" ,default= datetime.today(), readonly=True)   
+
+    atencion = fields.Many2many("dtm.contactos.anexos",string="Nombre del requisitor", readonly=False)
+    d = datetime
+    date = fields.Date(string="Fecha" ,default= d.datetime.today(), readonly=True)   
 
     attachment_ids = fields.Many2many("dtm.documentos.anexos",string="Anexos", readonly=False)
 
@@ -84,31 +106,54 @@ class ClientNeeds(models.Model):
 #-----------------------------------------------------
     message_ids = fields.One2many()    
     has_message = fields.Boolean()
-    body = fields.Html()
-    
-    
+    body = fields.Html()        
+
+    def action_sendmessage(self): 
+        print('Push')
+        
+        phones = ["6141198993","6141842833","6141966364","6143740084"]
+           
+        for resul in phones:
+            x  = Probando(resul,"Test from odoo")
+            x.send()
+            
+
+            
+
   
-    # def message_post(self,attachment_ids=None, body='', message_type='notification',parent_id=False,partner_ids=None,subtype_xmlid=None):
-    @api.returns('mail.message', lambda value: value.id)  
+    
     def message_post(self,*, 
                      body='', subject=None, message_type='notification',
                      email_from=None, author_id=None, parent_id=False,
                      subtype_xmlid=None, subtype_id=False, partner_ids=None,
                      attachments=None, attachment_ids=None,
-                     add_sign=True, record_name=False,
+                     add_sign=True, record_name=
+                     False,
                      **kwargs):
         res =  super(ClientNeeds,self).message_post(body=body,subject=subject,message_type=message_type,email_from=email_from,
                                                     author_id=author_id,parent_id=parent_id,subtype_xmlid=subtype_xmlid,subtype_id=subtype_id,
                                                     partner_ids=partner_ids, attachments=attachments, attachment_ids=attachment_ids,
                                                     add_sign=add_sign, record_name=record_name)   
         
-        print('res: ',res)
+        #print('res: ',res)
+
+        data = self.env['mail.followers'].search([('res_id','=',res.res_id),('res_model','=','dtm.client.needs')])
+        phones = []
+        for result in data.partner_id:            
+            phone = self.env['res.partner'].search([('id','=',result.id)])
+            phones.append(phone.phone)
+
+        for resul in phones:
+            print(res.body[3:len(res.body)-4])
+            x  = Probando(resul,res.body[3:len(res.body)-4])
+            x.send()
+      
 
         return res
+    
+    
 
-    def action_sendmessage(self): 
-        # self.message_post(body="Esto si funciona")
-        pass
+    
 
 
     @api.model
@@ -131,7 +176,7 @@ class ClientNeeds(models.Model):
 
         
 
-   
+  
     
     
 
