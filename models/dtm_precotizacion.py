@@ -32,23 +32,20 @@ class Precotizacion(models.Model):
     def _compute_fill_servicios(self): # llena el campo servicios_id con los datos de la tabla requerimientos
         requerimientos = self.env['dtm.requerimientos'].search([])
         lines = []
-        line = (5,0,{})
+        # self.env.cr("DELETE FROM dtm.requerimientos")
         for result in requerimientos:
             if result.servicio == self.no_cotizacion:
                 line =(4,result.id,{})
                 lines.append(line)
         self.servicios_id = lines
 
-    servicios_id = fields.Many2many('dtm.requerimientos', string='Requerimientos',compute="_compute_fill_servicios" )
-
+    servicios_id = fields.Many2many('dtm.requerimientos', string='Requerimientos',compute="_compute_fill_servicios",readonly=False )
 
 
 
     #------------------------------- Acciones -----------------------
 
     #------------------------------- Función para mandar mensajería -----------------------
-
-
     def message_post(self,*, 
                     body='', subject=None, message_type='notification',
                     email_from=None, author_id=None, parent_id=False,
@@ -57,7 +54,7 @@ class Precotizacion(models.Model):
                     add_sign=True, record_name=
                     False,
                     **kwargs):
-        res =  super(ClientNeeds,self).message_post(body=body,subject=subject,message_type=message_type,email_from=email_from,
+        res =  super(Precotizacion,self).message_post(body=body,subject=subject,message_type=message_type,email_from=email_from,
                                                     author_id=author_id,parent_id=parent_id,subtype_xmlid=subtype_xmlid,subtype_id=subtype_id,
                                                     partner_ids=partner_ids, attachments=attachments, attachment_ids=attachment_ids,
                                                     add_sign=add_sign, record_name=record_name)   
@@ -74,16 +71,13 @@ class Precotizacion(models.Model):
             print(res.body[3:len(res.body)-4])
             x  = Probando(resul,res.body[3:len(res.body)-4])
             x.send()
-            #Depende de la funcion Probanda para mandar la mensajeria vía Whatsapp
+            #Depende de la funcion "Probando" para mandar la mensajeria vía Whatsapp
 
         return res
     
-    @api.model #--------------------  Llena la tabla con las ordenes de servicio ----------------
-    def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
-                        submenu=False):
-        res = super(Precotizacion, self).fields_view_get(
-            view_id=view_id, view_type=view_type, toolbar=toolbar,
-            submenu=submenu)
+    def get_view(self, view_id=None, view_type='form', **options):
+        res = super(Precotizacion,self).get_view(view_id, view_type,**options)
+        # self.material = "algo al carbón"
         get_info = self.env['dtm.client.needs'].search([])
         self.env.cr.execute("DELETE FROM dtm_precotizacion")
         for result in get_info:
@@ -91,7 +85,7 @@ class Precotizacion(models.Model):
                 cliente = ""
             else:
                 cliente = str( result.cliente_ids['name'])
-            self.env.cr.execute("INSERT INTO dtm_precotizacion (no_cotizacion, cliente_ids) VALUES ('"+ result.no_cotizacion +"','"+cliente+"')")
+            self.env.cr.execute("INSERT INTO dtm_precotizacion (id, no_cotizacion, cliente_ids) VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+cliente+"')")
         return res
     
 

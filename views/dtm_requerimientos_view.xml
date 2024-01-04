@@ -2,14 +2,11 @@
 <odoo>
 
     <data>
-
-
-       
         <record id="dtm_requerimiento_view_tree" model="ir.ui.view">
             <field name="name">dtm_requerimiento.view.tree</field>
             <field name="model">dtm.requerimientos</field>
             <field name="arch" type="xml">
-                <tree>                    
+                <tree create="false" >
                     <field name="nombre"></field>
                     <field name="descripcion"></field>
                     <field name="cantidad"></field>
@@ -22,23 +19,49 @@
         <field name="model">dtm.requerimientos</field>
         <field name="arch" type="xml">
             <form >
-                <footer>
-                    <button name="action_save" type="object" string="Guardar"/>
-                </footer>
                 <sheet>
-                    <group create='false' edit="false" >
+                    <group >
                         <group>
-                            <field name="servicio" readonly="1"></field>
-                            <field name="nombre" readonly="1"></field>
+                            <field name="servicio" readonly = "1" ></field>
+                            <field name="nombre" readonly = "1" ></field>
                         </group>
                         <group >
-                            <field name="cantidad" readonly="1"></field>
-                            <field name="descripcion" readonly="1"></field>
-                        </group> 
+                            <field name="cantidad" readonly = "1"></field>
+                            <field name="descripcion" readonly = "1"></field>
+                        </group>
+
+
+<!--                        <field name="material_servicio_id" >-->
+<!--                              <tree crate="true">-->
+<!--                                <field name="material_servicio"></field>-->
+<!--                                <field name="descripcion"></field>-->
+<!--                                <field name="cantidad" options='{"type": "number"}'></field>-->
+<!--                                <field name="precio" widget="monetary" options='{"type": "number"}' ></field>-->
+<!--                              </tree>-->
+
+<!--                             <form>-->
+<!--                                <sheet>-->
+<!--                                    <group>-->
+<!--                                        <field name="material_servicio"></field>-->
+<!--                                        <field name="descripcion"></field>-->
+<!--                                        <field name="cantidad" options='{"type": "number"}'></field>-->
+<!--                                        <field name="precio" widget="monetary" options='{"type": "number"}' ></field>-->
+<!--                                    </group>-->
+<!--                                </sheet>-->
+<!--                            </form>-->
+<!--                        </field>-->
                     </group>
-                    <notebook>
-                        <page string="Material/Servicio">
-                            <field name="material_servicio_id"></field>
+                    <notebook >
+                        <page string="Material/Servicio" >
+                            <field name="material_servicio_id" options="{'no_open':False,'no_create':0,'no_create_edit':0}"  >
+                                <tree crate="true" editable="true">
+                                    <field name="material_servicio"></field>
+                                    <field name="descripcion"></field>
+                                    <field name="cantidad" options='{"type": "number"}'></field>
+                                    <field name="precio_unitario" widget="monetary" options='{"type": "number"}' ></field>
+                                    <field name="precio" widget="monetary" options='{"type": "number"}' ></field>
+                                </tree>
+                            </field>
                         </page>
                          <page string="Anexos">
                             <field name="anexos_id" ></field>

@@ -65,6 +65,7 @@ class ClientNeeds(models.Model):
     @api.onchange('atencion') # Carga correo y número de telefono de los contactos del campo atencion
     def _compute_onchange(self): 
         servicio = self.env['dtm.client.needs'].search([])
+        print(servicio)
         for result in servicio:
             if result == self.no_cotizacion:
                 self.env.cr.execute("UPDATE  cot_list_material SET no_servicio ='"+self.no_cotizacion+"'  WHERE model_id =" + str(self.id))
