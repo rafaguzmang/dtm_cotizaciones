@@ -24,12 +24,13 @@ class Probando():
 class Precotizacion(models.Model):
     _name = "dtm.precotizacion"
     _inherit = ["mail.thread","mail.activity.mixin"]
+    _rec_name = "no_cotizacion"
 
     no_cotizacion = fields.Char(readonly=True) 
     cliente_ids = fields.Char(readonly=True) 
     notas = fields.Text()
 
-    def _compute_fill_servicios(self): # llena el campo servicios_id con los datos de la tabla requerimientos
+    def _compute_fill_servicios(self): # Llena el campo servicios_id con los datos de la tabla requerimientos
         requerimientos = self.env['dtm.requerimientos'].search([])
         lines = []
         # self.env.cr("DELETE FROM dtm.requerimientos")
@@ -39,7 +40,21 @@ class Precotizacion(models.Model):
                 lines.append(line)
         self.servicios_id = lines
 
-    servicios_id = fields.Many2many('dtm.requerimientos', string='Requerimientos',compute="_compute_fill_servicios",readonly=False )
+
+
+    servicios_id = fields.Many2many('dtm.requerimientos', string='Requerimientos',compute="_compute_fill_servicios",readonly=False ) # Tabla con Nombre,Descripción,Cantidad,Precion Unitario,Precio Total
+
+
+    precio_total = fields.Float(string="TOTAL", compute="_compute_precio_total")
+
+    @api.depends("servicios_id")
+    def _compute_precio_total(self):
+        for result in self:
+            print(result.no_cotizacion)
+            for result2 in result.servicios_id:
+                print(result2.id)
+                result.precio_total += result2.precio_total
+                self.env.cr.execute("UPDATE dtm_precotizacion SET precio_total = "+ str(result.precio_total) +" WHERE no_cotizacion = '"+str(result.no_cotizacion+"'"))
 
 
 
@@ -71,7 +86,7 @@ class Precotizacion(models.Model):
             print(res.body[3:len(res.body)-4])
             x  = Probando(resul,res.body[3:len(res.body)-4])
             x.send()
-            #Depende de la funcion "Probando" para mandar la mensajeria vía Whatsapp
+            #Depende de la funcion "Probando", para mandar la mensajeria vía Whatsapp
 
         return res
     

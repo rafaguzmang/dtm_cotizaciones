@@ -10,6 +10,8 @@
                     <field name="nombre"></field>
                     <field name="descripcion"></field>
                     <field name="cantidad"></field>
+                    <field name="precio_unitario"></field>
+                    <field name="precio_total"></field>
                 </tree>
             </field>
         </record> 
@@ -30,26 +32,6 @@
                             <field name="descripcion" readonly = "1"></field>
                         </group>
 
-
-<!--                        <field name="material_servicio_id" >-->
-<!--                              <tree crate="true">-->
-<!--                                <field name="material_servicio"></field>-->
-<!--                                <field name="descripcion"></field>-->
-<!--                                <field name="cantidad" options='{"type": "number"}'></field>-->
-<!--                                <field name="precio" widget="monetary" options='{"type": "number"}' ></field>-->
-<!--                              </tree>-->
-
-<!--                             <form>-->
-<!--                                <sheet>-->
-<!--                                    <group>-->
-<!--                                        <field name="material_servicio"></field>-->
-<!--                                        <field name="descripcion"></field>-->
-<!--                                        <field name="cantidad" options='{"type": "number"}'></field>-->
-<!--                                        <field name="precio" widget="monetary" options='{"type": "number"}' ></field>-->
-<!--                                    </group>-->
-<!--                                </sheet>-->
-<!--                            </form>-->
-<!--                        </field>-->
                     </group>
                     <notebook >
                         <page string="Material/Servicio" >
@@ -66,7 +48,10 @@
                          <page string="Anexos">
                             <field name="anexos_id" ></field>
                         </page>
-                    </notebook>          
+                    </notebook>
+                    <group>
+                        <field name="suma_total" ></field>
+                    </group>
                 </sheet>
                 
             </form>

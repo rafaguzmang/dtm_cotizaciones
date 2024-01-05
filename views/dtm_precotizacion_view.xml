@@ -14,6 +14,7 @@
             <tree >
                 <field name="no_cotizacion"/>
                 <field name="cliente_ids"  />
+                <field name="precio_total"></field>
             </tree>
         </field>
     </record>
@@ -37,12 +38,14 @@
                             <field name="notas"></field>
                         </page>                         
                     </notebook>
+                    <group>
+                        <field name="precio_total"></field>
+                    </group>
                     <div class="oe_chatter">
                         <field name="message_follower_ids"></field>
                         <!-- <field name="activity_ids"></field> -->
                         <field name="message_ids" ></field>
                     </div>
-
                 </sheet>
             </form>
         </field>

@@ -1,0 +1,59 @@
+[33mcommit 986fc0d2ed3367451797f770ffe1362323ee89bb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Author: raguzman <55261233+rafaguzmang@users.noreply.github.com>
+Date:   Thu Jan 4 11:07:21 2024 -0600
+
+    Se modifica el modulo de cotizaciones para odoo 16 donde servicios_id estaba en modo lectura
+    Se agrega precio_unitario asi como funcion onchange para el llenado de precio total
+
+[33mcommit 78ff3c20aad1a2e4ff2813bb0ccfd0a4ceb33d13[m
+Author: dtm <ingenieria1@dtmindustry.com>
+Date:   Thu Dec 14 17:12:31 2023 -0600
+
+    Se agrega mensajería (Chat,mail,whatsapp) al modelo y la vista de precotización
+
+[33mcommit 475e690c99c71a91615f26ace309dfd306198123[m
+Author: dtm <ingenieria1@dtmindustry.com>
+Date:   Thu Dec 14 17:00:39 2023 -0600
+
+    Se agrega telefono y correo en datos de los mismos al momento de seleccionar al cliente independiente de que haya clientes anexos de la misma compañia,
+    también se elimina redundancia al seleccionar anexos(campo atencion)-no sale ya la opción de seleccionar cliente pues ya se agrego desde otro campo-
+
+[33mcommit 57b24566d785a316d015d1a879e77eeb1f741fd1[m
+Author: dtm <ingenieria1@dtmindustry.com>
+Date:   Thu Dec 14 10:41:59 2023 -0600
+
+    Se mandan whats usando webbrowser ya que pywhatkit usa un archivo txt el cual genera poblemas en el servidor de odoo.
+    Se busca la forma de encontrar otra solución que haga el proceso en segundo plano
+
+[33mcommit dead1c32e042addf192fa828a0eda603ace2619f[m
+Author: dtm <ingenieria1@dtmindustry.com>
+Date:   Mon Dec 11 17:10:46 2023 -0600
+
+    Se agrega la funcion message_post sin errores para hacer el envio de whatsapps.
+    se habilito pip para odoo el cual generó errores en otros modulos.
+    se dieron permisos a la carpeta de odoo
+
+[33mcommit 5d3fac99f095cc42cc22579961be547f179528ee[m
+Author: dtm <ingenieria1@dtmindustry.com>
+Date:   Fri Dec 8 17:03:28 2023 -0600
+
+    Se agrega la funcion def message_post del modelo mail_thread.py de la fila 1796
+    De la vista dtm_client_needs se usa message_ids para ver los mensajes del chat
+
+[33mcommit 5f14c60d9109a077c8d7b7ae5770da874a9639e9[m
+Author: dtm <ingenieria1@dtmindustry.com>
+Date:   Fri Dec 8 11:23:49 2023 -0600
+
+    En este modulo se intenta mandar whatsapps junto con correo y mensajes de odoo
+
+[33mcommit 379133b353e1f01bb055bcadc37cdd086e14e1fe[m
+Author: dtm <ingenieria1@dtmindustry.com>
+Date:   Thu Dec 7 17:13:38 2023 -0600
+
+    Esto es solo una prueba
+
+[33mcommit f372fcfefc792f12de11a90b3f7cfa8aa8ff9894[m
+Author: dtm <ingenieria1@dtmindustry.com>
+Date:   Sat Dec 2 12:13:10 2023 -0600
+
+    En esta version se sube el modulo de NECESIDADES DEL CLIENTE asi como PRECOTIZACION para hacer pruebas en el servidor
