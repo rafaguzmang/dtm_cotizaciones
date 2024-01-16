@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+
+        <template id="dtm_cotizaciones.cotizaciones_template_header">
+               <div class="header " >
+                   <div class="oe_structure" />
+                   <div class="container_1 " style="text-align:center;">
+                       <div class="container_2" style="float:left;width:100%;text-align:center;overflow: hidden;">
+                           <div class="version_revision" style="width:30%;float:left;text-align:left;">
+                               <p style="font-size:8px"> DTM-FOR-VEN-04 <br></br>
+                                   Version 02 <br></br>
+                                   Fecha de Revision: 03/01/2023
+                               </p>
+                           </div>
+                           <div class="titulo" style="width:40%;float:left;text-align: center;">
+                               <h3>Cotización</h3>
+                           </div>
+                           <div class="logo" style="width:30%;float:left;text-align:right;">
+                               <img src="dtm_cotizaciones/static/img/DTM_logo.png" alt="DTM logo"/>
+                           </div>
+                       </div>
+                       <div class="container_3" style="float:left;width:100%;text-align:center;overflow: hidden;">
+                            <h4 style="font-weight:bold">Diseño y Transformaciones Metálicas S. de R.L. de C.V.</h4>
+                            <p style="font-size:10px">C.Retorno Pablo Neruda No. 101, Complejo Industrial Chihuahua, C.P. 31136<br></br>
+                            Tel. 6144171943, 6144822665<br></br>
+                            Chihuahua. Chih.</p>
+                       </div>
+                   </div>
+               </div>
+        </template>
+        <template id="dtm_cotizaciones.cotizaciones_template_page">
+                <div class="page">
+                      <div class="oe_structure" />
+                      <div class="padre" style="padding-top:30px;text-align:center">
+                          <div class="left" style="float:left;width:85%;overflow: hidden;text-align: left;">
+                              <p style="font-size:13px">Empresa: <span style="font-style: italic;font-size:13px" t-field="o.cliente"> </span></p>
+                              <p style="font-size:13px">AT'n: <span style="font-style: italic;font-size:13px" t-field="o.atencion_id"> </span></p>
+                          </div>
+                          <div class="right" style="float:left;width:15%;overflow: hidden;text-align: left;">
+                              <p style="font-size:13px">No. De Cotización: <span style="font-style: italic;font-size:13px" t-field="o.no_cotizacion"> </span></p>
+                              <p style="font-size:13px">Fecha: <span style="font-style: italic;font-size:13px" t-field="o.date"> </span></p>
+                          </div>
+                      </div>
+                </div>
+
+                <div class="table" style="padding-top:130px">
+                    <table style="border-collapse: collapse;width: 100%;">
+                      <tr style="background-color: #008ae6;">
+                        <th style=" text-align: center;color: white;font-size:13px;">No</th>
+                        <th style=" text-align: center;color: white;font-size:13px;">Descripción</th>
+                        <th style=" text-align: center;color: white;font-size:13px;">Cantidad</th>
+                        <th style=" text-align: center;color: white;font-size:13px;">Precio Unitario</th>
+                        <th style=" text-align: center;color: white;font-size:13px;">Total</th>
+                      </tr>
+
+                      <t t-foreach="o.servicios_id" t-as="servicio">
+                          <tr style=" font-size:15px;background-color: #f2f2f2">
+                              <td style=" text-align: center;">
+                                    <span t-field="servicio.no_item"></span>
+                              </td>
+                              <td style=" text-align: left;">
+                                    <span t-field="servicio.descripcion"></span>
+                              </td>
+                              <td style=" text-align: center;">
+                                    <span t-field="servicio.cantidad"></span>
+                              </td>
+                              <td style=" text-align: right;">
+                                    <span t-field="servicio.precio_unitario"></span>
+                              </td>
+                              <td style=" text-align: right;">
+                                    <span t-field="servicio.total"></span>
+                              </td>
+                          </tr>
+                      </t>
+<!--                      <tr style=" font-size:15px;background-color: #fff">-->
+<!--                          <td style=" text-align: center;">1</td>-->
+<!--                          <td style=" text-align: left;">Servicio de ensamble trolley</td>-->
+<!--                          <td style=" text-align: center;">67</td>-->
+<!--                          <td style=" text-align: right;">220.00</td>-->
+<!--                          <td style=" text-align: right;">12,540.00</td>-->
+<!--                      </tr>-->
+
+                    </table>
+                </div>
+
+                 <div class="container" style="position:absolute;bottom:0;width:100%;">
+                     <div style="width:100%;">
+                         <p style="font-size:10px;font-weight:bold;padding-bottom:0;margin-bottom:0">Condiciones</p>
+                         <p style="font-size:10px;padding-top:0;margin-top:0;">Precios Especificados en Dolares Americanos<br></br>
+                         Los Precios Descritos No incluyen IVA<br></br>
+                         L.A.B:Chihuahua, Chih<br></br>
+                         Terminos de Pago: Credito 45 dias<br></br>
+                         Vigencia: 15 dias<br></br>
+                         La recepción de la Orden de Compra se considera una aceptación del Servicio Cotizado.<br></br>
+                         Necesidades del Cliente:NV-121123-00</p>
+                     </div>
+                     <div style="width:100%;text-align:center;margin-top:50px;">
+                        <p style="font-size:10px;padding-bottom:0;margin-bottom:0">Visitanos:</p>
+                        <a style="font-size:10px;padding-top:0;margin-top:0;color:#008ae6" href="https://dtmindustry.com/">www.dtmindustry.com</a>
+                     </div>
+                 </div>
+        </template>
+
+
+<!--        <record id="papperformat_ordendetrabajo" model="report.paperformat">-->
+<!--            <field name="name">US Letter</field>-->
+<!--            <field name="default" eval="True" />-->
+<!--            <field name="format">Letter</field>-->
+<!--            <field name="page_height">0</field>-->
+<!--            <field name="page_width">0</field>-->
+<!--            <field name="orientation">Portrait</field>-->
+<!--            <field name="margin_top">0</field>-->
+<!--            <field name="margin_bottom">0</field>-->
+<!--            <field name="margin_left">0</field>-->
+<!--            <field name="margin_right">0</field>-->
+<!--            <field name="header_line" eval="False" />-->
+<!--            <field name="header_spacing">0</field>-->
+<!--            <field name="dpi">90</field>-->
+<!--        </record>-->
+
+        <record id="formato_cotizacion" model="ir.actions.report">
+            <field name="name">Cotización</field>
+            <field name="model">dtm.cotizaciones</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">dtm_cotizaciones.dtm_cotizaciones_template</field>
+            <field name="report_file">dtm_cotizaciones.dtm_cotizaciones_template</field>
+<!--            <field name="paperformat_id" ref="dtm_cotizaciones.papperformat_ordendetrabajo" />-->
+<!--            <field name="print_report_name">(object._get_report_base_filename())</field>-->
+<!--            <field name="attachment">((object.name)+'.pdf')</field>-->
+<!--            <field name="binding_model_id" ref="dtm_cotizaciones.dtm_cotizaciones_template"/>-->
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="dtm_cotizaciones_template" >
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <head>
+                        <meta charset="UTF-8"/>
+                    </head>
+                   <t t-call="dtm_cotizaciones.cotizaciones_template_header" />
+                   <t t-call="dtm_cotizaciones.cotizaciones_template_page" />
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</odoo>

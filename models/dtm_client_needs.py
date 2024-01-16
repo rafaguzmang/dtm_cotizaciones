@@ -51,21 +51,30 @@ class ClientNeeds(models.Model):
 
     attachment_ids = fields.Many2many("dtm.documentos.anexos",string="Anexos", readonly=False)
 
+    telefono = fields.Char(string="Telefono(s)", readonly=True , compute="_compute_onchange")
+
+    correo = fields.Char(string = "email(s)", readonly=True, compute="_compute_onchange")
+
     #--------------Onchange-----------------
-    @api.onchange('cliente_ids') # Carga correo y número de telefono de los contactos del campo atencion
+    @api.onchange('cliente_ids') # Carga correo y número de telefono de los contactos del campo clientes
     def onchange_cliente_ids(self):
         data = self.env['res.partner'].search([('id','=',self.cliente_ids.id)])
         self.correo = ""
         self.telefono = ""
         if data:
             for result in data:
-                self.correo = result.email + "; "
-                self.telefono = result.phone + "; " 
+                if result.phone:
+                    self.telefono = result.phone + "; "
+                else:
+                    self.telefono  = "N/A; "
+                if result.email:
+                    self.correo = result.email + "; "
+                else:
+                    self.correo = "N/A; "
 
     @api.onchange('atencion') # Carga correo y número de telefono de los contactos del campo atencion
     def _compute_onchange(self): 
         servicio = self.env['dtm.client.needs'].search([])
-        print(servicio)
         for result in servicio:
             if result == self.no_cotizacion:
                 self.env.cr.execute("UPDATE  cot_list_material SET no_servicio ='"+self.no_cotizacion+"'  WHERE model_id =" + str(self.id))
@@ -79,19 +88,16 @@ class ClientNeeds(models.Model):
         #print(self.atencion)
         for record in self.atencion:
             self.correo = self.correo + record.correo + "; "
-            self.telefono = self.telefono + record.telefono + "; "        
+            self.telefono = self.telefono + record.telefono + "; "
         if self.correo:
             self.correo = self.correo[:-2]
         if self.telefono:
             self.telefono = self.telefono[:-2]
             
-    telefono = fields.Char(string="Telefono(s)", readonly=True , compute="_compute_onchange")
 
-    correo = fields.Char(string = "email(s)", readonly=True, compute="_compute_onchange")
 
     @api.onchange('cliente_ids') # Carga correo y número de telefono de los contactos del campo atencion
-    def _compute_cliente_ids(self): 
-        print(self.cliente_ids.commercial_company_name)
+    def _compute_cliente_ids(self):
         if self.cliente_ids.commercial_company_name:
             contactos = self.env['res.partner'].search([('commercial_company_name','=',self.cliente_ids.commercial_company_name),
                                                         ('display_name','!=',self.cliente_ids.commercial_company_name)])
@@ -114,17 +120,7 @@ class ClientNeeds(models.Model):
 #-----------------------------------------------------
     message_ids = fields.One2many()    
     has_message = fields.Boolean()
-    body = fields.Html()        
-
-    # def action_sendmessage(self): 
-    #     print('Push')
-        
-    #     phones = ["6141198993","6141842833","6141966364","6143740084"]
-           
-    #     for resul in phones:
-    #         x  = Probando(resul,"Test from odoo")
-    #         x.send()
-
+    body = fields.Html()
 
     #------------------------------- Función para mandar mensajería -----------------------
     def message_post(self,*, 
@@ -149,39 +145,12 @@ class ClientNeeds(models.Model):
             phones.append(phone.phone)
 
         for resul in phones:
-            print(res.body[3:len(res.body)-4])
+            # print(res.body[3:len(res.body)-4])
             x  = Probando(resul,res.body[3:len(res.body)-4])
             x.send()
             #Depende de la funcion Probanda para mandar la mensajeria vía Whatsapp
 
         return res
-    
-    
-
-    
-
-
-    @api.model
-    def create(self, vals):
-        
-        res = super(ClientNeeds,self).create(vals)
-
-        print('self: ',self)
-        print('res: ',res)
-        print('vals: ',vals)
-        
-        
-        return res
-    
-    def write(self, vals):
-        res =  super(ClientNeeds,self).write(vals)
-        print('self: ',self)
-        print('res: ',res)
-        print('vals: ',vals)
-
-        
-
-  
     
     
 
@@ -200,19 +169,19 @@ class ListMaterial(models.Model):
 
     @api.onchange('material_serv_ids')
     def _onchange_material_serv_ids(self):
-        print("self.material_serv_ids",self.material_serv_ids)
-        print("self.model_id",self.model_id)
+        # print("self.material_serv_ids",self.material_serv_ids)
+        # print("self.model_id",self.model_id)
 
         get_info = self.env['cot.list.material'].search([('id','=',self.model_id.id)])
 
-        print('material serv ids',get_info.material_serv_ids)
+        # print('material serv ids',get_info.material_serv_ids)
         lines = []
         for result in self.material_serv_ids:
-            print(result.id)
+            # print(result.id)
             line = (1,result.id,{})
             lines.append(line)
 
-        print(lines)
+        # print(lines)
         self.material_serv_ids = lines
 
         
@@ -221,14 +190,14 @@ class ListMaterial(models.Model):
     def create(self,vals):
         res = super(ListMaterial,self).create(vals)
    
-        print('self: ', self )
-        print('vals: ', vals)
-        print('res',res)
-        print(vals["model_id"])
+        # print('self: ', self )
+        # print('vals: ', vals)
+        # print('res',res)
+        # print(vals["model_id"])
 
         get_servicio = self.env['dtm.client.needs'].search([('id','=',vals["model_id"])])
-        print(get_servicio.no_cotizacion,
-        )
+        # print(get_servicio.no_cotizacion,
+
         self.env['dtm.requerimientos'].create({
             'servicio': get_servicio.no_cotizacion,
             'nombre': vals["name"],

@@ -12,29 +12,25 @@ class Requerimientos(models.Model):
     #-----------------------------------------------------------------------------------------------------
 
     material_servicio_id = fields.One2many('dtm.list.material.producto','model_id',readonly=False)
-
-    precio_unitario = fields.Float(string="Precio Unitario", compute="_compute_presio_unitario")
+    precio_unitario = fields.Float(string="Precio Unitario")
     precio_total = fields.Float(string="Precio Total")
-
     anexos_id = fields.Many2many('dtm.documentos.anexos', compute='_compute_fill_anexos')
+    suma_total = fields.Float(string="TOTAL")
 
-    suma_total = fields.Float(string="TOTAL", compute="_compute_material_servicio_id")
+    # @api.depends("suma_total")
+    # def _compute_presio_unitario(self):
+    #     for result in self:
+    #         print(result)
 
-    @api.depends("suma_total")
-    def _compute_presio_unitario(self):
-        for result in self:
-            # print(result.precio_unitario, result.suma_total)
-            result.precio_unitario = result.suma_total
-            result.precio_total = result.cantidad * result.precio_unitario
+    def action_sumar(self):
+        print(self.id)
+        print(self.material_servicio_id)
+        sum = 0
+        for result in self.material_servicio_id:
+            print(result.precio)
+            sum += result.precio
+        self.suma_total = sum
 
-    @api.depends("material_servicio_id")
-    def _compute_material_servicio_id(self):
-        for result in self:
-            # print(result.material_servicio_id)
-            for result2 in result.material_servicio_id:
-                # print(result2.precio)
-                result.suma_total += result2.precio
-                # result.precio_unitario = result.suma_total
 
     def _compute_fill_anexos(self):
         get_id = self.env['cot.list.material'].search([('name','=',self.nombre),('descripcion','=',self.descripcion),('cantidad','=',self.cantidad)])
