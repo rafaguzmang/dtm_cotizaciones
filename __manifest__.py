@@ -13,6 +13,9 @@
         'views/dtm_cotizaciones_views.xml',
         'views/dtm_requerimientos_view.xml',
 
+        # Data
+        'data/cotizacion_email_template.xml',
+
 
     #     Reports
         'reports/cotizacion_formato.xml'

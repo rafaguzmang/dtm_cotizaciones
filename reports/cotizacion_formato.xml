@@ -47,7 +47,7 @@
 
                 <div class="table" style="padding-top:130px">
                     <table style="border-collapse: collapse;width: 100%;">
-                      <tr style="background-color: #008ae6;">
+                      <tr style="background-color: #008ae6;border-bottom: 1px solid #ddd;">
                         <th style=" text-align: center;color: white;font-size:13px;">No</th>
                         <th style=" text-align: center;color: white;font-size:13px;">Descripción</th>
                         <th style=" text-align: center;color: white;font-size:13px;">Cantidad</th>
@@ -56,7 +56,7 @@
                       </tr>
 
                       <t t-foreach="o.servicios_id" t-as="servicio">
-                          <tr style=" font-size:15px;background-color: #f2f2f2">
+                          <tr style=" font-size:15px;background-color: #e6e6e6;border-bottom: 1px solid #fff;">
                               <td style=" text-align: center;">
                                     <span t-field="servicio.no_item"></span>
                               </td>
@@ -73,6 +73,24 @@
                                     <span t-field="servicio.total"></span>
                               </td>
                           </tr>
+
+                          <t t-foreach="o.material_id" t-as="material">
+                            <t t-if="material.model_id.id == servicio.id">
+                              <tr style="font-size:15px;background-color: #f2f2f2;border-bottom: 1px solid #fff;">
+                                   <td style=" text-align: center;">
+                                   </td>
+                                   <td style=" text-align: center;">
+                                            <span t-field="material.descripcion"></span>
+                                   </td>
+                                   <td style=" text-align: center;">
+                                   </td>
+                                    <td style=" text-align: center;">
+                                   </td>
+                                    <td style=" text-align: center;">
+                                   </td>
+                              </tr>
+                            </t>
+                          </t>
                       </t>
 <!--                      <tr style=" font-size:15px;background-color: #fff">-->
 <!--                          <td style=" text-align: center;">1</td>-->
@@ -88,10 +106,10 @@
                  <div class="container" style="position:absolute;bottom:0;width:100%;">
                      <div style="width:100%;">
                          <p style="font-size:10px;font-weight:bold;padding-bottom:0;margin-bottom:0">Condiciones</p>
-                         <p style="font-size:10px;padding-top:0;margin-top:0;">Precios Especificados en Dolares Americanos<br></br>
+                         <p style="font-size:10px;padding-top:0;margin-top:0;"><span t-field="o.curency"></span><br></br>
                          Los Precios Descritos No incluyen IVA<br></br>
-                         L.A.B:Chihuahua, Chih<br></br>
-                         Terminos de Pago: Credito 45 dias<br></br>
+                         <span t-field="o.entrega"></span><br></br>
+                         <span t-field="o.terminos_pago"></span><br></br>
                          Vigencia: 15 dias<br></br>
                          La recepción de la Orden de Compra se considera una aceptación del Servicio Cotizado.<br></br>
                          Necesidades del Cliente:NV-121123-00</p>

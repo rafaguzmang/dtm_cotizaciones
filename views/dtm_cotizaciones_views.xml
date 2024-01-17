@@ -25,7 +25,8 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_imprimir" type="object" string="Imprimir"/>
+                    <button name="action_imprimir" type="object" string="Imprimir" class="btn btn-primary"/>
+                    <button name="action_send_email" type="object" string="Enviar Correo" class="btn btn-primary"/>
                 </header>
                 <sheet>
                     <group>
@@ -36,16 +37,24 @@
                             <field name="no_cotizacion"/>
                             <field name="cliente"/>
                             <field name="date"/>
-                        </group>
-                        <group>
                             <field name="telefono"/>
                             <field name="correo"/>
+                        </group>
+                        <group>
                             <field name="atencion_id"/>
+                            <field name="terminos_pago"/>
+                            <field name="entrega"/>
+                            <field name="curency"/>
                         </group>
                    </group>
                     <notebook>
                         <page string="Servicios">
                             <field name="servicios_id" options="{'no_create': True}"/>
+                        </page>
+                        <page string="Correo">
+                            <field name="subject" />
+                            <field name="dirigido" />
+                            <field name="body_email" />
                         </page>
                     </notebook>
 

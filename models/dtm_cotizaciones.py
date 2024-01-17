@@ -15,29 +15,90 @@ class DTMCotizaciones(models.Model):
 
     precio_total = fields.Float(string="Precio total")
     proveedor = fields.Selection(string='Proveedor',default='dtm',
-        selection=[('dtm', 'DISEÑO Y TRANSFORMACIONES METALICAS S DE RL DE CV'), ('mtd', 'METAL TRANSFORMATION & DESIGN')])
+        selection=[('dtm', 'DISEÑO Y TRANSFORMACIONES METALICAS S DE RL DE CV'), ('mtd', 'METAL TRANSFORMATION & DESIGN')],tracking=True)
 
     atencion_id = fields.Many2one("dtm.cotizacion.atencion")
 
-    servicios_id = fields.Many2many('dtm.cotizacion.requerimientos','model_id', string='Requerimientos', readonly=False)
+    servicios_id = fields.Many2many('dtm.cotizacion.requerimientos','model_id',compute="_compute_fill_servicios", string='Requerimientos', readonly=False)
+
+    material_id = fields.Many2many('dtm.list.material.producto')
+
+    terminos_pago = fields.Char(string="Terminos de pago",default="Terminos de Pago: Credito 45 dias")
+
+    entrega = fields.Char(string="Entrega",default="L.A.B: Chihuahua, Chih.")
+
+    curency = fields.Selection(string="Tipo de moneda",default="mx",
+               selection=[("mx","Precio Especificado en Pesos Mexicanos"),("us","Precio Especificado en Dolares Americanos")],tracking=True)
+
+    # Datos para el envío del correo (Formato)
+
+    subject = fields.Char(string="Asunto:",default="Cotización DTM")
+    dirigido = fields.Char(default="A quien corresponda :")
+    body_email = fields.Text(default="Por este medio hago llegar la factura. \n Saludos cordiales")
+
+
+    def _compute_fill_servicios(self): # Llena el campo servicios_id con los datos de la tabla requerimientos
+        requerimientos = self.env['dtm.cotizacion.requerimientos'].search([])
+        materiales = self.env['dtm.list.material.producto'].search([])
+        lines = []
+        for slf in self:
+            for result in requerimientos:
+                if result.no_cotizacion == slf.no_cotizacion:
+                    line =(4,result.id,{})
+                    lines.append(line)
+            self.servicios_id = lines
+
+        lines = []
+        for slf in self.servicios_id: # Carga servicios_id con los servicios o materiales correspondientes a los requerimientos
+            for result in materiales:
+                # print(result.model_id.id)
+                if result.model_id.id == slf.id:
+                    # print(result.descripcion)
+                    line =(4,result.id,{})
+                    lines.append(line)
+            self.material_id = lines
+        # print(self.material_id)
+
 
     def action_imprimir(self):
         print("Imprimiento")
-        print(self.correo)
-        print("")
+        return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
+
+
+    def action_send_email(self):
+        print("Enviado")
+        print(self.env.user.email)
+
+
+        if not self.date:
+            print(self.d.datetime.today())
+            self.date = self.d.datetime.today()
+
+        mail_template = self.env.ref('dtm_cotizaciones.cotizacion_mail_template')
+        mail_template.send_mail(self.id,force_send=True)
+
 
     @api.onchange("servicios_id")
     def _onchange_servicios(self):
         get_info = self.env["dtm.cotizacion.requerimientos"].search([("no_cotizacion","=",self.no_cotizacion)])
-        print(get_info)
+        # print(get_info)
 
     def get_view(self, view_id=None, view_type='form', **options):#Llena la tabla dtm_cotizaciones de la tabla dtm_clientes_needs
         res = super(DTMCotizaciones,self).get_view(view_id, view_type,**options)
-        get_info = self.env['dtm.client.needs'].search([])
-        self.env.cr.execute("DELETE FROM dtm_cotizaciones")
-        for result in get_info:
-            self.env.cr.execute("INSERT INTO dtm_cotizaciones (id, no_cotizacion, cliente, telefono, correo) " +
-                                "VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+result.cliente_ids.name+"', '"+ str(result.cliente_ids.phone) + "', '"+ str(result.cliente_ids.email) + "')")
+        get_self = self.env['dtm.cotizaciones'].search([])
+        get_info = self.env['dtm.client.needs'].search([("id",">",len(get_self))])
+        # print(len(get_info))
+        # print(len(get_self))
+        if len(get_info) > len(get_self):
+             for result in get_info:
+                 self.env.cr.execute("INSERT INTO dtm_cotizaciones (id, no_cotizacion, cliente, telefono, correo, terminos_pago, entrega,curency) " +
+                                    "VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+result.cliente_ids.name+"', '"+ str(result.cliente_ids.phone) + "', '"+ str(result.cliente_ids.email) +
+                                     "', 'Terminos de Pago: Credito 45 dias', 'L.A.B: Chihuahua, Chih.', mx)")
+
+                # self.env.cr.execute("INSERT INTO dtm_cotizaciones (id, no_cotizacion, cliente, telefono, correo, date, atencion_id, terminos_pago, entrega,curency) " +
+                #                     "VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+result.cliente_ids.name+"', '"+
+                #                     str(result.cliente_ids.phone) + "', '"+ str(result.cliente_ids.email) + "', '"+ str(result.date) +"', '"+ result.atencion_id +
+                #                     "', '"+ result.terminos_pago + "', '"+ result.entrega + "', '"+ result.curency+"')")
 
         #Llena o actualiza la tabla dtm_cotizaciones_requerimientos de la tabla dtm_requerimientos
         get_dest = self.env['dtm.cotizacion.requerimientos'].search([])
@@ -69,8 +130,6 @@ class DTMCotizaciones(models.Model):
 class Requerimientos(models.Model):
     _name = "dtm.cotizacion.requerimientos"
     _description = "Servicios a cotizar"
-
-    model_id = fields.Many2one("dtm.cotizaciones")
     no_cotizacion = fields.Char(string="No. De Cotización", readonly = True)
     no_item = fields.Integer(string="No")
     descripcion = fields.Char(string="Descripción")
@@ -86,16 +145,7 @@ class Requerimientos(models.Model):
     def _onchange_precio(self):
         self.total = self.cantidad * self.precio_unitario
 
-    # compute="_compute_fill_servicios"
-    def _compute_fill_servicios(self): # Llena el campo servicios_id con los datos de la tabla requerimientos
-        requerimientos = self.env['dtm.cotizacion.requerimientos'].search([])
-        lines = []
-        for slf in self:
-            for result in requerimientos:
-                if result.no_cotizacion == slf.no_cotizacion:
-                    line =(4,result.id,{})
-                    lines.append(line)
-            self.servicios_id = lines
+
 
 
 class Atencion(models.Model):
