@@ -23,6 +23,7 @@ class Probando():
 #-----------------------Clase Principal------------------------------
 class Precotizacion(models.Model):
     _name = "dtm.precotizacion"
+    _description = "Se hace la precotización con el costo de los servicios"
     _inherit = ["mail.thread","mail.activity.mixin"]
     _rec_name = "no_cotizacion"
 
@@ -34,29 +35,26 @@ class Precotizacion(models.Model):
         requerimientos = self.env['dtm.requerimientos'].search([])
         lines = []
         # self.env.cr("DELETE FROM dtm.requerimientos")
-        for result in requerimientos:
-            if result.servicio == self.no_cotizacion:
-                line =(4,result.id,{})
-                lines.append(line)
-        self.servicios_id = lines
-
-
+        for slf in self:
+            for result in requerimientos:
+                if result.servicio == slf.no_cotizacion:
+                    line =(4,result.id,{})
+                    lines.append(line)
+            self.servicios_id = lines
 
     servicios_id = fields.Many2many('dtm.requerimientos', string='Requerimientos',compute="_compute_fill_servicios",readonly=False ) # Tabla con Nombre,Descripción,Cantidad,Precion Unitario,Precio Total
 
 
+<<<<<<< HEAD
     precio_total = fields.Float(string="TOTAL", compute="_compute_precio_total")
     #precio_total = fields.Float(string="TOTAL")
+=======
+    precio_total = fields.Float(string="TOTAL")
+>>>>>>> 18beeedb5b86ac108f49163c59bc043b8b5bd6b1
 
     @api.depends("servicios_id")
     def _compute_precio_total(self):
-        for result in self:
-            print(result.no_cotizacion)
-            for result2 in result.servicios_id:
-                print(result2.id)
-                result.precio_total += result2.precio_total
-                self.env.cr.execute("UPDATE dtm_precotizacion SET precio_total = "+ str(result.precio_total) +" WHERE no_cotizacion = '"+str(result.no_cotizacion+"'"))
-
+       get_info = self.env['']
 
 
     #------------------------------- Acciones -----------------------
@@ -84,7 +82,7 @@ class Precotizacion(models.Model):
             phones.append(phone.phone)
 
         for resul in phones:
-            print(res.body[3:len(res.body)-4])
+            # print(res.body[3:len(res.body)-4])
             x  = Probando(resul,res.body[3:len(res.body)-4])
             x.send()
             #Depende de la funcion "Probando", para mandar la mensajeria vía Whatsapp

@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="cotizacion_mail_template" model="mail.template" >
+            <field name="name">Cotización vía Correo</field>
+            <field name="email_from">{{object.env.user.email}}</field>
+            <field name="email_to">{{object.correo}}</field>
+            <field name="model_id" ref="dtm_cotizaciones.model_dtm_cotizaciones"/>
+            <field name="auto_delete" eval="True"/>
+            <field name="report_template" ref="dtm_cotizaciones.formato_cotizacion" />
+            <field name="report_name">cotizacion_DTM_{{object.no_cotizacion}}</field>
+            <field name="subject">{{object.subject}}</field>
+            <field name="body_html" type="html">
+                <p>
+                    <span> <t t-out="object.dirigido"></t> </span> <br/><br/>
+
+                    <span><t t-out="object.body_email"></t></span>
+                </p>
+
+                 <div class="logo" style="width:250px;text-align:center;">
+                      <img src="dtm_cotizaciones/static/img/alejandro_erives_dtm.png" alt="Firma correo footer"/>
+                 </div>
+            </field>
+        </record>
+    </data>
+</odoo>

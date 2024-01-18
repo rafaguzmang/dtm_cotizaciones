@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <record id="dtm_cotizaciones_action" model="ir.actions.act_window">
+        <field name="name">Cotizaciones</field>
+        <field name="res_model">dtm.cotizaciones</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="dtm_cotizaciones_view_tree" model="ir.ui.view">
+        <field name="name">dtm_cotizaciones.view.tree</field>
+        <field name="model">dtm.cotizaciones</field>
+        <field name="arch" type="xml">
+            <tree >
+                <field name="no_cotizacion"/>
+                <field name="cliente"/>
+                <field name="date"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="dtm_cotizaciones_view_form" model="ir.ui.view">
+        <field name="name">dtm_cotizaciones.view.form</field>
+        <field name="model">dtm.cotizaciones</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_imprimir" type="object" string="Imprimir" class="btn btn-primary"/>
+                    <button name="action_send_email" type="object" string="Enviar Correo" class="btn btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="proveedor"/>
+                    </group>
+                   <group>
+                        <group>
+                            <field name="no_cotizacion"/>
+                            <field name="cliente"/>
+                            <field name="date"/>
+                            <field name="telefono"/>
+                            <field name="correo"/>
+                        </group>
+                        <group>
+                            <field name="atencion_id"/>
+                            <field name="terminos_pago"/>
+                            <field name="entrega"/>
+                            <field name="curency"/>
+                        </group>
+                   </group>
+                    <notebook>
+                        <page string="Servicios">
+                            <field name="servicios_id" options="{'no_create': True}"/>
+                        </page>
+                        <page string="Correo">
+                            <field name="subject" />
+                            <field name="dirigido" />
+                            <field name="body_email" />
+                        </page>
+                    </notebook>
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="dtm_cotizacion_requerimientos_tree" model="ir.ui.view">
+        <field name="name">dtm_cotizacionescotizacion.requerimientos.tree</field>
+        <field name="model">dtm.cotizacion.requerimientos</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom" >
+                <field name="no_item"/>
+                <field name="descripcion"/>
+                <field name="cantidad"/>
+                <field name="precio_unitario"/>
+                <field name="total"/>
+            </tree>
+        </field>
+    </record>
+
+
+
+    <menuitem
+            id="dtm_cotizaciones_menu"
+            action="dtm_cotizaciones_action"
+    />
+</odoo>
+
