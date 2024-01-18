@@ -12,24 +12,31 @@ class Requerimientos(models.Model):
     #-----------------------------------------------------------------------------------------------------
 
     material_servicio_id = fields.One2many('dtm.list.material.producto','model_id',readonly=False)
-    precio_unitario = fields.Float(string="Precio Unitario")
-    precio_total = fields.Float(string="Precio Total")
+    precio_unitario = fields.Float(string="Precio Unitario",compute="_compute_precio_unitario", store=True)
+    precio_total = fields.Float(string="Precio Total",compute="_compute_precio_total",  store=True)
     anexos_id = fields.Many2many('dtm.documentos.anexos', compute='_compute_fill_anexos')
-    suma_total = fields.Float(string="TOTAL")
+    suma_total = fields.Float(string="TOTAL", compute='_compute_suma_total', store=True)
 
-    # @api.depends("suma_total")
-    # def _compute_presio_unitario(self):
-    #     for result in self:
-    #         print(result)
+    @api.depends("precio_unitario")
+    def _compute_precio_total(self):
+        for result in self:
+            result.precio_total = result.precio_unitario * result.cantidad
 
-    def action_sumar(self):
-        print(self.id)
-        print(self.material_servicio_id)
+    @api.depends("material_servicio_id")
+    def _compute_suma_total(self):
+        # print(self.id)
+        # print(self.material_servicio_id)
         sum = 0
         for result in self.material_servicio_id:
-            print(result.precio)
+            # print(result.precio)
             sum += result.precio
-        self.suma_total = sum
+        for result in self:
+            result.suma_total = sum
+
+    @api.depends("suma_total")
+    def _compute_precio_unitario(self):
+        for result in self:
+            result.precio_unitario = result.suma_total
 
 
     def _compute_fill_anexos(self):
@@ -41,6 +48,8 @@ class Requerimientos(models.Model):
             line = (4,result.id,{})
             lines.append(line)
         self.anexos_id = lines
+
+
 
 class MaterialServicio(models.Model):
     _name = 'dtm.list.material.producto'

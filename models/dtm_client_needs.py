@@ -151,6 +151,26 @@ class ClientNeeds(models.Model):
             #Depende de la funcion Probanda para mandar la mensajeria vía Whatsapp
 
         return res
+
+
+    def get_view(self, view_id=None, view_type='form', **options):
+        res = super(ClientNeeds,self).get_view(view_id, view_type,**options)
+        # self.material = "algo al carbón"
+        get_info = self.env['dtm.client.needs'].search([])
+        no = 1
+        for result in get_info:
+            get_material = self.env['cot.list.material'].search([("model_id","=",result.id)])
+            for material in get_material:
+                # print(material.id,material.model_id.id)
+                self.env.cr.execute("DELETE FROM cot_list_material  WHERE id="+ str(material.id))
+
+            self.env.cr.execute("UPDATE dtm_client_needs SET id="+str(no) + "WHERE id="+ str(result.id))
+
+            for material in get_material:
+                self.env.cr.execute("INSERT INTO cot_list_material (id, model_id, cantidad, name, descripcion ) "+
+                                    "VALUES (" + str(material.id) +", "+str(no)+", "+str(material.cantidad)+", '"+material.name+"', '"+ material.descripcion +"')")
+            no += 1
+        return res
     
     
 

@@ -61,15 +61,13 @@ class DTMCotizaciones(models.Model):
 
 
     def action_imprimir(self):
-        print("Imprimiento")
+        # print("Imprimiento")
         return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
 
 
     def action_send_email(self):
-        print("Enviado")
-        print(self.env.user.email)
-
-
+        # print("Enviado")
+        # print(self.env.user.email)
         if not self.date:
             print(self.d.datetime.today())
             self.date = self.d.datetime.today()
@@ -87,18 +85,12 @@ class DTMCotizaciones(models.Model):
         res = super(DTMCotizaciones,self).get_view(view_id, view_type,**options)
         get_self = self.env['dtm.cotizaciones'].search([])
         get_info = self.env['dtm.client.needs'].search([("id",">",len(get_self))])
-        # print(len(get_info))
-        # print(len(get_self))
-        if len(get_info) > len(get_self):
+        if len(get_info) > 0:
              for result in get_info:
-                 self.env.cr.execute("INSERT INTO dtm_cotizaciones (id, no_cotizacion, cliente, telefono, correo, terminos_pago, entrega,curency) " +
+                 self.env.cr.execute("INSERT INTO dtm_cotizaciones (id, no_cotizacion, cliente, telefono, correo, terminos_pago, entrega, curency, proveedor) " +
                                     "VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+result.cliente_ids.name+"', '"+ str(result.cliente_ids.phone) + "', '"+ str(result.cliente_ids.email) +
-                                     "', 'Terminos de Pago: Credito 45 dias', 'L.A.B: Chihuahua, Chih.', mx)")
+                                     "', 'Terminos de Pago: Credito 45 dias', 'L.A.B: Chihuahua, Chih.', 'mx','dtm')")
 
-                # self.env.cr.execute("INSERT INTO dtm_cotizaciones (id, no_cotizacion, cliente, telefono, correo, date, atencion_id, terminos_pago, entrega,curency) " +
-                #                     "VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+result.cliente_ids.name+"', '"+
-                #                     str(result.cliente_ids.phone) + "', '"+ str(result.cliente_ids.email) + "', '"+ str(result.date) +"', '"+ result.atencion_id +
-                #                     "', '"+ result.terminos_pago + "', '"+ result.entrega + "', '"+ result.curency+"')")
 
         #Llena o actualiza la tabla dtm_cotizaciones_requerimientos de la tabla dtm_requerimientos
         get_dest = self.env['dtm.cotizacion.requerimientos'].search([])
