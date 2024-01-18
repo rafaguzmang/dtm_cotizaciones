@@ -46,6 +46,7 @@ class Precotizacion(models.Model):
 
 
     precio_total = fields.Float(string="TOTAL", compute="_compute_precio_total")
+    #precio_total = fields.Float(string="TOTAL")
 
     @api.depends("servicios_id")
     def _compute_precio_total(self):
