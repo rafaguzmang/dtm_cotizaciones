@@ -97,6 +97,7 @@ class Precotizacion(models.Model):
     def get_view(self, view_id=None, view_type='form', **options):
         res = super(Precotizacion,self).get_view(view_id, view_type,**options)
         # self.material = "algo al carbón"
+
         get_info = self.env['dtm.client.needs'].search([])
         self.env.cr.execute("DELETE FROM dtm_precotizacion")
         for result in get_info:

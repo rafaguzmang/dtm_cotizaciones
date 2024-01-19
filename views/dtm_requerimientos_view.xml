@@ -51,7 +51,6 @@
                     </notebook>
                     <group>
                         <field name="suma_total" ></field>
-<!--                        <button name="action_sumar" type="object" string="Sumar" class="btn-primary" />-->
                     </group>
                 </sheet>
                 

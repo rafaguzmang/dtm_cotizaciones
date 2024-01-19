@@ -61,19 +61,20 @@ class DTMCotizaciones(models.Model):
 
 
     def action_imprimir(self):
-        # print("Imprimiento")
+        print("Imprimiento")
+        
         return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
 
 
     def action_send_email(self):
-        # print("Enviado")
+        print("Enviado")
         # print(self.env.user.email)
-        if not self.date:
-            print(self.d.datetime.today())
-            self.date = self.d.datetime.today()
+        # if not self.date:
+        #     print(self.d.datetime.today())
+        #     self.date = self.d.datetime.today()
 
-        mail_template = self.env.ref('dtm_cotizaciones.cotizacion_mail_template')
-        mail_template.send_mail(self.id,force_send=True)
+        # mail_template = self.env.ref('dtm_cotizaciones.cotizacion_mail_template')
+        # mail_template.send_mail(self.id,force_send=True)
 
 
     @api.onchange("servicios_id")

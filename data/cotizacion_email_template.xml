@@ -16,9 +16,6 @@
                     <span><t t-out="object.body_email"></t></span>
                 </p>
 
-                 <div class="logo" style="width:250px;text-align:center;">
-                      <img src="dtm_cotizaciones/static/img/alejandro_erives_dtm.png" alt="Firma correo footer"/>
-                 </div>
             </field>
         </record>
     </data>
