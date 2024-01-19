@@ -45,14 +45,21 @@ class Precotizacion(models.Model):
     servicios_id = fields.Many2many('dtm.requerimientos', string='Requerimientos',compute="_compute_fill_servicios",readonly=False ) # Tabla con Nombre,Descripción,Cantidad,Precion Unitario,Precio Total
 
 
-
+    precio_total = fields.Float(string="TOTAL", compute="_compute_precio_total",storage=True)
     precio_total = fields.Float(string="TOTAL", compute="_compute_precio_total")
     #precio_total = fields.Float(string="TOTAL")
     precio_total = fields.Float(string="TOTAL")
 
     @api.depends("servicios_id")
     def _compute_precio_total(self):
-       get_info = self.env['']
+
+        for result in self:
+            sum = 0
+            for inresult in result.servicios_id:
+                # print(inresult.precio_total)
+                sum += inresult.precio_total
+            result.precio_total = sum
+
 
 
     #------------------------------- Acciones -----------------------
