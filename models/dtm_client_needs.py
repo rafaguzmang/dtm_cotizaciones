@@ -54,6 +54,36 @@ class ClientNeeds(models.Model):
     telefono = fields.Char(string="Telefono(s)", readonly=True , compute="_compute_onchange")
 
     correo = fields.Char(string = "email(s)", readonly=True, compute="_compute_onchange")
+    
+    def get_view(self, view_id=None, view_type='form', **options): #Usar en caso de que se necesite sortear los id
+        res = super(ClientNeeds,self).get_view(view_id, view_type,**options)       
+    #     no = 1
+    #     get_info = self.env['dtm.client.needs'].search([])
+    #     for result in get_info:
+    #         print("atenciòn",result.atencion.id)
+    #         # Borra de las tablas con llave foranea
+    #         get_atencion = self.env['dtm.contactos.anexos'].search([("id","=",result.atencion.id)])
+    #         for atencion in get_atencion:
+    #             self.env.cr.execute("DELETE FROM dtm_contactos_anexos WHERE id="+ str(atencion.id))
+
+    #         get_material = self.env['cot.list.material'].search([("model_id","=",str(result.id))])
+    #         for material in get_material:
+    #             # print(material.id,material.model_id.id)
+    #             self.env.cr.execute("DELETE FROM cot_list_material  WHERE id="+ str(material.id)) 
+
+    #         self.env.cr.execute("UPDATE dtm_client_needs SET id="+str(no) + "WHERE id="+ str(result.id))
+    #         # Insert Again
+    #         for material in get_material:
+    #             self.env.cr.execute("INSERT INTO cot_list_material (id, model_id, cantidad, name, descripcion ) "+
+    #                                 "VALUES (" + str(material.id) +", "+str(no)+", "+str(material.cantidad)+", '"+material.name+"', '"+ material.descripcion +"')")
+    #         for contacto in get_atencion:
+    #             self.env.cr.execute("INSERT INTO dtm_contactos_anexos (id, name, correo, telefono) "+
+    #                              "VALUES (" + str(result.id) +", '"+str(contacto.name)+"', '"+contacto.correo+"', '"+ contacto.telefono +"')")
+          
+    #         no+=1
+        return res
+    
+    
 
     #--------------Onchange-----------------
     @api.onchange('cliente_ids') # Carga correo y número de telefono de los contactos del campo clientes
@@ -153,26 +183,6 @@ class ClientNeeds(models.Model):
         return res
 
 
-    def get_view(self, view_id=None, view_type='form', **options):
-        res = super(ClientNeeds,self).get_view(view_id, view_type,**options)
-        # self.material = "algo al carbón"
-        get_info = self.env['dtm.client.needs'].search([])
-        no = 1
-        for result in get_info:
-            get_material = self.env['cot.list.material'].search([("model_id","=",result.id)])
-            for material in get_material:
-                # print(material.id,material.model_id.id)
-                self.env.cr.execute("DELETE FROM cot_list_material  WHERE id="+ str(material.id))
-
-            self.env.cr.execute("UPDATE dtm_client_needs SET id="+str(no) + "WHERE id="+ str(result.id))
-
-            for material in get_material:
-                self.env.cr.execute("INSERT INTO cot_list_material (id, model_id, cantidad, name, descripcion ) "+
-                                    "VALUES (" + str(material.id) +", "+str(no)+", "+str(material.cantidad)+", '"+material.name+"', '"+ material.descripcion +"')")
-            no += 1
-        return res
-    
-    
 
 
 class ListMaterial(models.Model):
@@ -209,11 +219,6 @@ class ListMaterial(models.Model):
     @api.model
     def create(self,vals):
         res = super(ListMaterial,self).create(vals)
-   
-        # print('self: ', self )
-        # print('vals: ', vals)
-        # print('res',res)
-        # print(vals["model_id"])
 
         get_servicio = self.env['dtm.client.needs'].search([('id','=',vals["model_id"])])
         # print(get_servicio.no_cotizacion,

@@ -63,7 +63,7 @@ class DTMCotizaciones(models.Model):
     def action_imprimir(self):
         print("Imprimiento")
         
-        # return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
+        return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
 
 
     def action_send_email(self):
