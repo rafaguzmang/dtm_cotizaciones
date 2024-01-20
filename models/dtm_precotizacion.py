@@ -44,21 +44,15 @@ class Precotizacion(models.Model):
 
     servicios_id = fields.Many2many('dtm.requerimientos', string='Requerimientos',compute="_compute_fill_servicios",readonly=False ) # Tabla con Nombre,Descripción,Cantidad,Precion Unitario,Precio Total
 
+    precio_total = fields.Float(string="TOTAL", readonly=True)
 
-    precio_total = fields.Float(string="TOTAL", compute="_compute_precio_total",storage=True)
-    precio_total = fields.Float(string="TOTAL", compute="_compute_precio_total")
-    #precio_total = fields.Float(string="TOTAL")
-    precio_total = fields.Float(string="TOTAL")
 
-    @api.depends("servicios_id")
-    def _compute_precio_total(self):
+    def suma_total(self):
+        sum = 0
+        for result in self.servicios_id:
+            sum += result.precio_total
 
-        for result in self:
-            sum = 0
-            for inresult in result.servicios_id:
-                # print(inresult.precio_total)
-                sum += inresult.precio_total
-            result.precio_total = sum
+        self.precio_total = sum
 
 
 
@@ -96,16 +90,14 @@ class Precotizacion(models.Model):
     
     def get_view(self, view_id=None, view_type='form', **options):
         res = super(Precotizacion,self).get_view(view_id, view_type,**options)
-        # self.material = "algo al carbón"
-
         get_info = self.env['dtm.client.needs'].search([])
-        self.env.cr.execute("DELETE FROM dtm_precotizacion")
+
         for result in get_info:
-            if not str( result.cliente_ids['name']):
-                cliente = ""
+            get_self = self.env['dtm.precotizacion'].search([("no_cotizacion","=",result.no_cotizacion)])
+            if get_self:
+                self.env.cr.execute("UPDATE dtm_precotizacion SET cliente_ids = '"+str(result.cliente_ids.name)+"' WHERE no_cotizacion = '"+ result.no_cotizacion+"'")
             else:
-                cliente = str( result.cliente_ids['name'])
-            self.env.cr.execute("INSERT INTO dtm_precotizacion (id, no_cotizacion, cliente_ids) VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+cliente+"')")
+                self.env.cr.execute("INSERT INTO dtm_precotizacion (id, no_cotizacion, cliente_ids) VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+str(result.cliente_ids.name)+"')")
         return res
     
 

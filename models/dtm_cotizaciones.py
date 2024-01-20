@@ -62,6 +62,9 @@ class DTMCotizaciones(models.Model):
 
     def action_imprimir(self):
         print("Imprimiento")
+        if not self.date:
+            print(self.d.datetime.today())
+            self.date = self.d.datetime.today()
         
         return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
 
@@ -84,13 +87,22 @@ class DTMCotizaciones(models.Model):
 
     def get_view(self, view_id=None, view_type='form', **options):#Llena la tabla dtm_cotizaciones de la tabla dtm_clientes_needs
         res = super(DTMCotizaciones,self).get_view(view_id, view_type,**options)
-        get_self = self.env['dtm.cotizaciones'].search([])
-        get_info = self.env['dtm.client.needs'].search([("id",">",len(get_self))])
-        if len(get_info) > 0:
-             for result in get_info:
+        get_info = self.env['dtm.client.needs'].search([])
+
+        for result in get_info:
+            # print(result.no_cotizacion)
+            get_self = self.env['dtm.cotizaciones'].search([("no_cotizacion","=",result.no_cotizacion)])
+            if get_self:
+                self.env.cr.execute("UPDATE dtm_cotizaciones SET telefono='"+str(result.cliente_ids.phone) +"', correo='"+str(result.cliente_ids.email) +"', cliente='"+str(result.cliente_ids.name) +
+                                    "' WHERE no_cotizacion ='" + result.no_cotizacion+"'")
+                # print(result.cliente_ids.name,result.cliente_ids.phone,result.cliente_ids.email)
+                # print(get_self.no_cotizacion)
+            else:
                  self.env.cr.execute("INSERT INTO dtm_cotizaciones (id, no_cotizacion, cliente, telefono, correo, terminos_pago, entrega, curency, proveedor) " +
                                     "VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+result.cliente_ids.name+"', '"+ str(result.cliente_ids.phone) + "', '"+ str(result.cliente_ids.email) +
                                      "', 'Terminos de Pago: Credito 45 dias', 'L.A.B: Chihuahua, Chih.', 'mx','dtm')")
+
+
 
 
         #Llena o actualiza la tabla dtm_cotizaciones_requerimientos de la tabla dtm_requerimientos

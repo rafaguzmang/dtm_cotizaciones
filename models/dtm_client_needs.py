@@ -51,9 +51,9 @@ class ClientNeeds(models.Model):
 
     attachment_ids = fields.Many2many("dtm.documentos.anexos",string="Anexos", readonly=False)
 
-    telefono = fields.Char(string="Telefono(s)", readonly=True , compute="_compute_onchange")
+    telefono = fields.Char(string="Telefono(s)", readonly=True , compute="_compute_onchange",store=True)
 
-    correo = fields.Char(string = "email(s)", readonly=True, compute="_compute_onchange")
+    correo = fields.Char(string = "email(s)", readonly=True, compute="_compute_onchange", store=True)
     
     def get_view(self, view_id=None, view_type='form', **options): #Usar en caso de que se necesite sortear los id
         res = super(ClientNeeds,self).get_view(view_id, view_type,**options)       
