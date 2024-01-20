@@ -6,46 +6,48 @@
         <template id="dtm_cotizaciones.cotizaciones_template_header">
                <div class="header " >
                    <div class="oe_structure" />
-                   <div class="container_1 " style="text-align:center;">
-                       <div class="container_2" style="float:left;width:100%;text-align:center;overflow: hidden;">
-                           <div class="version_revision" style="width:30%;float:left;text-align:left;">
-                               <p style="font-size:10px;font-family:Calibri"> DTM-FOR-VEN-04 <br></br>
-                                   Version 02 <br></br>
-                                   Fecha de Revision: 03/01/2023
-                               </p>
-                           </div>
-                           <div class="titulo" style="width:40%;float:left;text-align: center;">
-                               <h3 style="font-family:Calibri;font-size:30px;top:10px;position: relative;top:25px">Cotización</h3>
-                           </div>
-                           <div class="logo" style="width:30%;float:left;text-align:right;">
-                               <img src="dtm_cotizaciones/static/img/DTM_logo.png" alt="DTM logo"/>
-                           </div>
-                       </div>
-                       <div class="container_3" style="float:left;width:100%;text-align:center;overflow: hidden;">
-                            <h4 style="font-size:18px;font-family:Arial;font-weight:bold; font-style: italic;margin-bottom:0;padding-bottom:0">Diseño y Transformaciones Metálicas S. de R.L. de C.V.</h4>
-                            <p style="font-size:13px;font-family:Arial;font-size:10px">C.Retorno Pablo Neruda No. 101, Complejo Industrial Chihuahua, C.P. 31136<br></br>
-                            Tel. 6144171943, 6144822665<br></br>
-                            Chihuahua. Chih.</p>
-                       </div>
-                   </div>
+                   
                </div>
         </template>
         <template id="dtm_cotizaciones.cotizaciones_template_page">
                 <div class="page">
                       <div class="oe_structure" />
+                      <div class="container_1 " style="text-align:center;position: relative;top:20px">
+                        <div class="container_2" style="float:left;width:100%;text-align:center;overflow: hidden;">
+                            <div class="version_revision" style="width:30%;float:left;text-align:left;">
+                                <p style="font-size:10px;font-family:Calibri"> DTM-FOR-VEN-04 <br></br>
+                                    Version 02 <br></br>
+                                    Fecha de Revision: 03/01/2023
+                                </p>
+                            </div>
+                            <div class="titulo" style="width:40%;float:left;text-align: center;">
+                                <h3 style="font-family:Calibri;font-size:30px;top:10px;">Cotización</h3>
+                            </div>
+                            <div class="logo" style="width:30%;float:left;text-align:right;">
+                                <img src="https://i.postimg.cc/cHvL32gM/DTM-logo.png" alt="DTM logo" />
+                            </div>
+                        </div>
+                        <div class="container_3" style="float:left;width:100%;text-align:center;overflow: hidden;">
+                                <h4 style="font-size:18px;font-family:Arial;font-weight:bold; font-style: italic;margin-bottom:0;padding-bottom:0">Diseño y Transformaciones Metálicas S. de R.L. de C.V.</h4>
+                                <p style="font-size:13px;font-family:Arial;font-size:10px">C.Retorno Pablo Neruda No. 101, Complejo Industrial Chihuahua, C.P. 31136<br></br>
+                                Tel. 6144171943, 6144822665<br></br>
+                                Chihuahua. Chih.</p>
+                        </div>
+                   </div>
+
                       <div class="padre" style="padding-top:30px;text-align:center">
-                          <div class="left" style="float:left;width:85%;overflow: hidden;text-align: left;">
+                          <div class="left" style="float:left;width:82%;overflow: hidden;text-align: left;">
                               <p style="font-size:13px;font-family:Arial;">Empresa: <span style="font-family:Calibri;font-size:13px; text-decoration: underline;" t-field="o.cliente"> </span></p>
                               <p style="font-size:13px;font-family:Arial;">AT'n: <span style="font-family:Calibri;font-size:13px; text-decoration: underline;" t-field="o.atencion_id"> </span></p>
                           </div>
-                          <div class="right" style="float:left;width:15%;overflow: hidden;text-align: left;">
+                          <div class="right" style="float:left;width:18%;overflow: hidden;text-align: left;">
                               <p style="font-size:13px;font-family:Arial;font-style: italic;">No. De Cotización: <span style="font-family:Calibri;font-size:13px; text-decoration: underline;" t-field="o.no_cotizacion"> </span></p>
                               <p style="font-size:13px;font-family:Arial;font-style: italic;">Fecha: <span style="font-family:Calibri;font-size:13px; text-decoration: underline;" t-field="o.date"> </span></p>
                           </div>
                       </div>
                 </div>
 
-                <div class="table" style="padding-top:130px;border-collapse: collapse;">
+                <div class="table" style="padding-top:130px;border-collapse: collapse;position: relative;top:30px">
                     <table style="border-collapse: collapse;width: 100%;">
                       <tr style="background-color: #008ae6;border-bottom: 1px solid #ddd;">
                         <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif">No</th>
@@ -79,8 +81,8 @@
                               <tr style="font-size:13px;border-bottom: 1px solid #fff;font-family:Calibri;">
                                    <td style=" text-align: center;">
                                    </td>
-                                   <td style=" text-align: center;">
-                                            <span t-field="material.descripcion"></span>
+                                   <td style=" text-align: left;">
+                                            <span t-field="material.descripcion" style="margin-left:10px"></span>
                                    </td>
                                    <td style=" text-align: center;">
                                    </td>
