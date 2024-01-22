@@ -116,8 +116,8 @@ class DTMCotizaciones(models.Model):
             else:
                 dictionary[result.no_cotizacion] = dictionary.get(result.no_cotizacion) + 1
 
-            self.env.cr.execute("UPDATE dtm_cotizacion_requerimientos SET no_item = "+str(dictionary[result.no_cotizacion]) +", cantidad= "+ str(result.cantidad) +", precio_unitario="+str(result.precio_unitario) +" , "+
-                                "total="+str(result.total) +" WHERE id="+str(result.id))
+            self.env.cr.execute("UPDATE dtm_cotizacion_requerimientos SET no_item = "+str(dictionary[result.no_cotizacion]) +", cantidad= "+ str(result.cantidad) +", precio_unitario="+str(result.precio_unitario) +
+                                " WHERE id="+str(result.id))
         dictionary = {}
         for result in get_info2:
             if not dictionary.get(result.servicio):
@@ -127,8 +127,6 @@ class DTMCotizaciones(models.Model):
 
             self.env.cr.execute("INSERT INTO dtm_cotizacion_requerimientos (id, descripcion, cantidad, no_cotizacion, no_item) " +
                                 "VALUES ("+ str(result.id) +", '"+ result.descripcion +"',"+str(result.cantidad) + ",'"+str(result.servicio)+ "',"+str(dictionary[result.servicio])+ ")")
-
-
         return res
 
 
@@ -140,7 +138,7 @@ class Requerimientos(models.Model):
     descripcion = fields.Char(string="Descripción")
     cantidad = fields.Integer(string="cantidad")
     precio_unitario = fields.Float(string="Precio Unitario")
-    total = fields.Float(string="Total", readonly=True)
+    total = fields.Float(string="Total")
 
     @api.onchange("cantidad")
     def _onchange_precio(self):
