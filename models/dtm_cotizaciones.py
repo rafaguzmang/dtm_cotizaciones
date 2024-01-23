@@ -80,10 +80,10 @@ class DTMCotizaciones(models.Model):
         # mail_template.send_mail(self.id,force_send=True)
 
 
-    @api.onchange("servicios_id")
-    def _onchange_servicios(self):
-        get_info = self.env["dtm.cotizacion.requerimientos"].search([("no_cotizacion","=",self.no_cotizacion)])
-        # print(get_info)
+    # @api.onchange("servicios_id")
+    # def _onchange_servicios(self):
+    #     get_info = self.env["dtm.cotizacion.requerimientos"].search([("no_cotizacion","=",self.no_cotizacion)])
+    #     # print(get_info)
 
     def get_view(self, view_id=None, view_type='form', **options):#Llena la tabla dtm_cotizaciones de la tabla dtm_clientes_needs
         res = super(DTMCotizaciones,self).get_view(view_id, view_type,**options)
@@ -101,8 +101,6 @@ class DTMCotizaciones(models.Model):
                  self.env.cr.execute("INSERT INTO dtm_cotizaciones (id, no_cotizacion, cliente, telefono, correo, terminos_pago, entrega, curency, proveedor) " +
                                     "VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+result.cliente_ids.name+"', '"+ str(result.cliente_ids.phone) + "', '"+ str(result.cliente_ids.email) +
                                      "', 'Terminos de Pago: Credito 45 dias', 'L.A.B: Chihuahua, Chih.', 'mx','dtm')")
-
-
 
 
         #Llena o actualiza la tabla dtm_cotizaciones_requerimientos de la tabla dtm_requerimientos
@@ -140,7 +138,7 @@ class Requerimientos(models.Model):
     descripcion = fields.Char(string="Descripción")
     cantidad = fields.Integer(string="cantidad")
     precio_unitario = fields.Float(string="Precio Unitario")
-    total = fields.Float(string="Total")
+    total = fields.Float(string="Total", store=True)
 
     @api.onchange("cantidad")
     def _onchange_precio(self):
