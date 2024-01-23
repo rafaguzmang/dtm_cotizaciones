@@ -106,27 +106,29 @@ class DTMCotizaciones(models.Model):
 
 
         #Llena o actualiza la tabla dtm_cotizaciones_requerimientos de la tabla dtm_requerimientos
-        get_dest = self.env['dtm.cotizacion.requerimientos'].search([])
-        get_info2 = self.env['dtm.requerimientos'].search([("id",">",len(get_dest))])
+
+        get_req = self.env['dtm.requerimientos'].search([])
 
         dictionary = {}
-        for result in get_dest:
-            if not dictionary.get(result.no_cotizacion):
-                dictionary[result.no_cotizacion]=1
-            else:
-                dictionary[result.no_cotizacion] = dictionary.get(result.no_cotizacion) + 1
+        for result in get_req:
+            get_cot_rec = self.env['dtm.cotizacion.requerimientos'].search([('id','=',result.id)])
+            if get_cot_rec:
+                if not dictionary.get(result.servicio):
+                    dictionary[result.servicio]=1
+                else:
+                    dictionary[result.servicio] = dictionary.get(result.servicio) + 1
 
-            self.env.cr.execute("UPDATE dtm_cotizacion_requerimientos SET no_item = "+str(dictionary[result.no_cotizacion]) +", cantidad= "+ str(result.cantidad) +", precio_unitario="+str(result.precio_unitario) +
+                self.env.cr.execute("UPDATE dtm_cotizacion_requerimientos SET no_item ="+str(dictionary[result.servicio])+", cantidad= "+ str(result.cantidad) +", precio_unitario="+str(result.precio_unitario) +
                                 " WHERE id="+str(result.id))
-        dictionary = {}
-        for result in get_info2:
-            if not dictionary.get(result.servicio):
-                dictionary[result.servicio]=1
             else:
-                dictionary[result.servicio] = dictionary.get(result.servicio) + 1
+                dictionary = {}
+                if not dictionary.get(result.servicio):
+                    dictionary[result.servicio]=1
+                else:
+                    dictionary[result.servicio] = dictionary.get(result.servicio) + 1
 
-            self.env.cr.execute("INSERT INTO dtm_cotizacion_requerimientos (id, descripcion, cantidad, no_cotizacion, no_item) " +
-                                "VALUES ("+ str(result.id) +", '"+ result.descripcion +"',"+str(result.cantidad) + ",'"+str(result.servicio)+ "',"+str(dictionary[result.servicio])+ ")")
+                self.env.cr.execute("INSERT INTO dtm_cotizacion_requerimientos (id, descripcion, cantidad, no_cotizacion, no_item) " +
+                                    "VALUES ("+ str(result.id) +", '"+ result.descripcion +"',"+str(result.cantidad) + ",'"+str(result.servicio)+ "', "+str(dictionary[result.servicio])+")")
         return res
 
 
