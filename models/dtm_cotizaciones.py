@@ -126,7 +126,7 @@ class DTMCotizaciones(models.Model):
                 dictionary[result.servicio] = dictionary.get(result.servicio) + 1
 
             self.env.cr.execute("INSERT INTO dtm_cotizacion_requerimientos (id, descripcion, cantidad, no_cotizacion, no_item) " +
-                                "VALUES ("+ str(result.id) +", '"+ result.descripcion +"',"+str(result.cantidad) + ",'"+str(result.servicio)+ "',"+str(dictionary[result.servicio])+ ")")
+                                "VALUES ("+ str(result.id) +", '"+ str(result.descripcion) +"',"+str(result.cantidad) + ",'"+str(result.servicio)+ "',"+str(dictionary[result.servicio])+ ")")
         return res
 
 
