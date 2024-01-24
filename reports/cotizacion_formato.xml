@@ -69,10 +69,10 @@
                                     <span t-field="servicio.cantidad"></span>
                               </td>
                               <td style=" text-align: right;">
-                                    <span t-field="servicio.precio_unitario"></span>
+                                   <p>$ <span t-field="servicio.precio_unitario"></span> </p>
                               </td>
                               <td style=" text-align: right;">
-                                    <span t-field="servicio.total"></span>
+                                    <p>$ <span t-field="servicio.total"></span></p>
                               </td>
                           </tr>
 

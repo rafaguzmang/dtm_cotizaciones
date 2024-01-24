@@ -164,9 +164,7 @@ class ClientNeeds(models.Model):
         res =  super(ClientNeeds,self).message_post(body=body,subject=subject,message_type=message_type,email_from=email_from,
                                                     author_id=author_id,parent_id=parent_id,subtype_xmlid=subtype_xmlid,subtype_id=subtype_id,
                                                     partner_ids=partner_ids, attachments=attachments, attachment_ids=attachment_ids,
-                                                    add_sign=add_sign, record_name=record_name)   
-        
-        #print('res: ',res)
+                                                    add_sign=add_sign, record_name=record_name)
 
         data = self.env['mail.followers'].search([('res_id','=',res.res_id),('res_model','=','dtm.client.needs')])
         phones = []
@@ -178,8 +176,7 @@ class ClientNeeds(models.Model):
             # print(res.body[3:len(res.body)-4])
             x  = Probando(resul,res.body[3:len(res.body)-4])
             x.send()
-            #Depende de la funcion Probanda para mandar la mensajeria vía Whatsapp
-
+            #Depende de la funcion Probando para mandar la mensajeria vía Whatsapp
         return res
 
 
@@ -189,9 +186,9 @@ class ListMaterial(models.Model):
     _name = "cot.list.material"
     
     model_id = fields.Many2one("dtm.client.needs")
-    name = fields.Char(string="Producto o servicio", readonly=False)
-    descripcion = fields.Text(string="Descripción", readonly=False)
-    cantidad = fields.Integer(string="Cantidad", readonly=False)
+    name = fields.Char(string="Producto o servicio", readonly=False, require=True)
+    descripcion = fields.Text(string="Descripción", readonly=False, require=True)
+    cantidad = fields.Integer(string="Cantidad", readonly=False, require=True)
     attachment_ids = fields.Many2many("dtm.documentos.anexos", string="Archivos", readonly=False)
 
     #material_serv_ids = fields.Many2many("dtm.list.material.producto")

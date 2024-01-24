@@ -19,7 +19,7 @@ class DTMCotizaciones(models.Model):
 
     atencion_id = fields.Many2one("dtm.cotizacion.atencion")
 
-    servicios_id = fields.Many2many('dtm.cotizacion.requerimientos','model_id',compute="_compute_fill_servicios", string='Requerimientos', readonly=False)
+    servicios_id = fields.One2many('dtm.cotizacion.requerimientos','model_id',compute="_compute_fill_servicios", string='Requerimientos', readonly=False)
 
     material_id = fields.Many2many('dtm.list.material.producto')
 
@@ -133,6 +133,8 @@ class DTMCotizaciones(models.Model):
 class Requerimientos(models.Model):
     _name = "dtm.cotizacion.requerimientos"
     _description = "Servicios a cotizar"
+
+    model_id = fields.Many2one('dtm.cotizaciones')
     no_cotizacion = fields.Char(string="No. De Cotización", readonly = True)
     no_item = fields.Integer(string="No")
     descripcion = fields.Char(string="Descripción")

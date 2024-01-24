@@ -49,7 +49,7 @@
                    </group>
                     <notebook>
                         <page string="Servicios">
-                            <field name="servicios_id" options="{'no_create': True}"/>
+                            <field name="servicios_id" options="{'no_create': True,'no_open':True,'no_create':0,'no_create_edit':0}" />
                         </page>
                         <page string="Correo">
                             <field name="subject" />
@@ -67,10 +67,10 @@
         <field name="name">dtm_cotizacionescotizacion.requerimientos.tree</field>
         <field name="model">dtm.cotizacion.requerimientos</field>
         <field name="arch" type="xml">
-            <tree editable="bottom" >
+            <tree editable="bottom" create="false" >
                 <field name="no_item"/>
                 <field name="descripcion"/>
-                <field name="cantidad"/>
+                <field name="cantidad" options='{"type": "number"}' />
                 <field name="precio_unitario"/>
                 <field name="total"/>
             </tree>
