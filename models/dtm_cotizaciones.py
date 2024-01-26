@@ -116,8 +116,9 @@ class DTMCotizaciones(models.Model):
                 else:
                     dictionary[result.servicio] = dictionary.get(result.servicio) + 1
 
-                self.env.cr.execute("UPDATE dtm_cotizacion_requerimientos SET no_item ="+str(dictionary[result.servicio])+", cantidad= "+ str(result.cantidad) +", precio_unitario="+str(result.precio_unitario) +
-                                " WHERE id="+str(result.id))
+                self.env.cr.execute("UPDATE dtm_cotizacion_requerimientos SET no_item ="+str(dictionary[result.servicio])+
+                                    ", cantidad= "+ str(result.cantidad) +", precio_unitario="+str(result.precio_unitario) + ", descripcion='"+str(result.nombre)+"'"
+                                    " WHERE id="+str(result.id))
             else:
                 dictionary = {}
                 if not dictionary.get(result.servicio):
@@ -126,7 +127,7 @@ class DTMCotizaciones(models.Model):
                     dictionary[result.servicio] = dictionary.get(result.servicio) + 1
 
                 self.env.cr.execute("INSERT INTO dtm_cotizacion_requerimientos (id, descripcion, cantidad, no_cotizacion, no_item) " +
-                                "VALUES ("+ str(result.id) +", '"+ str(result.descripcion) +"',"+str(result.cantidad) + ",'"+str(result.servicio)+ "',"+str(dictionary[result.servicio])+ ")")
+                                "VALUES ("+ str(result.id) +", '"+ str(result.nombre) +"',"+str(result.cantidad) + ",'"+str(result.servicio)+ "',"+str(dictionary[result.servicio])+ ")")
         return res
 
 
