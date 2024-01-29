@@ -126,7 +126,7 @@ class DTMCotizaciones(models.Model):
                     dictionary[result.servicio] = dictionary.get(result.servicio) + 1
 
                 self.env.cr.execute("UPDATE dtm_cotizacion_requerimientos SET no_item ="+str(dictionary[result.servicio])+
-                                    ", cantidad= "+ str(result.cantidad) +", precio_unitario="+str(result.precio_unitario) + ", descripcion='"+str(result.nombre)+"'"
+                                    ", cantidad= "+ str(result.cantidad) +str(result.nombre)+"'"
                                     " WHERE id="+str(result.id))
             else:
                 dictionary = {}
