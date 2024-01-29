@@ -40,6 +40,15 @@ class DTMCotizaciones(models.Model):
     def _compute_fill_servicios(self): # Llena el campo servicios_id con los datos de la tabla requerimientos
         requerimientos = self.env['dtm.cotizacion.requerimientos'].search([])
         materiales = self.env['dtm.list.material.producto'].search([])
+
+
+        for result in requerimientos:  # Borra de la tabla dtm_requerimientos los item borrados de la tabla cot_list_material
+            get_needs = self.env['dtm.requerimientos'].search([("id", "=", result.id)])
+            # print(get_needs.model_id, result.id)
+            if not get_needs:
+                # print(get_needs, result.id)
+                self.env.cr.execute("DELETE FROM dtm_cotizacion_requerimientos WHERE id =" + str(result.id))
+
         lines = []
         for slf in self:
             for result in requerimientos:
