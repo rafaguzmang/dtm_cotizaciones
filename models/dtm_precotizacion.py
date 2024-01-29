@@ -34,7 +34,17 @@ class Precotizacion(models.Model):
     def _compute_fill_servicios(self): # Llena el campo servicios_id con los datos de la tabla requerimientos
         requerimientos = self.env['dtm.requerimientos'].search([])
         lines = []
-        # self.env.cr("DELETE FROM dtm.requerimientos")
+
+
+        for result in requerimientos: #Borra de la tabla dtm_requerimientos los item borrados de la tabla cot_list_material
+            get_needs = self.env['cot.list.material'].search([("id","=", result.id)])
+
+            if not get_needs:
+                print(get_needs,result.id)
+                self.env.cr.execute("DELETE FROM dtm_requerimientos WHERE id ="+str(result.id))
+
+
+
         for slf in self:
             for result in requerimientos:
                 if result.servicio == slf.no_cotizacion:
@@ -98,6 +108,10 @@ class Precotizacion(models.Model):
                 self.env.cr.execute("UPDATE dtm_precotizacion SET cliente_ids = '"+str(result.cliente_ids.name)+"' WHERE no_cotizacion = '"+ result.no_cotizacion+"'")
             else:
                 self.env.cr.execute("INSERT INTO dtm_precotizacion (id, no_cotizacion, cliente_ids) VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+str(result.cliente_ids.name)+"')")
+
+
+
+
         return res
     
 
