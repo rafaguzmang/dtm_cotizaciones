@@ -6,9 +6,9 @@ class Requerimientos(models.Model):
 
     servicio = fields.Char(string='Servicio')
 
-    nombre = fields.Char(string='Nombre')
-    descripcion = fields.Char(string='Descripcion')
-    cantidad = fields.Integer(string='Cantidad')
+    nombre = fields.Char(string='Nombre', required=True)
+    descripcion = fields.Char(string='Descripcion', required=True)
+    cantidad = fields.Integer(string='Cantidad' , required=True)
     #-----------------------------------------------------------------------------------------------------
 
     material_servicio_id = fields.One2many('dtm.list.material.producto','model_id',readonly=False)

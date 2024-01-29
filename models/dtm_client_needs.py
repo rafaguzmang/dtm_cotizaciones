@@ -43,7 +43,7 @@ class ClientNeeds(models.Model):
 
     no_cotizacion = fields.Char(string="No. De Cotización", default=_default_init) 
 
-    cliente_ids = fields.Many2one("res.partner",string="Cliente", readonly=False)
+    cliente_ids = fields.Many2one("res.partner",string="Cliente", readonly=False, required=True)
 
     atencion = fields.Many2many("dtm.contactos.anexos",string="Nombre del requisitor", readonly=False)
     d = datetime
@@ -102,6 +102,8 @@ class ClientNeeds(models.Model):
                 else:
                     self.correo = "N/A; "
 
+                self.env.cr.execute("UPDATE dtm_client_needs SET telefono='"+self.telefono+"' , correo='"+self.correo+"' WHERE id="+str(self._origin.id))
+
     @api.onchange('atencion') # Carga correo y número de telefono de los contactos del campo atencion
     def _compute_onchange(self): 
         servicio = self.env['dtm.client.needs'].search([])
@@ -123,6 +125,8 @@ class ClientNeeds(models.Model):
             self.correo = self.correo[:-2]
         if self.telefono:
             self.telefono = self.telefono[:-2]
+
+        self.env.cr.execute("UPDATE dtm_client_needs SET telefono='"+self.telefono+"' , correo='"+self.correo+"' WHERE id="+str(self._origin.id))
             
 
 
