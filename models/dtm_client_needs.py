@@ -126,7 +126,8 @@ class ClientNeeds(models.Model):
         if self.telefono:
             self.telefono = self.telefono[:-2]
 
-        self.env.cr.execute("UPDATE dtm_client_needs SET telefono='"+self.telefono+"' , correo='"+self.correo+"' WHERE id="+str(self._origin.id))
+        if self._origin.id:
+            self.env.cr.execute("UPDATE dtm_client_needs SET telefono='"+self.telefono+"' , correo='"+self.correo+"' WHERE id="+str(self._origin.id))
             
 
 
