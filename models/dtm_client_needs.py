@@ -23,6 +23,7 @@ class ClientNeeds(models.Model):
     _name = "dtm.client.needs"
     _inherit = ["mail.thread","mail.activity.mixin"]
     _description = "Tabla para hacer la precotización (costo de la empresa)"
+    _order = "no_cotizacion desc"
 
     #---------------Function------------------
     def _default_init(self): # Genera número consecutivo de NPI y OT del campo no_cotizacion        

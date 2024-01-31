@@ -26,6 +26,7 @@ class Precotizacion(models.Model):
     _description = "Se hace la precotización con el costo de los servicios"
     _inherit = ["mail.thread","mail.activity.mixin"]
     _rec_name = "no_cotizacion"
+    _order = "no_cotizacion desc"
 
     no_cotizacion = fields.Char(readonly=True) 
     cliente_ids = fields.Char(readonly=True) 

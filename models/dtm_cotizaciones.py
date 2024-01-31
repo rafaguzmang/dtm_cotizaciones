@@ -4,6 +4,7 @@ import datetime
 class DTMCotizaciones(models.Model):
     _name = "dtm.cotizaciones"
     _description = "Cotizaciones"
+    _order = "no_cotizacion desc"
 
     no_cotizacion = fields.Char(string="No. De Cotización", readonly=True)
     cliente = fields.Char(string="Cliente", readonly=True)
@@ -124,10 +125,15 @@ class DTMCotizaciones(models.Model):
                     dictionary[result.servicio]=1
                 else:
                     dictionary[result.servicio] = dictionary.get(result.servicio) + 1
+                #
+                # self.env.cr.execute("UPDATE dtm_cotizacion_requerimientos SET no_item ="+str(dictionary[result.servicio])+
+                #                     ", cantidad= "+ str(result.cantidad) +str(result.nombre)+"'"
+                #                     " WHERE id="+str(result.id))
 
                 self.env.cr.execute("UPDATE dtm_cotizacion_requerimientos SET no_item ="+str(dictionary[result.servicio])+
-                                    ", cantidad= "+ str(result.cantidad) +str(result.nombre)+"'"
+                                    ", cantidad= "+ str(result.cantidad) +
                                     " WHERE id="+str(result.id))
+
             else:
                 dictionary = {}
                 if not dictionary.get(result.servicio):
