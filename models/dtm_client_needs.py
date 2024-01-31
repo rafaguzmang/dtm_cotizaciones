@@ -83,8 +83,7 @@ class ClientNeeds(models.Model):
           
     #         no+=1
         return res
-    
-    
+
 
     #--------------Onchange-----------------
     @api.onchange('cliente_ids') # Carga correo y número de telefono de los contactos del campo clientes
@@ -102,8 +101,8 @@ class ClientNeeds(models.Model):
                     self.correo = result.email + "; "
                 else:
                     self.correo = "N/A; "
-
-                self.env.cr.execute("UPDATE dtm_client_needs SET telefono='"+self.telefono+"' , correo='"+self.correo+"' WHERE id="+str(self._origin.id))
+                if self._origin.id:
+                    self.env.cr.execute("UPDATE dtm_client_needs SET telefono='"+self.telefono+"' , correo='"+self.correo+"' WHERE id="+str(self._origin.id))
 
     @api.onchange('atencion') # Carga correo y número de telefono de los contactos del campo atencion
     def _compute_onchange(self): 
