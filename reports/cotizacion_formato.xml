@@ -106,7 +106,7 @@
                          <span t-field="o.terminos_pago"></span><br></br>
                          Vigencia: 15 dias<br></br>
                          La recepción de la Orden de Compra se considera una aceptación del Servicio Cotizado.<br></br>
-                         Necesidades del Cliente:NV-121123-00</p>
+                             Necesidades del Cliente:<span t-field="o.no_cotizacion"></span> </p>
                      </div>
                      <div style="width:100%;text-align:center;margin-top:50px;">
                         <p style="font-size:13px;padding-bottom:0;margin-bottom:0;font-family:Calibri;">Visitanos:</p>
