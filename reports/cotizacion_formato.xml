@@ -35,30 +35,30 @@
                         </div>
                    </div>
 
-                      <div class="padre" style="padding-top:30px;text-align:center">
+                      <div class="padre" style="padding-top:30px;text-align:center;margin-bottom:175px">
                           <div class="left" style="float:left;width:82%;overflow: hidden;text-align: left;">
-                              <p style="font-size:13px;font-family:Arial;">Empresa: <span style="font-family:Calibri;font-size:13px; text-decoration: underline;" t-field="o.cliente"> </span></p>
-                              <p style="font-size:13px;font-family:Arial;">AT'n: <span style="font-family:Calibri;font-size:13px; text-decoration: underline;" t-field="o.atencion_id"> </span></p>
+                              <p style="font-size:13px;font-family:Arial;">Empresa: <span style="font-family:Calibri;font-size:15px; text-decoration: underline;" t-field="o.cliente"> </span></p>
+                              <p style="font-size:15px;font-family:Arial;">AT'n: <span style="font-family:Calibri;font-size:15px; text-decoration: underline;" t-field="o.atencion_id"> </span></p>
                           </div>
                           <div class="right" style="float:left;width:18%;overflow: hidden;text-align: left;">
-                              <p style="font-size:13px;font-family:Arial;font-style: italic;">No. De Cotización: <span style="font-family:Calibri;font-size:13px; text-decoration: underline;" t-field="o.no_cotizacion"> </span></p>
-                              <p style="font-size:13px;font-family:Arial;font-style: italic;">Fecha: <span style="font-family:Calibri;font-size:13px; text-decoration: underline;" t-field="o.date"> </span></p>
+                              <p style="font-size:15px;font-family:Arial;font-style: italic;">No. De Cotización: <span style="font-family:Calibri;font-size:15px; text-decoration: underline;" t-field="o.no_cotizacion"> </span></p>
+                              <p style="font-size:15px;font-family:Arial;font-style: italic;">Fecha: <span style="font-family:Calibri;font-size:15px; text-decoration: underline;" t-field="o.date"> </span></p>
                           </div>
                       </div>
                 </div>
 
-                <div class="table" style="padding-top:130px;border-collapse: collapse;position: relative;top:30px">
+                <div class="table" style="padding-top:130px;border-collapse: collapse;position: relative;top:30px,border:1px solid #fff">
                     <table style="border-collapse: collapse;width: 100%;">
-                      <tr style="background-color: #008ae6;border-bottom: 1px solid #ddd;">
-                        <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif">No</th>
-                        <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif">Descripción</th>
-                        <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif">Cantidad</th>
-                        <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif">Precio Unitario</th>
+                      <tr style="background-color: #008ae6;border-bottom: 1px solid #ddd;height:25px">
+                        <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif;width:60px">No</th>
+                        <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif;">Descripción</th>
+                        <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif;">Cantidad</th>
+                        <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif;width:120px">Precio Unitario</th>
                         <th style=" text-align: center;color: white;font-size:13px;Calibri">Total</th>
                       </tr>
 
                       <t t-foreach="o.servicios_id" t-as="servicio">
-                          <tr style=" font-size:13px;border-bottom: 1px solid #fff;font-family:Calibri;font-weight: bold;">
+                          <tr style=" font-size:11px;border-bottom: 1px solid #fff;font-family:Arial;font-weight: bold;">
                               <td style=" text-align: center;">
                                     <span t-field="servicio.no_item"></span>
                               </td>
@@ -68,11 +68,15 @@
                               <td style=" text-align: center;">
                                     <span t-field="servicio.cantidad"></span>
                               </td>
-                              <td style=" text-align: right;">
-                                   <p>$ <span t-field="servicio.precio_unitario"></span> </p>
+                              <td style="text-align:center;">
+                                  <div style="overflow:hidden;margin:0;padding:0">
+                                    <p style="float:left;margin:0;padding:0">$</p> <p style="float:right;margin:0;padding:0"><span t-field="servicio.precio_unitario" ></span></p>
+                                  </div>
                               </td>
-                              <td style=" text-align: right;">
-                                    <p>$ <span t-field="servicio.total"></span></p>
+                              <td style=" text-align: center;">
+                                     <div style="overflow:hidden;margin:0;padding:0">
+                                        <p style="float:left;margin:0;padding:0 0 0 8px">$</p> <p style="float:right;margin:0;padding:0"><span t-field="servicio.total" ></span></p>
+                                     </div>
                               </td>
                           </tr>
 
