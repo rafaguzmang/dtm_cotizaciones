@@ -12,10 +12,14 @@
             <field name="name">dtm_client_needs.view.tree</field>
             <field name="model">dtm.client.needs</field>
             <field name="arch" type="xml">
-                <tree string="">
+                <tree string="" decoration-muted="cotizacion!=True"
+                                decoration-bf="cotizacion==True"
+                                decoration-it="cotizacion==True"
+                                decoration-info="cotizacion==True">
                     <field name="cliente_ids"></field>
                     <field name="no_cotizacion"></field>
-                    <field name="date"></field> 
+                    <field name="date"></field>
+                    <field name="cotizacion" invisible="1"/>
                 </tree>
             </field>
         </record>
@@ -34,6 +38,7 @@
                              <div>
                                  <h1>
                                     <field name="no_cotizacion" readonly="1"></field>
+
                                 </h1>
                             </div>                             
                         </group>
@@ -41,7 +46,7 @@
                             <group>
                                 <field name="cliente_ids" readonly="0"></field>
                                 <field name="atencion" widget="many2many_tags" readonly="0"></field> 
-                                <field name="date"></field> 
+                                <field name="date"></field>
                             </group>
                             <group> 
                                 <field name="correo"></field>

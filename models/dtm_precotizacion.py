@@ -35,18 +35,18 @@ class Precotizacion(models.Model):
     def _compute_fill_servicios(self): # Llena el campo servicios_id con los datos de la tabla requerimientos
         requerimientos = self.env['dtm.requerimientos'].search([])
         lines = []
-
-
         for result in requerimientos: #Borra de la tabla dtm_requerimientos los item borrados de la tabla cot_list_material
             get_needs = self.env['cot.list.material'].search([("id","=", result.id)])
-            print(get_needs.model_id,result.id)
+            # print(get_needs.model_id,result.id)
+            if result:
+                self.env.cr.execute("UPDATE dtm_requerimientos SET nombre='"+get_needs.name+"', descripcion='"+get_needs.descripcion+"' WHERE id="+str(result.id))
+
+
             if not get_needs:
-                print(get_needs,result.id)
+                # print(get_needs,result.id)
                 self.env.cr.execute("DELETE FROM dtm_requerimientos WHERE id ="+str(result.id))
-
-            elif not get_needs.model_id :
+            elif not get_needs.model_id:
                 self.env.cr.execute("DELETE FROM cot_list_material WHERE id =" + str(result.id))
-
 
 
         for slf in self:

@@ -75,6 +75,9 @@ class DTMCotizaciones(models.Model):
         if not self.date:
             print(self.d.datetime.today())
             self.date = self.d.datetime.today()
+
+        self.env.cr.execute('UPDATE dtm_client_needs SET cotizacion=true WHERE id='+str(self.id))
+
         
         return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
 

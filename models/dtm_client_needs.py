@@ -43,7 +43,7 @@ class ClientNeeds(models.Model):
                 no = "0" + no
             return no
 
-    no_cotizacion = fields.Char(string="No. De Cotización", default=_default_init) 
+    no_cotizacion = fields.Char(string="No. De Necesidad", default=_default_init)
 
     cliente_ids = fields.Many2one("res.partner",string="Cliente", readonly=False, required=True)
 
@@ -56,6 +56,8 @@ class ClientNeeds(models.Model):
     telefono = fields.Char(string="Telefono(s)", readonly=True , compute="_compute_onchange",store=True)
 
     correo = fields.Char(string = "email(s)", readonly=True, compute="_compute_onchange", store=True)
+
+    cotizacion = fields.Boolean(default=False)
     
     def get_view(self, view_id=None, view_type='form', **options): #Usar en caso de que se necesite sortear los id
         res = super(ClientNeeds,self).get_view(view_id, view_type,**options)       
