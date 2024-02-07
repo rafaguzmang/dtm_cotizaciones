@@ -5,7 +5,7 @@
         <record id="dtm_client_needs_action" model="ir.actions.act_window">
             <field name="name">Necesidades del cliente</field>
             <field name="res_model">dtm.client.needs</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree,form,graph</field>
         </record>
 
         <record id="dtm_client_needs_view_tree" model="ir.ui.view">
@@ -18,9 +18,21 @@
                                 decoration-info="cotizacion==True">
                     <field name="cliente_ids"></field>
                     <field name="no_cotizacion"></field>
-                    <field name="date"></field>
+                    <field name="date"/>
                     <field name="cotizacion" invisible="1"/>
                 </tree>
+            </field>
+        </record>
+
+         <record id="dtm_client_needs_view_graph" model="ir.ui.view">
+            <field name="name">dtm_client_needs.view.graph</field>
+            <field name="model">dtm.client.needs</field>
+            <field name="arch" type="xml">
+                <graph>
+                    <field name="cotizacion"/>
+                    <field name="no_cotizacion" ></field>
+
+                </graph>
             </field>
         </record>
 

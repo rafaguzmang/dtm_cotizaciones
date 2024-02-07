@@ -12,6 +12,7 @@
                     <field name="cantidad" options='{"type": "number"}'></field>
                     <field name="precio_unitario"></field>
                     <field name="precio_total"></field>
+                    <field name="currency"/>
                 </tree>
             </field>
         </record> 
@@ -42,6 +43,7 @@
                                     <field name="cantidad" options='{"type": "number"}'></field>
                                     <field name="precio_unitario" widget="monetary" options='{"type": "number"}' ></field>
                                     <field name="precio" widget="monetary" options='{"type": "number"}' ></field>
+                                    <field name="currency"/>
                                 </tree>
                             </field>
                         </page>
@@ -49,11 +51,21 @@
                             <field name="anexos_id" ></field>
                         </page>
                     </notebook>
-                    <group>
-                        <field name="suma_total" ></field>
-                    </group>
+
+                    <div class="row">
+                        <br></br>
+                        <div class="col-3 d-flex flex-wrap bg-light">
+                            <group>
+                                <h2>
+                                    <field name="suma_total" ></field>
+                                </h2>
+                            </group>
+                                <h3>
+                                    <field name="currency"/>
+                                </h3>
+                        </div>
+                    </div>
                 </sheet>
-                
             </form>
         </field>
 
