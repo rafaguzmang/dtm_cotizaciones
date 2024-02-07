@@ -59,6 +59,7 @@ class Precotizacion(models.Model):
     servicios_id = fields.Many2many('dtm.requerimientos', string='Requerimientos',compute="_compute_fill_servicios",readonly=False ) # Tabla con Nombre,Descripción,Cantidad,Precion Unitario,Precio Total
 
     precio_total = fields.Float(string="TOTAL", readonly=True)
+    currency = fields.Selection(string="Moneda",defaul="mx", selection=[('mxn','MXN'),('usd','USD')])
 
 
     def suma_total(self):
