@@ -37,9 +37,9 @@ class Precotizacion(models.Model):
         lines = []
         for result in requerimientos: #Borra de la tabla dtm_requerimientos los item borrados de la tabla cot_list_material
             get_needs = self.env['cot.list.material'].search([("id","=", result.id)])
-            # print(get_needs.model_id,result.id)
+            print("print",get_needs.model_id,result.id)
             if result:
-                self.env.cr.execute("UPDATE dtm_requerimientos SET nombre='"+str(get_needs.name)+"', descripcion='"+str(get_needs.descripcion)+"' WHERE id="+str(result.id))
+                self.env.cr.execute("UPDATE dtm_requerimientos SET nombre='"+str(get_needs.name)+"', descripcion='"+str(get_needs.descripcion)+"', cantidad="+str(get_needs.cantidad)+" WHERE id="+str(result.id))
 
 
             if not get_needs:
