@@ -58,33 +58,24 @@ class ClientNeeds(models.Model):
     correo = fields.Char(string = "email(s)", readonly=True, compute="_compute_onchange", store=True)
 
     cotizacion = fields.Boolean(default=False)
+
+    status = fields.Integer()
     
     def get_view(self, view_id=None, view_type='form', **options): #Usar en caso de que se necesite sortear los id
-        res = super(ClientNeeds,self).get_view(view_id, view_type,**options)       
-    #     no = 1
-    #     get_info = self.env['dtm.client.needs'].search([])
-    #     for result in get_info:
-    #         print("atenciòn",result.atencion.id)
-    #         # Borra de las tablas con llave foranea
-    #         get_atencion = self.env['dtm.contactos.anexos'].search([("id","=",result.atencion.id)])
-    #         for atencion in get_atencion:
-    #             self.env.cr.execute("DELETE FROM dtm_contactos_anexos WHERE id="+ str(atencion.id))
+        res = super(ClientNeeds,self).get_view(view_id, view_type,**options)
+        # Nos da el número de días que han pasado sin cotización
+        d = datetime.datetime.now()
+        get_cn = self.env['dtm.client.needs'].search([])
+        today = d.strftime("%j")
 
-    #         get_material = self.env['cot.list.material'].search([("model_id","=",str(result.id))])
-    #         for material in get_material:
-    #             # print(material.id,material.model_id.id)
-    #             self.env.cr.execute("DELETE FROM cot_list_material  WHERE id="+ str(material.id)) 
+        for get in get_cn:
+            if not get.cotizacion:
+                day = int(get.date.strftime("%j"))
+                status = int(today)-day
+                if status < -10:
+                    status = 10
+                self.env.cr.execute("UPDATE dtm_client_needs SET status="+str(status)+" WHERE id="+str(get.id))
 
-    #         self.env.cr.execute("UPDATE dtm_client_needs SET id="+str(no) + "WHERE id="+ str(result.id))
-    #         # Insert Again
-    #         for material in get_material:
-    #             self.env.cr.execute("INSERT INTO cot_list_material (id, model_id, cantidad, name, descripcion ) "+
-    #                                 "VALUES (" + str(material.id) +", "+str(no)+", "+str(material.cantidad)+", '"+material.name+"', '"+ material.descripcion +"')")
-    #         for contacto in get_atencion:
-    #             self.env.cr.execute("INSERT INTO dtm_contactos_anexos (id, name, correo, telefono) "+
-    #                              "VALUES (" + str(result.id) +", '"+str(contacto.name)+"', '"+contacto.correo+"', '"+ contacto.telefono +"')")
-          
-    #         no+=1
         return res
 
 

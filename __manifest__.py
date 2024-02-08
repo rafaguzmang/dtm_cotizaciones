@@ -1,7 +1,7 @@
 {
     "name":"dtm_cotizaciones",
     "description":"Requerimientos del cliente, cotizaciones",
-    "depends":["mail"],
+    "depends":["mail","contacts"],
     "data":[
         # Security
         'security/ir.model.access.csv',
@@ -12,6 +12,9 @@
         'views/dtm_precotizacion_view.xml',
         'views/dtm_cotizaciones_views.xml',
         'views/dtm_requerimientos_view.xml',
+        'views/dtm_client_indicadores_view.xml',
+        'views/dtm_client_graph_view.xml',
+
 
         # Data
         # 'data/cotizacion_email_template.xml',

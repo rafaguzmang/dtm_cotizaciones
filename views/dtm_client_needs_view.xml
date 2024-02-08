@@ -16,10 +16,12 @@
                                 decoration-bf="cotizacion==True"
                                 decoration-it="cotizacion==True"
                                 decoration-info="cotizacion==True">
+
                     <field name="cliente_ids"></field>
                     <field name="no_cotizacion"></field>
-                    <field name="date"/>
+                    <field name="date" widget="remaining_days"/>
                     <field name="cotizacion" invisible="1"/>
+
                 </tree>
             </field>
         </record>
@@ -29,9 +31,8 @@
             <field name="model">dtm.client.needs</field>
             <field name="arch" type="xml">
                 <graph>
-                    <field name="cotizacion"/>
                     <field name="no_cotizacion" ></field>
-
+                    <field name="cotizacion" ></field>
                 </graph>
             </field>
         </record>
@@ -111,7 +112,10 @@
             </field>
         </record>
 
-       <menuitem id="dtm_client_needs_menu" action="dtm_client_needs_action" />
+       <menuitem id="dtm_client_needs_menu" action="dtm_cotizaciones.dtm_client_needs_action" >
+            <menuitem id="dtm_client_indicadores_menu" action="dtm_cotizaciones.dtm_client_indicadores_action"/>
+            <menuitem id="dtm_client_graph_menu" action="dtm_cotizaciones.dtm_client_graph_action"/>
+       </menuitem>
     
     </data>
     

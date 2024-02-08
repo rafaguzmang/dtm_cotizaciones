@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="dtm_client_graph_action" model="ir.actions.act_window">
+            <field name="name">Grafica</field>
+            <field name="res_model">dtm.client.graph</field>
+            <field name="view_mode">tree,graph</field>
+        </record>
+
+        <record id="dtm_client_graph_view_tree" model="ir.ui.view">
+            <field name="name">dtm_client_graph.view.tree</field>
+            <field name="model">dtm.client.graph</field>
+            <field name="arch" type="xml">
+                <tree >
+                    <field name="nombre"/>
+                    <field name="cantidad"/>
+                    <field name="porcentaje"/>
+                </tree>
+            </field>
+        </record>
+
+         <record id="dtm_client_graph_view" model="ir.ui.view">
+            <field name="name">dtm_client_graph.view</field>
+            <field name="model">dtm.client.graph</field>
+            <field name="arch" type="xml">
+                <graph>
+                    <field name="nombre"/>
+                    <field name="cantidad"/>
+                    <field name="porcentaje"/>
+                </graph>
+            </field>
+        </record>
+<!--       <menuitem id="dtm_client_graph_menu" action="dtm_client_graph_action"/>-->
+    </data>
+</odoo>

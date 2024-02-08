@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data>
+        <record id="dtm_client_indicadores_action" model="ir.actions.act_window">
+            <field name="name">Indicadores</field>
+            <field name="res_model">dtm.client.indicadores</field>
+            <field name="view_mode">tree,form,graph</field>
+        </record>
+
+        <record id="dtm_client_indicadores_view_tree" model="ir.ui.view">
+            <field name="name">dtm_client_indicadores.view.tree</field>
+            <field name="model">dtm.client.indicadores</field>
+            <field name="arch" type="xml">
+                <tree >
+<!--                    <field name="datos"/>-->
+                    <field name="fecha_inicial"/>
+                    <field name="fecha_final"/>
+                </tree>
+            </field>
+        </record>
+
+<!--         <record id="dtm_client_indicadores_view_graph" model="ir.ui.view">-->
+<!--            <field name="name">dtm_client_indicadores.view.graph</field>-->
+<!--            <field name="model">dtm.client.indicadores</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <graph>-->
+<!--                    <field name="low_days"/>-->
+<!--                    <field name="medium_days"/>-->
+<!--                    <field name="hi_days"/>-->
+<!--                </graph>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <record id="dtm_client_indicadores_view_form" model="ir.ui.view">
+            <field name="name">dtm_client_indicadores.view.form</field>
+            <field name="model">dtm.client.indicadores</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button string="Ejecutar" name="action_ejecutar" type="object" class="btn btn-primary"/>
+                        <button string="Cargar Grafica" name="action_grafica" type="object" class="btn btn-primary"/>
+                    </header>
+                    <sheet>
+                        <div class="row">
+                            <div class="col-6">
+                                <group>
+                                    <field name="fecha_inicial"/>
+                                </group>
+                            </div>
+                            <div class="col-6">
+                                <group>
+                                    <field name="fecha_final"/>
+                                </group>
+                            </div>
+                        </div>
+                         <br></br>
+                        <div class="row">
+                            <div class="col-2">
+                                <group>
+                                   <field name="low_days"/>
+                                   <field name="medium_days"/>
+                                   <field name="hi_days"/>
+                                </group>
+                            </div>
+                            <div class="col-2">
+                                <group>
+                                   <field name="low_percent"/>
+                                   <field name="medium_percent"/>
+                                   <field name="hi_percent"/>
+                                </group>
+                            </div>
+                        </div>
+                        <group>
+                            <field name="total"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+<!--       <menuitem id="dtm_client_indicadores_menu" action="dtm_client_indicadores_action"/>-->
+
+
+    </data>
+
+
+
+
+
+</odoo>
