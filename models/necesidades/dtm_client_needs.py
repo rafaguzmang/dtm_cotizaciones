@@ -76,6 +76,14 @@ class ClientNeeds(models.Model):
                     status = 10
                 self.env.cr.execute("UPDATE dtm_client_needs SET status="+str(status)+" WHERE id="+str(get.id))
 
+            else:
+                get_cot = self.env['dtm.cotizaciones'].search([("no_cotizacion","=",get.no_cotizacion)])
+                day = int(get.date.strftime("%j"))
+                day_dif = int(get_cot.date.strftime("%j"))
+                status = day_dif -day
+                # print(status)
+                self.env.cr.execute("UPDATE dtm_client_needs SET status=" + str(status) + " WHERE id=" + str(get.id))
+
         return res
 
 
