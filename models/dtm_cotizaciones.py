@@ -1,4 +1,7 @@
-from odoo import api,fields,models,_
+from odoo import api,fields,models,tools
+from odoo.modules import get_module_resource
+from odoo.exceptions import ValidationError
+import base64
 import datetime
 
 class DTMCotizaciones(models.Model):
@@ -13,7 +16,7 @@ class DTMCotizaciones(models.Model):
     attachment_ids = fields.Many2many("dtm.documentos.anexos",string="Anexos", readonly=False)
     telefono = fields.Char(string="Telefono(s)", readonly=True)
     correo = fields.Char(string = "email(s)", readonly=True)
-
+    correo_cc = fields.Char(string="cc" , readonly=True)
     precio_total = fields.Float(string="Precio total")
     proveedor = fields.Selection(string='Proveedor',default='dtm',
         selection=[('dtm', 'DISEÑO Y TRANSFORMACIONES METALICAS S DE RL DE CV'), ('mtd', 'METAL TRANSFORMATION & DESIGN')],tracking=True)
@@ -31,12 +34,33 @@ class DTMCotizaciones(models.Model):
     curency = fields.Selection(string="Tipo de moneda",default="mx",
                selection=[("mx","Precio Especificado en Pesos Mexicanos"),("us","Precio Especificado en Dolares Americanos")],tracking=True)
 
-    # Datos para el envío del correo (Formato)
-
-    subject = fields.Char(string="Asunto:",default="Cotización DTM")
+    subject = fields.Char(string="Asunto:",compute="_compute_subject", readonly=False)
     dirigido = fields.Char(default="A quien corresponda :")
     body_email = fields.Text(default="Por este medio hago llegar la factura. \n Saludos cordiales")
+    email_image = fields.Image(string="Firma", compute="_compute_image")
 
+
+    # Datos para el envío del correo (Formato)
+    def _compute_subject(self):
+        for result in self:
+            subject = "Cotización DTM no " + result.no_cotizacion
+            result.subject = subject
+
+    def _compute_image(self):
+        email = self.env.user.partner_id.email
+        if email == "rafaguzmang@hotmail.com":
+            img_path = get_module_resource('dtm_cotizaciones', 'static/src/images', 'alejandro_erives_dtm.png') # your default image path
+        else:
+            img_path = None
+
+
+        for result in self:
+             if img_path != None:
+                with open(img_path, 'rb') as f: # read the image from the path
+                    image = f.read()
+                    result.email_image = base64.b64encode(image)
+             else:
+                 result.email_image = None
 
     def _compute_fill_servicios(self): # Llena el campo servicios_id con los datos de la tabla requerimientos
         requerimientos = self.env['dtm.cotizacion.requerimientos'].search([])
@@ -69,34 +93,23 @@ class DTMCotizaciones(models.Model):
             self.material_id = lines
         # print(self.material_id)
 
-
     def action_imprimir(self):
-        print("Imprimiento")
         if not self.date:
-            print(self.d.datetime.today())
             self.date = self.d.datetime.today()
-
         self.env.cr.execute('UPDATE dtm_client_needs SET cotizacion=true WHERE id='+str(self.id))
-
-        
         return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
 
-
     def action_send_email(self):
-        print("Enviado")
         # print(self.env.user.email)
-        # if not self.date:
-        #     print(self.d.datetime.today())
-        #     self.date = self.d.datetime.today()
+        if not self.date:
+            # print(self.d.datetime.today())
+            self.date = self.d.datetime.today()
+        mail_template = self.env.ref('dtm_cotizaciones.cotizacion_email_template')
+        mail_template.send_mail(self.id,force_send=True)
 
-        # mail_template = self.env.ref('dtm_cotizaciones.cotizacion_mail_template')
-        # mail_template.send_mail(self.id,force_send=True)
-
-
-    # @api.onchange("servicios_id")
-    # def _onchange_servicios(self):
-    #     get_info = self.env["dtm.cotizacion.requerimientos"].search([("no_cotizacion","=",self.no_cotizacion)])
-    #     # print(get_info)
+    @api.onchange("atencion_id")
+    def _onchange_atencion_id(self):
+        self.dirigido = self.atencion_id.atencion
 
     def get_view(self, view_id=None, view_type='form', **options):#Llena la tabla dtm_cotizaciones de la tabla dtm_clientes_needs
         res = super(DTMCotizaciones,self).get_view(view_id, view_type,**options)
@@ -106,14 +119,21 @@ class DTMCotizaciones(models.Model):
             # print(result.no_cotizacion)
             get_self = self.env['dtm.cotizaciones'].search([("no_cotizacion","=",result.no_cotizacion)])
             if get_self:
-                self.env.cr.execute("UPDATE dtm_cotizaciones SET telefono='"+str(result.cliente_ids.phone) +"', correo='"+str(result.cliente_ids.email) +"', cliente='"+str(result.cliente_ids.name) +
-                                    "' WHERE no_cotizacion ='" + result.no_cotizacion+"'")
-                # print(result.cliente_ids.name,result.cliente_ids.phone,result.cliente_ids.email)
-                # print(get_self.no_cotizacion)
+                correo_cc = result.correo
+                if correo_cc:
+                    correo_cc = correo_cc.replace(";",",")
+                    x = correo_cc.index(",")
+                    correo_cc = correo_cc[x+1:len(correo_cc)]
+                else:
+                    correo_cc = ""
+                print(correo_cc)
+                self.env.cr.execute("UPDATE dtm_cotizaciones SET telefono='"+str(result.cliente_ids.phone) +"', correo='"+str(result.cliente_ids.email) +
+                        "', cliente='"+str(result.cliente_ids.name) + "', correo_cc='"+correo_cc+"' WHERE no_cotizacion ='" +result.no_cotizacion+"'")
+
             else:
-                 self.env.cr.execute("INSERT INTO dtm_cotizaciones (id, no_cotizacion, cliente, telefono, correo, terminos_pago, entrega, curency, proveedor) " +
+                 self.env.cr.execute("INSERT INTO dtm_cotizaciones (id, no_cotizacion, cliente, telefono, correo, terminos_pago, entrega, curency, proveedor,correo_cc) " +
                                     "VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+result.cliente_ids.name+"', '"+ str(result.cliente_ids.phone) + "', '"+ str(result.cliente_ids.email) +
-                                     "', 'Terminos de Pago: Credito 45 dias', 'L.A.B: Chihuahua, Chih.', 'mx','dtm')")
+                                     "', 'Terminos de Pago: Credito 45 dias', 'L.A.B: Chihuahua, Chih.', 'mx','dtm', '"+correo_cc+"')")
 
 
         #Llena o actualiza la tabla dtm_cotizaciones_requerimientos de la tabla dtm_requerimientos

@@ -39,6 +39,7 @@
                             <field name="date"/>
                             <field name="telefono"/>
                             <field name="correo"/>
+                            <field name="correo_cc"></field>
                         </group>
                         <group>
                             <field name="atencion_id"/>
@@ -52,9 +53,16 @@
                             <field name="servicios_id" options="{'no_create': True,'no_open':True,'no_create':0,'no_create_edit':0}" />
                         </page>
                         <page string="Correo">
-                            <field name="subject" />
-                            <field name="dirigido" />
-                            <field name="body_email" />
+                                <div class="row">
+                                    <div class="col-12">
+                                        <group>
+                                            <field name="subject" />
+                                            <field name="dirigido" />
+                                            <field name="body_email" />
+                                            <field name="email_image" widget="image"/>
+                                        </group>
+                                    </div>
+                                </div>
                         </page>
                     </notebook>
 

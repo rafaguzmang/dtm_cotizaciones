@@ -17,7 +17,7 @@
 
 
         # Data
-        # 'data/cotizacion_email_template.xml',
+        'data/cotizacion_email_template.xml',
 
 
     #     Reports
