@@ -194,9 +194,6 @@ class Requerimientos(models.Model):
     def _onchange_precio(self):
         self.total = self.cantidad * self.precio_unitario
 
-
-
-
 class Atencion(models.Model):
     _name = "dtm.cotizacion.atencion"
     _description = "Tabla para guardar las opciones de atención"

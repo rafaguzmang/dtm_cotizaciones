@@ -58,12 +58,13 @@
                         <group >
                             <group>
                                 <field name="cliente_ids" readonly="0"></field>
-                                <field name="atencion" widget="many2many_tags" readonly="0"></field> 
-                                <field name="date"></field>
+                                <field name="atencion" widget="many2many_tags" readonly="0"></field>
+                                <field name="nivel" widget="radio" options="{'horizontal': true}"/>
                             </group>
                             <group> 
                                 <field name="correo" widget="email"></field>
                                 <field name="telefono" widget="phone"></field>
+                                <field name="date"></field>
                             </group>  
                         </group>
                         <notebook>

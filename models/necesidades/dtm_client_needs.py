@@ -59,6 +59,11 @@ class ClientNeeds(models.Model):
 
     cotizacion = fields.Boolean(default=False)
 
+    nivel = fields.Selection(string="Nivel", default="uno",selection=[('uno',1),('dos',2),('tres',3)])
+
+
+    # Datos par medición de metricos
+
     status = fields.Integer()
     
     def get_view(self, view_id=None, view_type='form', **options): #Usar en caso de que se necesite sortear los id
