@@ -69,25 +69,26 @@ class ClientNeeds(models.Model):
     def get_view(self, view_id=None, view_type='form', **options): #Usar en caso de que se necesite sortear los id
         res = super(ClientNeeds,self).get_view(view_id, view_type,**options)
         # Nos da el número de días que han pasado sin cotización
-        d = datetime.datetime.now()
         get_cn = self.env['dtm.client.needs'].search([])
-        today = d.strftime("%j")
+        d = datetime.datetime.now()
+        today = int(d.strftime("%j")) # Se obtiene el día actual
 
         for get in get_cn:
             if not get.cotizacion:
                 day = int(get.date.strftime("%j"))
-                status = int(today)-day
-                if status < -10:
-                    status = 10
+                status = today-day
+                # if status < -10:
+                #     status = 10
                 self.env.cr.execute("UPDATE dtm_client_needs SET status="+str(status)+" WHERE id="+str(get.id))
 
-            else:
-                get_cot = self.env['dtm.cotizaciones'].search([("no_cotizacion","=",get.no_cotizacion)])
-                day = int(get.date.strftime("%j"))
-                day_dif = int(get_cot.date.strftime("%j"))
-                status = day_dif -day
-                # print(status)
-                self.env.cr.execute("UPDATE dtm_client_needs SET status=" + str(status) + " WHERE id=" + str(get.id))
+            # else:
+            #     print(get)
+            #     get_cot = self.env['dtm.cotizaciones'].search([("no_cotizacion","=",get.no_cotizacion)])
+            #     day = int(get.date.strftime("%j"))
+            #     day_dif = int(get_cot.date.strftime("%j"))
+            #     status = day_dif -day
+            #     # print(status)
+            #     self.env.cr.execute("UPDATE dtm_client_needs SET status=" + str(status) + " WHERE id=" + str(get.id))
 
         return res
 

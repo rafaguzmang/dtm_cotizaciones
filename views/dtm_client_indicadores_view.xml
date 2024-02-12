@@ -26,9 +26,9 @@
 <!--            <field name="model">dtm.client.indicadores</field>-->
 <!--            <field name="arch" type="xml">-->
 <!--                <graph>-->
-<!--                    <field name="low_days"/>-->
-<!--                    <field name="medium_days"/>-->
-<!--                    <field name="hi_days"/>-->
+<!--                    <field name="uno_days"/>-->
+<!--                    <field name="dos_days"/>-->
+<!--                    <field name="tres_days"/>-->
 <!--                </graph>-->
 <!--            </field>-->
 <!--        </record>-->
@@ -56,27 +56,45 @@
                             </div>
                         </div>
                          <br></br>
-                        <div class="row">
-                            <div class="col-2">
-                                <group>
-                                    <field name="low_days"/>
-                                    <field name="medium_days"/>
-                                    <field name="hi_days"/>
-                                    <field name="sin_cotizacion"/>
-                                </group>
-                            </div>
-                            <div class="col-2">
-                                <group>
-                                    <field name="low_percent"/>
-                                    <field name="medium_percent"/>
-                                    <field name="hi_percent"/>
-                                    <field name="pasadas"/>
-                                </group>
-                            </div>
-                        </div>
+
                         <group>
                             <field name="total"/>
+                            <field name="sin_cotizacion"/>
                         </group>
+
+                        <notebook>
+                            <page string="Nivel Uno">
+                                <group>
+                                    <field name="uno_days"/>
+                                    <field name="uno_con"/>
+                                    <field name="uno_fecha_caducada"/>
+                                    <field name="uno_sin"/>
+                                    <field name="uno_pasadas"/>
+                                    <field name="uno_percent"/>
+                                </group>
+
+                            </page>
+                            <page string="Nivel Dos">
+                                 <group>
+                                    <field name="dos_days"/>
+                                    <field name="dos_con"/>
+                                    <field name="dos_fecha_caducada"/>
+                                    <field name="dos_sin"/>
+                                    <field name="dos_pasadas"/>
+                                    <field name="dos_percent"/>
+                                </group>
+                            </page>
+                            <page string="Nivel Tres">
+                                 <group>
+                                    <field name="tres_days"/>
+                                    <field name="tres_con"/>
+                                    <field name="tres_fecha_caducada"/>
+                                    <field name="tres_sin"/>
+                                    <field name="tres_pasadas"/>
+                                    <field name="tres_percent"/>
+                                </group>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
