@@ -48,10 +48,10 @@ class DTMCotizaciones(models.Model):
 
     def _compute_image(self):
         email = self.env.user.partner_id.email
-        if email == "rafaguzmang@hotmail.com":
-            img_path = get_module_resource('dtm_cotizaciones', 'static/src/images', 'alejandro_erives_dtm.png') # your default image path
-        else:
-            img_path = None
+        # if email == "ventas1@dtmindustry.com": # Carga imagen personalizada del usuario
+        img_path = get_module_resource('dtm_cotizaciones', 'static/src/images', 'alejandro_erives_dtm.png') # your default image path
+        # else:
+        #     img_path = None
 
 
         for result in self:
@@ -96,14 +96,8 @@ class DTMCotizaciones(models.Model):
     def action_imprimir(self):
         if not self.date:
             self.date = self.d.datetime.today()
-<<<<<<< HEAD
-        self.env.cr.execute('UPDATE dtm_client_needs SET cotizacion=true WHERE id='+str(self.id))
-=======
-
         self.env.cr.execute("UPDATE dtm_client_needs SET cotizacion=true WHERE no_cotizacion='"+self.no_cotizacion+"'")
 
-        
->>>>>>> bbac9722652d445a62367879319a78c9d374100a
         return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
 
     def action_send_email(self):
@@ -125,20 +119,22 @@ class DTMCotizaciones(models.Model):
         for result in get_info:
             # print(result.no_cotizacion)
             get_self = self.env['dtm.cotizaciones'].search([("no_cotizacion","=",result.no_cotizacion)])
-            if get_self:
-                correo_cc = result.correo
-                if correo_cc:
+            correo_cc = result.correo
+            if correo_cc:
+                if correo_cc.find(";"):
                     correo_cc = correo_cc.replace(";",",")
                     x = correo_cc.index(",")
                     correo_cc = correo_cc[x+1:len(correo_cc)]
                 else:
                     correo_cc = ""
+            else:
+                correo_cc = ""
+            if get_self:
                 print(correo_cc)
                 self.env.cr.execute("UPDATE dtm_cotizaciones SET telefono='"+str(result.cliente_ids.phone) +"', correo='"+str(result.cliente_ids.email) +
                         "', cliente='"+str(result.cliente_ids.name) + "', correo_cc='"+correo_cc+"' WHERE no_cotizacion ='" +result.no_cotizacion+"'")
-
             else:
-                 self.env.cr.execute("INSERT INTO dtm_cotizaciones (id, no_cotizacion, cliente, telefono, correo, terminos_pago, entrega, curency, proveedor,correo_cc) " +
+                 self.env.cr.execute("INSERT INTO dtm_cotizaciones (id, no_cotizacion, cliente, telefono, correo, terminos_pago, entrega, curency, proveedor, correo_cc) " +
                                     "VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+result.cliente_ids.name+"', '"+ str(result.cliente_ids.phone) + "', '"+ str(result.cliente_ids.email) +
                                      "', 'Terminos de Pago: Credito 45 dias', 'L.A.B: Chihuahua, Chih.', 'mx','dtm', '"+correo_cc+"')")
 
