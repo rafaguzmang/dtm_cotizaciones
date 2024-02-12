@@ -36,16 +36,14 @@
                         <group>
                             <field name="no_cotizacion"/>
                             <field name="cliente"/>
+                             <field name="telefono"  widget="phone"/>
                             <field name="date"/>
-                            <field name="telefono"/>
-                            <field name="correo"/>
-                            <field name="correo_cc"></field>
                         </group>
                         <group>
-                            <field name="atencion_id"/>
                             <field name="terminos_pago"/>
                             <field name="entrega"/>
                             <field name="curency"/>
+                            <field name="atencion_id"/>
                         </group>
                    </group>
                     <notebook>
@@ -56,6 +54,8 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <group>
+                                            <field name="correo"  widget="email"/>
+                                            <field name="correo_cc"></field>
                                             <field name="subject" />
                                             <field name="dirigido" />
                                             <field name="body_email" />
@@ -65,7 +65,6 @@
                                 </div>
                         </page>
                     </notebook>
-
                 </sheet>
             </form>
         </field>
@@ -75,21 +74,19 @@
         <field name="name">dtm_cotizacionescotizacion.requerimientos.tree</field>
         <field name="model">dtm.cotizacion.requerimientos</field>
         <field name="arch" type="xml">
-            <tree editable="bottom" create="false" >
-                <field name="no_item"/>
-                <field name="descripcion"/>
+            <tree editable="bottom" create="false">
+                <field name="no_item" />
+                <field name="descripcion" />
                 <field name="cantidad" options='{"type": "number"}' />
+                <field name="unidad" />
                 <field name="precio_unitario"/>
                 <field name="total"/>
             </tree>
         </field>
     </record>
 
-
-
-    <menuitem
-            id="dtm_cotizaciones_menu"
-            action="dtm_cotizaciones_action"
-    />
+    <menuitem id="dtm_cotizaciones_menu" action="dtm_cotizaciones_action">
+         <menuitem id="dtm_cotizacion_indicadores_menu" action="dtm_cotizacion_indicadores_action"/>
+    </menuitem>
 </odoo>
 

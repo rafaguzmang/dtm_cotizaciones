@@ -12,3 +12,5 @@ access_dtm_cotizacion_requerimientos,access.dtm.cotizacion.requerimientos,model_
 access_dtm_cotizacion_atencion,access.dtm.cotizacion.atencion,model_dtm_cotizacion_atencion,base.group_user,1,1,1,1
 access_dtm_client_indicadores,access.dtm.client.indicadores,model_dtm_client_indicadores,base.group_user,1,1,1,1
 access_dtm_client_graph,access.dtm.client.graph,model_dtm_client_graph,base.group_user,1,1,1,1
+access_dtm_cotizacion_indicadores,access.dtm.cotizacion.indicadores,model_dtm_cotizacion_indicadores,base.group_user,1,1,1,1
+

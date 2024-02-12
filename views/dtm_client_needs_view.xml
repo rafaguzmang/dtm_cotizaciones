@@ -62,8 +62,8 @@
                                 <field name="date"></field>
                             </group>
                             <group> 
-                                <field name="correo"></field>
-                                <field name="telefono"></field>
+                                <field name="correo" widget="email"></field>
+                                <field name="telefono" widget="phone"></field>
                             </group>  
                         </group>
                         <notebook>

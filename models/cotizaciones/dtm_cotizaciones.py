@@ -38,7 +38,7 @@ class DTMCotizaciones(models.Model):
     dirigido = fields.Char(default="A quien corresponda :")
     body_email = fields.Text(default="Por este medio hago llegar la factura. \n Saludos cordiales")
     email_image = fields.Image(string="Firma", compute="_compute_image")
-
+    status = fields.Integer()
 
     # Datos para el envío del correo (Formato)
     def _compute_subject(self):
@@ -96,14 +96,8 @@ class DTMCotizaciones(models.Model):
     def action_imprimir(self):
         if not self.date:
             self.date = self.d.datetime.today()
-<<<<<<< HEAD
-        self.env.cr.execute('UPDATE dtm_client_needs SET cotizacion=true WHERE id='+str(self.id))
-=======
 
         self.env.cr.execute("UPDATE dtm_client_needs SET cotizacion=true WHERE no_cotizacion='"+self.no_cotizacion+"'")
-
-        
->>>>>>> bbac9722652d445a62367879319a78c9d374100a
         return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
 
     def action_send_email(self):
@@ -133,7 +127,6 @@ class DTMCotizaciones(models.Model):
                     correo_cc = correo_cc[x+1:len(correo_cc)]
                 else:
                     correo_cc = ""
-                print(correo_cc)
                 self.env.cr.execute("UPDATE dtm_cotizaciones SET telefono='"+str(result.cliente_ids.phone) +"', correo='"+str(result.cliente_ids.email) +
                         "', cliente='"+str(result.cliente_ids.name) + "', correo_cc='"+correo_cc+"' WHERE no_cotizacion ='" +result.no_cotizacion+"'")
 
@@ -184,6 +177,7 @@ class Requerimientos(models.Model):
     no_cotizacion = fields.Char(string="No. De Cotización", readonly = True)
     no_item = fields.Integer(string="No")
     descripcion = fields.Char(string="Descripción")
+    unidad = fields.Char(string="UM")
     cantidad = fields.Integer(string="cantidad")
     precio_unitario = fields.Float(string="Precio Unitario")
     total = fields.Float(string="Total", store=True)

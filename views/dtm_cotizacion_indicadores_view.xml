@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="dtm_cotizacion_indicadores_action" model="ir.actions.act_window">
+            <field name="name">Indicadores</field>
+            <field name="res_model">dtm.cotizacion.indicadores</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="dtm_cotizacion_indicadores_view_tree" model="ir.ui.view">
+            <field name="name">dtm.cotizacion.indicadores.view.tree</field>
+            <field name="model">dtm.cotizacion.indicadores</field>
+            <field name="arch" type="xml">
+                <tree >
+                    <field name="fecha_inicial"/>
+                    <field name="fecha_final"/>
+                    <field name="create_date"/>
+                </tree>
+            </field>
+        </record>
+
+         <record id="dtm_cotizaciones_indicadores_view_form" model="ir.ui.view">
+        <field name="name">dtm.cotizacion.indicadores.view.form</field>
+        <field name="model">dtm.cotizacion.indicadores</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_ejecutar" type="object" string="Ejecutar" class="btn btn-primary"/>
+<!--                    <button name="action_send_email" type="object" string="Enviar Correo" class="btn btn-primary"/>-->
+                </header>
+                <sheet>
+                    <div class="row">
+                        <div class="col-6">
+                            <group>
+                                <field name="fecha_inicial"/>
+                            </group>
+                        </div>
+                        <div class="col-6">
+                            <group>
+                                <field name="fecha_final"/>
+                            </group>
+                        </div>
+                    </div>
+                    <group>
+                        <field name="total"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--       <menuitem id="dtm_cotizacion_indicadores_menu" action="dtm_cotizacion_indicadores_action"/>-->
+    </data>
+</odoo>

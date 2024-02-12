@@ -8,6 +8,7 @@ class Indicadores(models.Model):
     # datos = fields.One2many("dtm.client.indicadores.datos", "model_id")
     fecha_inicial = fields.Date(string="Fecha Inicial",default=datetime.datetime.now())
     fecha_final = fields.Date(string="Fecha Final", default=datetime.datetime.now())
+    fecha_creacion = fields.Date(string="Fecha de Creación",readonly=True)
 
     status = fields.Integer(string="Status")
     low_days = fields.Integer(string="0 - 2")
@@ -17,22 +18,28 @@ class Indicadores(models.Model):
     low_percent = fields.Float(string="%")
     medium_percent = fields.Float(string="%")
     hi_percent = fields.Float(string="%")
+    sin_cotizacion = fields.Float(string="Sin Cotización")
+    pasadas = fields.Char(string="Pasadas")
 
     def action_ejecutar(self):
+        print("Ejecutando")
         inicial = int(self.fecha_inicial.strftime("%j"))
         final = int(self.fecha_final.strftime("%j"))
         get_cn = self.env['dtm.client.needs'].search([])
-        map = {"low":[],"med":[],"hi":[]}
+        map = {"low":[],"med":[],"hi":[],"pasadas":[],"sin_cotizacion":[]}
         for result in get_cn:
             day = int(result.date.strftime("%j"))
-            # print(day)
-            if day > inicial and day < final:
+            if day > inicial and day < final and result.cotizacion:
                 if result.status < 3:
                     map["low"].append( result.no_cotizacion)
                 if result.status >= 3 and result.status <= 5:
                     map["med"].append(result.no_cotizacion)
                 if result.status > 5:
                     map["hi"].append(result.no_cotizacion)
+            elif day > inicial and day < final and not result.cotizacion:
+                 map["sin_cotizacion"].append(result.no_cotizacion)
+            elif day > inicial and not result.cotizacion:
+                map["pasadas"].append(result.no_cotizacion)
         self.low_days = len(map.get("low"))
         self.medium_days = len(map.get("med"))
         self.hi_days = len(map.get("hi"))
@@ -40,6 +47,8 @@ class Indicadores(models.Model):
         self.low_percent = (100*self.low_days)/ self.total
         self.medium_percent = (100*self.medium_days)/ self.total
         self.hi_percent = (100*self.hi_days)/ self.total
+        self.pasadas = len(map.get("pasadas"))
+        self.sin_cotizacion = len(map.get("sin_cotizacion"))
 
     def action_grafica(self):
         self.env.cr.execute("DELETE FROM dtm_client_graph")

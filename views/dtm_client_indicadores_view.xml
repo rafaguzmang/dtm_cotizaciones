@@ -16,6 +16,7 @@
 <!--                    <field name="datos"/>-->
                     <field name="fecha_inicial"/>
                     <field name="fecha_final"/>
+                    <field name="create_date"/>
                 </tree>
             </field>
         </record>
@@ -58,16 +59,18 @@
                         <div class="row">
                             <div class="col-2">
                                 <group>
-                                   <field name="low_days"/>
-                                   <field name="medium_days"/>
-                                   <field name="hi_days"/>
+                                    <field name="low_days"/>
+                                    <field name="medium_days"/>
+                                    <field name="hi_days"/>
+                                    <field name="sin_cotizacion"/>
                                 </group>
                             </div>
                             <div class="col-2">
                                 <group>
-                                   <field name="low_percent"/>
-                                   <field name="medium_percent"/>
-                                   <field name="hi_percent"/>
+                                    <field name="low_percent"/>
+                                    <field name="medium_percent"/>
+                                    <field name="hi_percent"/>
+                                    <field name="pasadas"/>
                                 </group>
                             </div>
                         </div>
