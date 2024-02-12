@@ -112,10 +112,10 @@
             </field>
         </record>
 
-       <menuitem id="dtm_client_needs_menu" action="dtm_cotizaciones.dtm_client_needs_action" >
-            <menuitem id="dtm_client_indicadores_menu" action="dtm_cotizaciones.dtm_client_indicadores_action"/>
-            <menuitem id="dtm_client_graph_menu" action="dtm_cotizaciones.dtm_client_graph_action"/>
-       </menuitem>
+<!--       <menuitem id="dtm_client_needs_menu" action="dtm_cotizaciones.dtm_client_needs_action" >-->
+<!--            <menuitem id="dtm_client_indicadores_menu" action="dtm_cotizaciones.dtm_client_indicadores_action"/>-->
+<!--            <menuitem id="dtm_client_graph_menu" action="dtm_cotizaciones.dtm_client_graph_action"/>-->
+<!--       </menuitem>-->
     
     </data>
     

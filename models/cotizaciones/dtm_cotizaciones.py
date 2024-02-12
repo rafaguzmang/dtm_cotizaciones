@@ -96,13 +96,9 @@ class DTMCotizaciones(models.Model):
     def action_imprimir(self):
         if not self.date:
             self.date = self.d.datetime.today()
-<<<<<<< HEAD:models/cotizaciones/dtm_cotizaciones.py
 
         self.env.cr.execute("UPDATE dtm_client_needs SET cotizacion=true WHERE no_cotizacion='"+self.no_cotizacion+"'")
-=======
-        self.env.cr.execute("UPDATE dtm_client_needs SET cotizacion=true WHERE no_cotizacion='"+self.no_cotizacion+"'")
 
->>>>>>> refs/remotes/origin/main:models/dtm_cotizaciones.py
         return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
 
     def action_send_email(self):
@@ -132,13 +128,10 @@ class DTMCotizaciones(models.Model):
                     correo_cc = correo_cc[x+1:len(correo_cc)]
                 else:
                     correo_cc = ""
-<<<<<<< HEAD:models/cotizaciones/dtm_cotizaciones.py
-=======
+
             else:
                 correo_cc = ""
             if get_self:
-                print(correo_cc)
->>>>>>> refs/remotes/origin/main:models/dtm_cotizaciones.py
                 self.env.cr.execute("UPDATE dtm_cotizaciones SET telefono='"+str(result.cliente_ids.phone) +"', correo='"+str(result.cliente_ids.email) +
                         "', cliente='"+str(result.cliente_ids.name) + "', correo_cc='"+correo_cc+"' WHERE no_cotizacion ='" +result.no_cotizacion+"'")
             else:

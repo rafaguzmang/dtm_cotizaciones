@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+     <menuitem name="DTM Ventas" id="menu_root_dtm_ventas">
+          <menuitem id="dtm_client_needs_menu" action="dtm_cotizaciones.dtm_client_needs_action"/>
+          <menuitem id="dtm_precotizacion_menu" action="dtm_precotizacion_action"/>
+          <menuitem id="dtm_cotizaciones_menu" action="dtm_cotizaciones_action" />
+          <menuitem id="dtm_client_indicadores_menu" action="dtm_client_indicadores_action"/>
+          <menuitem id="dtm_client_graph_menu" action="dtm_client_graph_action"/>
+     </menuitem>
+</odoo>

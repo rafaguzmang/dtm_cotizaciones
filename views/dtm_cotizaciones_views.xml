@@ -85,8 +85,8 @@
         </field>
     </record>
 
-    <menuitem id="dtm_cotizaciones_menu" action="dtm_cotizaciones_action">
-         <menuitem id="dtm_cotizacion_indicadores_menu" action="dtm_cotizacion_indicadores_action"/>
-    </menuitem>
+<!--    <menuitem id="dtm_cotizaciones_menu" action="dtm_cotizaciones_action">-->
+<!--         <menuitem id="dtm_cotizacion_indicadores_menu" action="dtm_cotizacion_indicadores_action"/>-->
+<!--    </menuitem>-->
 </odoo>
 

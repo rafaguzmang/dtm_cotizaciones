@@ -2,7 +2,7 @@
 <odoo>
 
      <record id="dtm_precotizacion_action" model="ir.actions.act_window">
-        <field name="name">precotizacion</field>
+        <field name="name">Precotizacion</field>
         <field name="res_model">dtm.precotizacion</field>
         <field name="view_mode">tree,form</field>
     </record>
