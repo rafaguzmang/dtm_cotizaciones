@@ -172,16 +172,29 @@ class Indicadores(models.Model):
         # fecha_in = int(self.fecha_inicial.strftime("%j"))
         # fecha_out = int(self.fecha_final.strftime("%j"))
         # fecha = fecha_out - fecha_in
-        uno_porcen = (self.uno_con * 100)/self.uno_days
-        dos_porcen = (self.dos_con * 100)/self.dos_days
-        tres_porcen = (self.tres_con * 100)/self.tres_days
+        uno_porcen = 0
+        dos_porcen = 0
+        tres_porcen = 0
+        porcentaje_uno = 0
+        porcentaje_dos = 0
+        porcentaje_tres = 0
+        if self.uno_days != 0:
+            uno_porcen = (self.uno_con * 100) / self.uno_days
+            porcentaje_uno = 100
+        if self.dos_days != 0:
+            dos_porcen = (self.dos_con * 100) / self.dos_days
+            porcentaje_dos = 100
+        if self.tres_days != 0:
+            tres_porcen = (self.tres_con * 100) / self.tres_days
+            porcentaje_tres = 100
+
 
         self.env.cr.execute("DELETE FROM dtm_client_graph")
-        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (1, 'Nivel 1 Total', "+str(self.uno_con)+", 100)")
+        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (1, 'Nivel 1 Total', "+str(self.uno_con)+", "+str(porcentaje_uno)+")")
         self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (2, 'Nivel 1 Con Cotización', "+str(self.uno_sin)+", "+str(uno_porcen)+")")
-        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (3, 'Nivel 2 Total', "+str(self.dos_con)+", 100)")
+        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (3, 'Nivel 2 Total', "+str(self.dos_con)+", "+str(porcentaje_dos)+")")
         self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (4, 'Nivel 2 Con Cotización', "+str(self.dos_sin)+", "+str(dos_porcen)+")")
-        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (5, 'Nivel 3 Total', "+str(self.tres_con)+", 100)")
+        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (5, 'Nivel 3 Total', "+str(self.tres_con)+", "+str(porcentaje_tres)+")")
         self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (6, 'Nivel 3 Con Cotización', "+str(self.tres_sin)+", "+str(tres_porcen)+")")
         # self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (3, '5 - + días', "+str(self.tres_days)+", "+str(self.tres_percent)+")")
 
