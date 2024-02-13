@@ -55,43 +55,95 @@
                                 </group>
                             </div>
                         </div>
+                        <br></br>
+                        <div class="row">
+                            <div class="col-6">
+                                <group>
+                                    <field name="total"/>
+                                    <field name="sin_cotizacion"/>
+                                    <field name="pasadas"/>
+                                </group>
+                            </div>
+                            <div class="col-6">
+                                <group>
+                                    <field name="odt"/>
+                                    <field name="odt_con"/>
+                                    <field name="odt_sin"/>
+                                </group>
+                            </div>
+                        </div>
                          <br></br>
-
-                        <group>
-                            <field name="total"/>
-                            <field name="sin_cotizacion"/>
-                        </group>
 
                         <notebook>
                             <page string="Nivel Uno">
-                                <group>
-                                    <field name="uno_days"/>
-                                    <field name="uno_con"/>
-                                    <field name="uno_fecha_caducada"/>
-                                    <field name="uno_sin"/>
-                                    <field name="uno_pasadas"/>
-                                    <field name="uno_percent"/>
-                                </group>
-
+                                <div class="row">
+                                    <div class="col-6">
+                                        <group string="Cotizaciones">
+                                            <field name="uno_days"/>
+                                            <field name="uno_con"/>
+                                            <field name="uno_fecha_caducada"/>
+                                            <field name="uno_sin"/>
+                                            <field name="uno_pasadas"/>
+                                            <field name="uno_percent"/>
+                                        </group>
+                                    </div>
+                                    <div class="col-6">
+                                        <group string="Ordenes de Compra">
+                                            <field name="odt_uno"/>
+                                            <field name="odt_con_uno"/>
+                                            <field name="odt_sin_uno"/>
+                                        </group>
+                                    </div>
+                                </div>
                             </page>
                             <page string="Nivel Dos">
-                                 <group>
-                                    <field name="dos_days"/>
-                                    <field name="dos_con"/>
-                                    <field name="dos_fecha_caducada"/>
-                                    <field name="dos_sin"/>
-                                    <field name="dos_pasadas"/>
-                                    <field name="dos_percent"/>
-                                </group>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <group string="Ordenes de Compra">
+                                                <field name="dos_days"/>
+                                                <field name="dos_con"/>
+                                                <field name="dos_fecha_caducada"/>
+                                                <field name="dos_sin"/>
+                                                <field name="dos_pasadas"/>
+                                                <field name="dos_percent"/>
+                                        </group>
+                                    </div>
+                                    <div class="col-6">
+                                        <group string="Ordenes de Compra">
+                                            <field name="odt_dos"/>
+                                            <field name="odt_con_dos"/>
+                                            <field name="odt_sin_dos"/>
+                                        </group>
+                                    </div>
+                                </div>
                             </page>
-                            <page string="Nivel Tres">
+                             <page string="Nivel Tres">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <group string="Ordenes de Compra">
+                                                <field name="tres_days"/>
+                                                <field name="tres_con"/>
+                                                <field name="tres_fecha_caducada"/>
+                                                <field name="tres_sin"/>
+                                                <field name="tres_pasadas"/>
+                                                <field name="tres_percent"/>
+                                        </group>
+                                    </div>
+                                    <div class="col-6">
+                                        <group string="Ordenes de Compra">
+                                            <field name="odt_tres"/>
+                                            <field name="odt_con_tres"/>
+                                            <field name="odt_sin_tres"/>
+                                        </group>
+                                    </div>
+                                </div>
+                            </page>
+
+                            <page string="Notas">
                                  <group>
-                                    <field name="tres_days"/>
-                                    <field name="tres_con"/>
-                                    <field name="tres_fecha_caducada"/>
-                                    <field name="tres_sin"/>
-                                    <field name="tres_pasadas"/>
-                                    <field name="tres_percent"/>
+                                    <field name="notas1"/>
+                                    <field name="notas2"/>
+                                    <field name="notas3"/>
                                 </group>
                             </page>
                         </notebook>

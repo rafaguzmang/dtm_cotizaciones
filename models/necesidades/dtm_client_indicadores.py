@@ -17,26 +17,45 @@ class Indicadores(models.Model):
     uno_con = fields.Integer(string="Con cotización")
     uno_fecha_caducada = fields.Integer(string="Mayor a 2 dias")
     uno_percent = fields.Float(string="%")
+    odt_uno = fields.Integer(string="Total")
+    odt_con_uno = fields.Integer(string="Con Orden de Compra")
+    odt_sin_uno = fields.Integer(string="Sin Orden de Compra")
+
     dos_days = fields.Integer(string="Total")
     dos_sin = fields.Integer(string="Sin cotizaciòn")
     dos_pasadas = fields.Integer(string="Pasadas")
     dos_fecha_caducada = fields.Integer(string="Mayor a 5 dias")
     dos_percent = fields.Float(string="%")
     dos_con = fields.Integer(string="Con cotización")
+    odt_dos = fields.Integer(string="Total")
+    odt_con_dos = fields.Integer(string="Con Orden de Compra")
+    odt_sin_dos = fields.Integer(string="Sin Orden de Compra")
+
     tres_days = fields.Integer(string="Total")
     tres_sin = fields.Integer(string="Sin cotizaciòn")
     tres_pasadas = fields.Integer(string="Pasadas")
     tres_fecha_caducada = fields.Integer(string="Mayor a 12 dias")
     tres_percent = fields.Float(string="%")
     tres_con = fields.Integer(string="Con cotización")
+    odt_tres = fields.Integer(string="Total")
+    odt_con_tres = fields.Integer(string="Con Orden de Compra")
+    odt_sin_tres = fields.Integer(string="Sin Orden de Compra")
+
     total = fields.Integer(string="Total")
     sin_cotizacion = fields.Float(string="Sin Cotización")
+    pasadas = fields.Float(string="Pasadas")
+    odt = fields.Integer(string="Ordenes de compra")
+    odt_con = fields.Integer(string="Con Orden")
+    odt_sin = fields.Integer(string="Sin Orden")
+    #Notas
+    notas1 = fields.Text(string="Nivel 1")
+    notas2 = fields.Text(string="Nivel 2")
+    notas3 = fields.Text(string="Nivel 3")
 
     def consultar(self):
         pass
 
     def action_ejecutar(self):
-        print("Ejecutando")
         inicial = int(self.fecha_inicial.strftime("%j"))
         final = int(self.fecha_final.strftime("%j"))
         get_cn = self.env['dtm.client.needs'].search([])
@@ -97,10 +116,50 @@ class Indicadores(models.Model):
         self.tres_fecha_caducada = len(map_tres.get("fecha_cad"))
         self.tres_days = self.tres_pasadas + self.tres_sin + self.tres_con + self.tres_fecha_caducada
 
+        #Ordenes de compra nivel 1
+        map_odt_uno = {"sin":[],"con":[]}
+        for orden in map_uno["con_cotizacion"]:
+            map_odt_uno["con"].append(orden)
 
+        for orden in map_uno["fecha_cad"]:
+            map_odt_uno["sin"].append(orden)
 
+        self.odt_con_uno = len(map_odt_uno.get("con"))
+        self.odt_sin_uno =  len(map_odt_uno.get("sin"))
+        self.odt_uno =  self.odt_sin_uno + self.odt_con_uno
+
+        #Ordenes de compra nivel 2
+        map_odt_dos = {"sin":[],"con":[]}
+        for orden in map_dos["con_cotizacion"]:
+            map_odt_dos["con"].append(orden)
+
+        for orden in map_dos["fecha_cad"]:
+            map_odt_dos["sin"].append(orden)
+
+        self.odt_con_dos = len(map_odt_dos.get("con"))
+        self.odt_sin_dos =  len(map_odt_dos.get("sin"))
+        self.odt_dos =  self.odt_sin_dos + self.odt_con_dos
+
+        #Ordenes de compra nivel 3
+        map_odt_tres = {"sin":[],"con":[]}
+        for orden in map_tres["con_cotizacion"]:
+            map_odt_tres["con"].append(orden)
+
+        for orden in map_tres["fecha_cad"]:
+            map_odt_tres["sin"].append(orden)
+
+        self.odt_con_tres = len(map_odt_tres.get("con"))
+        self.odt_sin_tres =  len(map_odt_tres.get("sin"))
+        self.odt_tres =  self.odt_sin_tres + self.odt_con_tres
+
+        #Totales
         self.total = self.uno_days + self.dos_days + self.tres_days
-        self.sin_cotizacion = self.uno_pasadas + self.dos_pasadas + self.tres_pasadas
+        self.sin_cotizacion = self.uno_sin + self.dos_sin + self.tres_sin
+        self.pasadas = self.uno_pasadas + self.dos_pasadas + self.tres_pasadas
+        self.odt = self.odt_uno + self.odt_dos + self.odt_tres
+        self.odt_con = self.odt_con_uno + self.odt_con_dos + self.odt_con_tres
+        self.odt_sin = self.odt_sin_uno + self.odt_sin_dos +self.odt_sin_tres
+
         # Porcentajes
         self.uno_percent = (100*self.uno_days)/ self.total
         self.dos_percent = (100*self.dos_days)/ self.total
@@ -110,10 +169,21 @@ class Indicadores(models.Model):
 
 
     def action_grafica(self):
+        # fecha_in = int(self.fecha_inicial.strftime("%j"))
+        # fecha_out = int(self.fecha_final.strftime("%j"))
+        # fecha = fecha_out - fecha_in
+        uno_porcen = (self.uno_con * 100)/self.uno_days
+        dos_porcen = (self.dos_con * 100)/self.dos_days
+        tres_porcen = (self.tres_con * 100)/self.tres_days
+
         self.env.cr.execute("DELETE FROM dtm_client_graph")
-        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (1, '0 - 2 días', "+str(self.uno_days)+", "+str(self.uno_percent)+")")
-        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (2, '3 - 5 días', "+str(self.dos_days)+", "+str(self.dos_percent)+")")
-        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (3, '5 - + días', "+str(self.tres_days)+", "+str(self.tres_percent)+")")
+        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (1, 'Nivel 1 Total', "+str(self.uno_con)+", 100)")
+        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (2, 'Nivel 1 Con Cotización', "+str(self.uno_sin)+", "+str(uno_porcen)+")")
+        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (3, 'Nivel 2 Total', "+str(self.dos_con)+", 100)")
+        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (4, 'Nivel 2 Con Cotización', "+str(self.dos_sin)+", "+str(dos_porcen)+")")
+        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (5, 'Nivel 3 Total', "+str(self.tres_con)+", 100)")
+        self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (6, 'Nivel 3 Con Cotización', "+str(self.tres_sin)+", "+str(tres_porcen)+")")
+        # self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (3, '5 - + días', "+str(self.tres_days)+", "+str(self.tres_percent)+")")
 
 class Datos(models.Model):
     _name = "dtm.client.indicadores.datos"
