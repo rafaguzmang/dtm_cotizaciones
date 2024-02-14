@@ -175,14 +175,7 @@ class Indicadores(models.Model):
         uno_porcen = 0
         dos_porcen = 0
         tres_porcen = 0
-<<<<<<< HEAD
-        if self.uno_days != 0:
-            uno_porcen = (self.uno_con * 100)/self.uno_days
-        if self.dos_days != 0:
-            dos_porcen = (self.dos_con * 100)/self.dos_days
-        if self.tres_days != 0:
-            tres_porcen = (self.tres_con * 100)/self.tres_days
-=======
+
         porcentaje_uno = 0
         porcentaje_dos = 0
         porcentaje_tres = 0
@@ -195,8 +188,6 @@ class Indicadores(models.Model):
         if self.tres_days != 0:
             tres_porcen = (self.tres_con * 100) / self.tres_days
             porcentaje_tres = 100
-
->>>>>>> 068a10e1bd6713172fcba4f3216731c2ada9903b
 
         self.env.cr.execute("DELETE FROM dtm_client_graph")
         self.env.cr.execute("INSERT INTO dtm_client_graph (id, nombre, cantidad, porcentaje) VALUES (1, 'Nivel 1 Total', "+str(self.uno_con)+", "+str(porcentaje_uno)+")")

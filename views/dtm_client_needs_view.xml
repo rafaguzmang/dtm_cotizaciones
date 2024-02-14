@@ -19,7 +19,8 @@
 
                     <field name="cliente_ids"></field>
                     <field name="no_cotizacion"></field>
-                    <field name="date" widget="remaining_days"/>
+                    <field name="date"/>
+                    <field name="status"/>
                     <field name="cotizacion" invisible="1"/>
 
                 </tree>
@@ -113,10 +114,7 @@
             </field>
         </record>
 
-<!--       <menuitem id="dtm_client_needs_menu" action="dtm_cotizaciones.dtm_client_needs_action" >-->
-<!--            <menuitem id="dtm_client_indicadores_menu" action="dtm_cotizaciones.dtm_client_indicadores_action"/>-->
-<!--            <menuitem id="dtm_client_graph_menu" action="dtm_cotizaciones.dtm_client_graph_action"/>-->
-<!--       </menuitem>-->
+<!--        <menuitem id="dtm_client_needs_menu" action="dtm_cotizaciones.dtm_client_needs_action"/>-->
     
     </data>
     

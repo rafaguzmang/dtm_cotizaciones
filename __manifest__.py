@@ -16,7 +16,7 @@
         'views/dtm_client_graph_view.xml',
         'views/dtm_menu_item.xml',
         # Data
-        'data/cotizacion_email_template.xml',
+        # 'data/cotizacion_email_template.xml',
 
     #     Reports
         'reports/cotizacion_formato.xml'

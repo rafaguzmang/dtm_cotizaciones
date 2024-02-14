@@ -64,9 +64,6 @@
             </form>
         </field>
     </record>
-    <menuitem
-            id="dtm_precotizacion_menu"            
-            action="dtm_precotizacion_action"
-    />
+<!--    <menuitem id="dtm_precotizacion_menu" action="dtm_precotizacion_action"/>-->
 </odoo>
 
