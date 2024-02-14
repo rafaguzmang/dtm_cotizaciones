@@ -45,7 +45,7 @@ class ClientNeeds(models.Model):
 
     no_cotizacion = fields.Char(string="No. De Necesidad", default=_default_init)
 
-    cliente_ids = fields.Many2one("res.partner",string="Cliente", readonly=False, required=True)
+    cliente_ids = fields.Many2one("res.partner",string="Cliente", readonly=False, required=True, store=True)
 
     atencion = fields.Many2many("dtm.contactos.anexos",string="Nombre del requisitor", readonly=False)
     d = datetime
@@ -61,9 +61,7 @@ class ClientNeeds(models.Model):
 
     nivel = fields.Selection(string="Nivel", default="uno",selection=[('uno',1),('dos',2),('tres',3)])
 
-
     # Datos par medición de metricos
-
     status = fields.Integer()
     
     def get_view(self, view_id=None, view_type='form', **options): #Usar en caso de que se necesite sortear los id
@@ -92,13 +90,24 @@ class ClientNeeds(models.Model):
 
         return res
 
+    # def write(self,vals):
+    #     res = super(ClientNeeds,self).write(vals)
+    #     print("write",self.correo,self.telefono)
+    #     return res
+    #
+    # @api.model
+    # def create(self,vals):
+    #     res = super(ClientNeeds,self).create(vals)
+    #     print("create",self.correo,self.telefono)
+    #     return res
 
     #--------------Onchange-----------------
     @api.onchange('cliente_ids') # Carga correo y número de telefono de los contactos del campo clientes
     def onchange_cliente_ids(self):
         data = self.env['res.partner'].search([('id','=',self.cliente_ids.id)])
-        self.correo = ""
-        self.telefono = ""
+        # self.correo = ""
+        # self.telefono = ""
+        # print(self.correo,self.telefono)
         if data:
             for result in data:
                 if result.phone:
@@ -112,13 +121,15 @@ class ClientNeeds(models.Model):
                 if self._origin.id:
                     self.env.cr.execute("UPDATE dtm_client_needs SET telefono='"+self.telefono+"' , correo='"+self.correo+"' WHERE id="+str(self._origin.id))
 
-    @api.onchange('atencion') # Carga correo y número de telefono de los contactos del campo atencion
+    @api.depends('atencion') # Carga correo y número de telefono de los contactos del campo atencion
     def _compute_onchange(self): 
         servicio = self.env['dtm.client.needs'].search([])
         for result in servicio:
             if result == self.no_cotizacion:
                 self.env.cr.execute("UPDATE  cot_list_material SET no_servicio ='"+self.no_cotizacion+"'  WHERE model_id =" + str(self.id))
                 # self.env.cr.execute("UPDATE  dtm_documentos_anexos SET no_servicio = '"+self.no_cotizacion+"'  WHERE no_servicio = '-----'" )
+
+        print("atención",self.correo,self.telefono)
         
         self.correo = ""
         self.telefono = ""
@@ -139,7 +150,7 @@ class ClientNeeds(models.Model):
             
 
 
-    @api.onchange('cliente_ids') # Carga correo y número de telefono de los contactos del campo atencion
+    @api.depends('cliente_ids') # Carga correo y número de telefono de los contactos del campo atencion
     def _compute_cliente_ids(self):
         if self.cliente_ids.commercial_company_name:
             contactos = self.env['res.partner'].search([('commercial_company_name','=',self.cliente_ids.commercial_company_name),

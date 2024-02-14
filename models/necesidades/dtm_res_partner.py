@@ -7,6 +7,6 @@ class Partner(models.Model):
         result = []
         for contact in self:
             if contact.is_company:
-                print(contact.name)
+                # print(contact.name)
                 result.append((contact.id,contact.name))
         return result
