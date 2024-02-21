@@ -6,14 +6,9 @@
           <menuitem id="dtm_cotizaciones_menu" action="dtm_cotizaciones_action" />
           <menuitem id="menu_dtm_ordenes_compra"  action="dtm_ordenes_compra.dtm_ordenes_compra_accion" />
           <menuitem id="menu_dtm_ordenes_compra_facturado"  action="dtm_ordenes_compra.dtm_ordenes_compra_facturado_accion" />
-<<<<<<< HEAD
-<!--          <menuitem name="Indicadores" action="dtm_client_indicadores_action">-->
           <menuitem id="dtm_client_indicadores_menu" action="dtm_client_indicadores_action"/>
           <menuitem id="dtm_client_graph_menu" action="dtm_client_graph_action"/>
-<!--          </menuitem>-->
-=======
           <menuitem id="dtm_client_indicadores_menu" action="dtm_client_indicadores_action"/>
           <menuitem id="dtm_client_graph_menu" action="dtm_client_graph_action"/>
->>>>>>> 281216baa7494a5921fdc0826c1eb318cbc6b40c
      </menuitem>
 </odoo>

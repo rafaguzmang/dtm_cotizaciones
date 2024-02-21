@@ -122,8 +122,10 @@ class DTMCotizaciones(models.Model):
             get_self = self.env['dtm.cotizaciones'].search([("no_cotizacion","=",result.no_cotizacion)])
             correo_cc = result.correo
             if correo_cc:
-                if correo_cc.find(";"):
+                print(correo_cc)
+                if correo_cc.find(";") != -1:
                     correo_cc = correo_cc.replace(";",",")
+                    print(correo_cc)
                     x = correo_cc.index(",")
                     correo_cc = correo_cc[x+1:len(correo_cc)]
                 else:
