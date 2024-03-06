@@ -150,8 +150,8 @@ class ClientNeeds(models.Model):
             
 
 
-    @api.depends('cliente_ids') # Carga correo y número de telefono de los contactos del campo atencion
-    def _compute_cliente_ids(self):
+    @api.onchange('cliente_ids') # Carga correo y número de telefono de los contactos del campo atencion
+    def _onchange_cliente_ids(self):
         if self.cliente_ids.commercial_company_name:
             contactos = self.env['res.partner'].search([('commercial_company_name','=',self.cliente_ids.commercial_company_name),
                                                         ('display_name','!=',self.cliente_ids.commercial_company_name)])
