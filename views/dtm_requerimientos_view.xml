@@ -48,7 +48,8 @@
                             </field>
                         </page>
                          <page string="Anexos">
-                            <field name="anexos_id" ></field>
+                            <field name="anexos_id" filename="nombre" ></field>
+                            <field name="nombre" invisible="1"></field>
                         </page>
                     </notebook>
 

@@ -7,11 +7,25 @@
             <field name="model">dtm.documentos.anexos</field>
             <field name="arch" type="xml">
                 <tree string="">                   
-                    <field name="documentos"></field>
+<!--                    <field name="documentos" widget="pdf_viewer"></field>-->
                     <field name="nombre"></field>
                 </tree>
             </field>
         </record>
+        <record id="dtm_documentos_anexos_view_form" model="ir.ui.view">
+        <field name="name">dtm_documentos_anexos.view.form</field>
+        <field name="model">dtm.documentos.anexos</field>
+        <field name="arch" type="xml">
+            <form >
+                <sheet>
+                     <field name="documentos" filename="nombre" widget="pdf_viewer"></field>
+                    <field name="nombre" invisible="1"></field>
+                </sheet>
+            </form>
+        </field>
+
+
+    </record>
     </data>
     
 
