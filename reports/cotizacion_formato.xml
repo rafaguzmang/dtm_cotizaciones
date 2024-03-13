@@ -140,6 +140,7 @@
                     </head>
                    <t t-call="dtm_cotizaciones.cotizaciones_template_header" />
                    <t t-call="dtm_cotizaciones.cotizaciones_template_page" />
+                    <t t-call="dtm_cotizaciones.cotizaciones_template_page" />
                 </t>
             </t>
         </template>
