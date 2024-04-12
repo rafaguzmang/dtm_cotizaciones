@@ -13,7 +13,7 @@
         <field name="arch" type="xml">
             <tree >
                 <field name="no_cotizacion"/>
-                <field name="cliente"/>
+                <field name="cliente_id"/>
                 <field name="date"/>
             </tree>
         </field>
@@ -26,7 +26,7 @@
             <form>
                 <header>
                     <button name="action_imprimir" type="object" string="Imprimir" class="btn btn-primary"/>
-                    <button name="action_send_email" type="object" string="Enviar Correo" class="btn btn-primary"/>
+<!--                    <button name="action_send_email" type="object" string="Enviar Correo" class="btn btn-primary"/>-->
                 </header>
                 <sheet>
                     <group>
@@ -35,7 +35,7 @@
                    <group>
                         <group>
                             <field name="no_cotizacion"/>
-                            <field name="cliente"/>
+                            <field name="cliente_id"/>
                              <field name="telefono"  widget="phone"/>
                             <field name="date"/>
                         </group>
@@ -48,14 +48,14 @@
                    </group>
                     <notebook>
                         <page string="Servicios">
-                            <field name="servicios_id" options="{'no_create': True,'no_open':True,'no_create':0,'no_create_edit':0}" />
+                            <field name="servicios_id" />
                         </page>
                         <page string="Correo">
                                 <div class="row">
                                     <div class="col-12">
                                         <group>
                                             <field name="correo"  widget="email"/>
-                                            <field name="correo_cc"></field>
+                                            <field name="correo_cc" widget="many2many_tags"/>
                                             <field name="subject" />
                                             <field name="dirigido" />
                                             <field name="body_email" />
@@ -70,20 +70,7 @@
         </field>
     </record>
 
-    <record id="dtm_cotizacion_requerimientos_tree" model="ir.ui.view">
-        <field name="name">dtm_cotizacionescotizacion.requerimientos.tree</field>
-        <field name="model">dtm.cotizacion.requerimientos</field>
-        <field name="arch" type="xml">
-            <tree editable="bottom" create="false">
-                <field name="no_item" />
-                <field name="descripcion" />
-                <field name="cantidad" options='{"type": "number"}' />
-                <field name="unidad" />
-                <field name="precio_unitario"/>
-                <field name="total"/>
-            </tree>
-        </field>
-    </record>
+
 
 <!--    <menuitem id="dtm_cotizaciones_menu" action="dtm_cotizaciones_action" />-->
 </odoo>

@@ -57,10 +57,12 @@
                         <th style=" text-align: center;color: white;font-size:13px;Calibri">Total</th>
                       </tr>
 
+                      <t t-set="no_item" t-value="1"/>
                       <t t-foreach="o.servicios_id" t-as="servicio">
                           <tr style=" font-size:11px;border-bottom: 1px solid #fff;font-family:Arial;font-weight: bold;">
                               <td style=" text-align: center;">
-                                    <span t-field="servicio.no_item"></span>
+                                    <span t-esc="no_item"></span>
+                                    <t t-set="no_item" t-value="no_item+1"/>
                               </td>
                               <td style=" text-align: left;">
                                     <span t-field="servicio.descripcion"></span>
@@ -80,13 +82,13 @@
                               </td>
                           </tr>
 
-                          <t t-foreach="o.material_id" t-as="material">
-                            <t t-if="material.model_id.id == servicio.id">
+                          <t t-foreach="servicio.items_id" t-as="item">
+<!--                            <t t-if="material.model_id.id == servicio.id">-->
                               <tr style="font-size:13px;border-bottom: 1px solid #fff;font-family:Calibri;">
                                    <td style=" text-align: center;">
                                    </td>
                                    <td style=" text-align: left;">
-                                            <span t-field="material.descripcion" style="margin-left:10px"></span>
+                                            <span t-field="item.name" style="margin-left:10px"></span>
                                    </td>
                                    <td style=" text-align: center;">
                                    </td>
@@ -95,7 +97,7 @@
                                     <td style=" text-align: center;">
                                    </td>
                               </tr>
-                            </t>
+<!--                            </t>-->
                           </t>
                       </t>
                     </table>
@@ -140,7 +142,6 @@
                     </head>
                    <t t-call="dtm_cotizaciones.cotizaciones_template_header" />
                    <t t-call="dtm_cotizaciones.cotizaciones_template_page" />
-                    <t t-call="dtm_cotizaciones.cotizaciones_template_page" />
                 </t>
             </t>
         </template>

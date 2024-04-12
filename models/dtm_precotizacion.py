@@ -114,9 +114,6 @@ class Precotizacion(models.Model):
             else:
                 self.env.cr.execute("INSERT INTO dtm_precotizacion (id, no_cotizacion, cliente_ids) VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+str(result.cliente_ids.name)+"')")
 
-
-
-
         return res
     
 

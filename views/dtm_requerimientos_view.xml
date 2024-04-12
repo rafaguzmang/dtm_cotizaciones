@@ -6,7 +6,7 @@
             <field name="name">dtm_requerimiento.view.tree</field>
             <field name="model">dtm.requerimientos</field>
             <field name="arch" type="xml">
-                <tree create="false" >
+                <tree editable="bottom" create="true" >
                     <field name="nombre"></field>
                     <field name="descripcion"></field>
                     <field name="cantidad" options='{"type": "number"}'></field>

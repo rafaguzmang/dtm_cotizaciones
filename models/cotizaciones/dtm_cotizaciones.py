@@ -9,21 +9,31 @@ class DTMCotizaciones(models.Model):
     _description = "Cotizaciones"
     _order = "no_cotizacion desc"
 
-    no_cotizacion = fields.Char(string="No. De Cotización", readonly=True)
-    cliente = fields.Char(string="Cliente", readonly=True)
+    def _default_init(self): # Genera número consecutivo de NPI y OT del campo no_cotizacion
+        cant = self.env['dtm.cotizaciones'].search_count([])
+        val = str(cant + 1)
+        while len(val)<5:
+            val = "0" + val
+
+        return  val
+
+    no_cotizacion = fields.Char(string="No. De Cotización",  default=_default_init,readonly=True)
+    cliente_id = fields.Many2one("res.partner",tring="Cliente")
+    cliente = fields.Char(string="Cliente", related='cliente_id.name')
     d = datetime
-    date = fields.Date(string="Fecha" ,default= d.datetime.today(), readonly=True)
-    attachment_ids = fields.Many2many("dtm.documentos.anexos",string="Anexos", readonly=False)
-    telefono = fields.Char(string="Telefono(s)", readonly=True)
-    correo = fields.Char(string = "email(s)", readonly=True)
-    correo_cc = fields.Char(string="cc" , readonly=True)
+    date = fields.Date(string="Fecha" ,default= d.datetime.today())
+    attachment_ids = fields.Many2many("dtm.documentos.anexos",string="Anexos")
+    telefono = fields.Char(string="Telefono(s)", related='cliente_id.mobile')
+    correo = fields.Char(string = "email(s)",readonly=True)
+    correo_cc =  fields.Many2many("dtm.contactos.anexos",string="cc")
     precio_total = fields.Float(string="Precio total")
     proveedor = fields.Selection(string='Proveedor',default='dtm',
         selection=[('dtm', 'DISEÑO Y TRANSFORMACIONES METALICAS S DE RL DE CV'), ('mtd', 'METAL TRANSFORMATION & DESIGN')],tracking=True)
 
     atencion_id = fields.Many2one("dtm.cotizacion.atencion")
 
-    servicios_id = fields.One2many('dtm.cotizacion.requerimientos','model_id',compute="_compute_fill_servicios", string='Requerimientos', readonly=False)
+    # servicios_id = fields.One2many('dtm.cotizacion.requerimientos','model_id',compute="_compute_fill_servicios", string='Requerimientos', readonly=False)
+    servicios_id = fields.One2many('dtm.cotizacion.requerimientos','model_id', string='Requerimientos', readonly=False)
 
     material_id = fields.Many2many('dtm.list.material.producto')
 
@@ -34,145 +44,43 @@ class DTMCotizaciones(models.Model):
     curency = fields.Selection(string="Tipo de moneda",default="mx",
                selection=[("mx","Precio Especificado en Pesos Mexicanos"),("us","Precio Especificado en Dolares Americanos")],tracking=True)
 
-    subject = fields.Char(string="Asunto:",compute="_compute_subject", readonly=False)
+
+
+    # subject = fields.Char(string="Asunto:",compute="_compute_subject", readonly=False)
+    subject = fields.Char(string="Asunto:")
     dirigido = fields.Char(default="A quien corresponda :")
     body_email = fields.Text(default="Por este medio hago llegar la factura. \n Saludos cordiales")
-    email_image = fields.Image(string="Firma", compute="_compute_image")
+    # email_image = fields.Image(string="Firma", compute="_compute_image")
+    email_image = fields.Image(string="Firma")
     status = fields.Integer()
 
-    # Datos para el envío del correo (Formato)
-    def _compute_subject(self):
-        for result in self:
-            subject = "Cotización DTM no " + result.no_cotizacion
-            result.subject = subject
 
-    def _compute_image(self):
-        email = self.env.user.partner_id.email
-        # if email == "ventas1@dtmindustry.com": # Carga imagen personalizada del usuario
-        img_path = get_module_resource('dtm_cotizaciones', 'static/src/images', 'alejandro_erives_dtm.png') # your default image path
-        # else:
-        #     img_path = None
+    # -----------------------------------------------------------Provicional-------------------------------------------------------------
 
-
-        for result in self:
-             if img_path != None:
-                with open(img_path, 'rb') as f: # read the image from the path
-                    image = f.read()
-                    result.email_image = base64.b64encode(image)
-             else:
-                 result.email_image = None
-
-    def _compute_fill_servicios(self): # Llena el campo servicios_id con los datos de la tabla requerimientos
-        requerimientos = self.env['dtm.cotizacion.requerimientos'].search([])
-        materiales = self.env['dtm.list.material.producto'].search([])
-
-
-        for result in requerimientos:  # Borra de la tabla dtm_requerimientos los item borrados de la tabla cot_list_material
-            get_needs = self.env['dtm.requerimientos'].search([("id", "=", result.id)])
-            # print(get_needs.model_id, result.id)
-            if not get_needs:
-                # print(get_needs, result.id)
-                self.env.cr.execute("DELETE FROM dtm_cotizacion_requerimientos WHERE id =" + str(result.id))
-
-        lines = []
-        for slf in self:
-            for result in requerimientos:
-                if result.no_cotizacion == slf.no_cotizacion:
-                    line =(4,result.id,{})
-                    lines.append(line)
-            self.servicios_id = lines
-
-        lines = []
-        for slf in self.servicios_id: # Carga servicios_id con los servicios o materiales correspondientes a los requerimientos
-            for result in materiales:
-                # print(result.model_id.id)
-                if result.model_id.id == slf.id:
-                    # print(result.descripcion)
-                    line =(4,result.id,{})
-                    lines.append(line)
-            self.material_id = lines
-        # print(self.material_id)
+    #-------------------------------------------------Acciones y Computes -----------------------------------------------------------------
 
     def action_imprimir(self):
-        if not self.date:
-            self.date = self.d.datetime.today()
-
-        self.env.cr.execute("UPDATE dtm_client_needs SET cotizacion=true WHERE no_cotizacion='"+self.no_cotizacion+"'")
 
         return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
 
-    def action_send_email(self):
-        # print(self.env.user.email)
-        if not self.date:
-            # print(self.d.datetime.today())
-            self.date = self.d.datetime.today()
-        mail_template = self.env.ref('dtm_cotizaciones.cotizacion_email_template')
-        mail_template.send_mail(self.id,force_send=True)
 
-    @api.onchange("atencion_id")
-    def _onchange_atencion_id(self):
-        self.dirigido = self.atencion_id.atencion
+    @api.onchange('cliente_id') # Carga correo y número de telefono de los contactos del campo atencion
+    def _onchange_cliente_ids(self):
+        if self.cliente_id.commercial_company_name:
+            contactos = self.env['res.partner'].search([('commercial_company_name','=',self.cliente_id.commercial_company_name),
+                                                        ('display_name','!=',self.cliente_id.commercial_company_name)])
 
-    def get_view(self, view_id=None, view_type='form', **options):#Llena la tabla dtm_cotizaciones de la tabla dtm_clientes_needs
-        res = super(DTMCotizaciones,self).get_view(view_id, view_type,**options)
-        get_info = self.env['dtm.client.needs'].search([])
+            self.env.cr.execute("DELETE FROM dtm_contactos_anexos")
+            for get in contactos:
+                vals = {
+                    "name":get.name,
+                    "correo":get.email,
+                    "telefono":get.mobile
+                }
+                self.env['dtm.contactos.anexos'].create(vals)
 
-        for result in get_info:
-            # print(result.no_cotizacion)
-            get_self = self.env['dtm.cotizaciones'].search([("no_cotizacion","=",result.no_cotizacion)])
-            correo_cc = result.correo
-            if correo_cc:
-                print(correo_cc)
-                if correo_cc.find(";") != -1:
-                    correo_cc = correo_cc.replace(";",",")
-                    print(correo_cc)
-                    x = correo_cc.index(",")
-                    correo_cc = correo_cc[x+1:len(correo_cc)]
-                else:
-                    correo_cc = ""
+            self.correo = self.cliente_id.email
 
-            else:
-                correo_cc = ""
-            if get_self:
-                self.env.cr.execute("UPDATE dtm_cotizaciones SET telefono='"+str(result.cliente_ids.phone) +"', correo='"+str(result.cliente_ids.email) +
-                        "', cliente='"+str(result.cliente_ids.name) + "', correo_cc='"+correo_cc+"' WHERE no_cotizacion ='" +result.no_cotizacion+"'")
-            else:
-                 self.env.cr.execute("INSERT INTO dtm_cotizaciones (id, no_cotizacion, cliente, telefono, correo, terminos_pago, entrega, curency, proveedor, correo_cc) " +
-                                    "VALUES ("+ str(result.id) +", '"+ result.no_cotizacion +"','"+result.cliente_ids.name+"', '"+ str(result.cliente_ids.phone) + "', '"+ str(result.cliente_ids.email) +
-                                     "', 'Terminos de Pago: Credito 45 dias', 'L.A.B: Chihuahua, Chih.', 'mx','dtm', '"+correo_cc+"')")
-
-
-        #Llena o actualiza la tabla dtm_cotizaciones_requerimientos de la tabla dtm_requerimientos
-
-        get_req = self.env['dtm.requerimientos'].search([])
-
-        dictionary = {}
-        for result in get_req:
-            get_cot_rec = self.env['dtm.cotizacion.requerimientos'].search([('id','=',result.id)])
-            if get_cot_rec:
-                if not dictionary.get(result.servicio):
-                    dictionary[result.servicio]=1
-                else:
-                    dictionary[result.servicio] = dictionary.get(result.servicio) + 1
-                #
-                # self.env.cr.execute("UPDATE dtm_cotizacion_requerimientos SET no_item ="+str(dictionary[result.servicio])+
-                #                     ", cantidad= "+ str(result.cantidad) +str(result.nombre)+"'"
-                #                     " WHERE id="+str(result.id))
-
-                self.env.cr.execute("UPDATE dtm_cotizacion_requerimientos SET no_item ="+str(dictionary[result.servicio])+
-                                    ", cantidad= "+ str(result.cantidad) +
-                                    " WHERE id="+str(result.id))
-
-            else:
-                dictionary = {}
-                if not dictionary.get(result.servicio):
-                    dictionary[result.servicio]=1
-                else:
-                    dictionary[result.servicio] = dictionary.get(result.servicio) + 1
-
-                self.env.cr.execute("INSERT INTO dtm_cotizacion_requerimientos (id, descripcion, cantidad, no_cotizacion, no_item) " +
-                                "VALUES ("+ str(result.id) +", '"+ str(result.nombre) +"',"+str(result.cantidad) + ",'"+str(result.servicio)+ "',"+str(dictionary[result.servicio])+ ")")
-        return res
 
 
 class Requerimientos(models.Model):
@@ -180,21 +88,29 @@ class Requerimientos(models.Model):
     _description = "Servicios a cotizar"
 
     model_id = fields.Many2one('dtm.cotizaciones')
-    no_cotizacion = fields.Char(string="No. De Cotización", readonly = True)
-    no_item = fields.Integer(string="No")
+
     descripcion = fields.Char(string="Descripción")
-    unidad = fields.Char(string="UM")
+    unidad = fields.Selection(string="UM",selection=[("mxn","MXN"),("dlls","DLLS")],default="mxn")
     cantidad = fields.Integer(string="cantidad")
     precio_unitario = fields.Float(string="Precio Unitario")
-    total = fields.Float(string="Total", store=True)
+    total = fields.Float(string="Total", store=True,compute="_compute_total")
 
-    @api.onchange("cantidad")
-    def _onchange_precio(self):
-        self.total = self.cantidad * self.precio_unitario
+    items_id = fields.One2many("dtm.cotizacion.item", "model_id")
 
-    @api.onchange("precio_unitario")
-    def _onchange_precio(self):
-        self.total = self.cantidad * self.precio_unitario
+    @api.depends("precio_unitario")
+    def _compute_total(self):
+        for result in self:
+            result.total = result.cantidad * result.precio_unitario
+            print(result.model_id.no_cotizacion,result.model_id)
+
+
+class Items(models.Model):
+    _name = "dtm.cotizacion.item"
+    _description = "Modelo provicional para llevar la lista de los articulos a cotizar"
+
+    model_id = fields.Many2one("dtm.cotizacion.requerimientos")
+
+    name = fields.Char(string="Descripción")
 
 class Atencion(models.Model):
     _name = "dtm.cotizacion.atencion"

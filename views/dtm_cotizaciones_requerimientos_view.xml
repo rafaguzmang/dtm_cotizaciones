@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <record id="dtm_cotizacion_requerimientos_action" model="ir.actions.act_window">
+        <field name="name">Items</field>
+        <field name="res_model">dtm.cotizacion.requerimientos</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="dtm_cotizacion_requerimientos_form" model="ir.ui.view">
+        <field name="name">dtm.cotizacion.requerimientos.form</field>
+        <field name="model">dtm.cotizacion.requerimientos</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="descripcion" />
+                        <field name="cantidad" options='{"type": "number"}' />
+                        <field name="unidad" />
+                        <field name="precio_unitario"/>
+                        <field name="total"/>
+                    </group>
+                    <field name="items_id">
+                        <tree editable="bottom">
+                            <field name="name" />
+                        </tree>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="dtm_cotizacion_requerimientos_tree" model="ir.ui.view">
+        <field name="name">dtm.cotizacion.requerimientos.tree</field>
+        <field name="model">dtm.cotizacion.requerimientos</field>
+        <field name="arch" type="xml">
+            <tree  >
+                <field name="descripcion" />
+                <field name="cantidad" options='{"type": "number"}' />
+                <field name="unidad" />
+                <field name="precio_unitario"/>
+                <field name="total"/>
+            </tree>
+        </field>
+    </record>
+
+<!--    <menuitem id="dtm_cotizaciones_menu" action="dtm_cotizaciones_action" />-->
+</odoo>
+
