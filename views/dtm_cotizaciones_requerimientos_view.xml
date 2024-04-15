@@ -11,7 +11,7 @@
         <field name="name">dtm.cotizacion.requerimientos.form</field>
         <field name="model">dtm.cotizacion.requerimientos</field>
         <field name="arch" type="xml">
-            <form>
+            <form >
                 <sheet>
                     <group>
                         <field name="descripcion" />

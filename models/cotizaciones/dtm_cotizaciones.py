@@ -10,8 +10,9 @@ class DTMCotizaciones(models.Model):
     _order = "no_cotizacion desc"
 
     def _default_init(self): # Genera número consecutivo de NPI y OT del campo no_cotizacion
-        cant = self.env['dtm.cotizaciones'].search_count([])
-        val = str(cant + 1)
+        # cant = self.env['dtm.cotizaciones'].search_count([])
+        get_cot = self.env['dtm.cotizaciones'].search([], order='id desc', limit=1)
+        val = str(int(get_cot.no_cotizacion) + 1)
         while len(val)<5:
             val = "0" + val
 
@@ -52,7 +53,9 @@ class DTMCotizaciones(models.Model):
     body_email = fields.Text(default="Por este medio hago llegar la factura. \n Saludos cordiales")
     # email_image = fields.Image(string="Firma", compute="_compute_image")
     email_image = fields.Image(string="Firma")
-    status = fields.Integer()
+    status = fields.Char()
+    po_number = fields.Char(string="PO")
+
 
 
     # -----------------------------------------------------------Provicional-------------------------------------------------------------
@@ -81,6 +84,28 @@ class DTMCotizaciones(models.Model):
                 self.env['dtm.contactos.anexos'].create(vals)
 
             self.correo = self.cliente_id.email
+
+    # def get_view(self, view_id=None, view_type='form', **options):# Llena la tabla dtm.ordenes.compra.precotizaciones con las cotizaciones(NO PRECOTIZACIONES) pendientes
+    #     res = super(DTMCotizaciones,self).get_view(view_id, view_type,**options)
+    #     get_cotizaciones =  self.env['dtm.cotizaciones'].search([("id", ">=", 107)], order='id asc')
+    #     nvo = 81
+    #     for get in get_cotizaciones:
+    #         snvo = ""
+    #         if len(str(nvo)) == 2:
+    #             snvo = "000" + str(nvo)
+    #         else:
+    #             snvo = "00" + str(nvo)
+    #         print(get.id,get.no_cotizacion, snvo)
+    #         cambio =self.env['dtm.cotizaciones'].search([("id","=",get.id)])
+    #         val={
+    #             "no_cotizacion":snvo
+    #         }
+    #         cambio.write(val)
+    #
+    #
+    #         nvo += 1
+    #
+    #     return res
 
 
 
