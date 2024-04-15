@@ -60,6 +60,7 @@ class DTMCotizaciones(models.Model):
     #-------------------------------------------------Acciones y Computes -----------------------------------------------------------------
 
     def action_imprimir(self):
+        print(self.proveedor)
 
         return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
 
