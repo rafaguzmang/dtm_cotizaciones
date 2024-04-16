@@ -63,9 +63,12 @@ class DTMCotizaciones(models.Model):
     #-------------------------------------------------Acciones y Computes -----------------------------------------------------------------
 
     def action_imprimir(self):
-        print(self.proveedor)
-
-        return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
+        if self.proveedor == 'dtm':
+            return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
+        else:
+            self.terminos_pago = "Payment terms: 30 days net"
+            self.entrega= "F.O.B Chihuahua, Chih."
+            return self.env.ref("dtm_cotizaciones.formato_cotizacion_mtd").report_action(self)
 
 
     @api.onchange('cliente_id') # Carga correo y número de telefono de los contactos del campo atencion

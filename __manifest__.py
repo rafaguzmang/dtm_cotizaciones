@@ -20,6 +20,7 @@
         # 'data/cotizacion_email_template.xml',
 
     #     Reports
-        'reports/cotizacion_formato.xml'
+        'reports/cotizacion_formato.xml',
+        'reports/cotizacion_formato_mtd.xml'
     ]
 }

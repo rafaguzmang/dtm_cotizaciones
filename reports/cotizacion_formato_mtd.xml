@@ -11,117 +11,112 @@
         </template>
         <template id="dtm_cotizaciones.cotizaciones_template_page">
                 <div class="page">
-                      <div class="oe_structure" />
-                      <div class="container_1 " style="text-align:center;position: relative;top:20px">
-                        <div class="container_2" style="float:left;width:100%;text-align:center;overflow: hidden;">
-                            <div class="version_revision" style="width:30%;float:left;text-align:left;">
-                                <p style="font-size:10px;font-family:Calibri"> DTM-FOR-VEN-04 <br></br>
-                                    Version 02 <br></br>
-                                    Fecha de Revision: 03/01/2023
-                                </p>
-                            </div>
-                            <div class="titulo" style="width:40%;float:left;text-align: center;">
-                                <h3 style="font-family:Calibri;font-size:30px;top:10px;">Cotización</h3>
-                            </div>
-                            <div class="logo" style="width:30%;float:left;text-align:right;">
-                                <img src="https://i.postimg.cc/cHvL32gM/DTM-logo.png" alt="DTM logo" />
+                    <div class="oe_structure" />
+                        <div class="container_1 " style="text-align:center;position: relative;top:20px">
+                            <div class="container_2" style="float:left;width:100%;text-align:center;overflow: hidden;">
+                                <div class="version_revision" style="width:25%;float:left;text-align:left;">
+                                        <img src="https://i.postimg.cc/hPHqhdXN/MDT-logotipo-2.jpg" alt="DTM logo" style="width:100%;margin:0;"/>
+                                </div>
+                                <div class="titulo" style="width:55%;float:left;text-align: left;font-family:'Rockwell Extra Bold';font-weight: bold;color: #16365C;">
+                                    <h1 style="font-size:30px; margin-bottom: -14px;margin-left: -30px;margin-top: 65px;">Metal Tranformation and Design Inc.</h1>
+                                    <p style="font-size: 13px;margin-left: 98px;">5959 Gateway west, Suite 315, El Paso TX. 79925</p>
+                                </div>
+                                <div class="logo" style="width:20%;float:left;text-align:left;font-weight: bold;font-family: Calibri;font-size: 11px;">
+                                    <p style="padding-top: 122px;">Quote #: <span style="font-size:15px; text-decoration: underline;font-weight: normal;" t-field="o.no_cotizacion"> </span></p>
+                                    <p >Date: <span style="font-size:15px; text-decoration: underline;font-weight: normal;" t-field="o.date"> </span></p>
+                                </div>
+                                <div style="width:100%float:center;">
+                                     <hr style="color:#16365C;width:100%;height: 2px;background-color:#16365C;"/>
+                                </div>
                             </div>
                         </div>
-                        <div class="container_3" style="float:left;width:100%;text-align:center;overflow: hidden;">
-                                <h4 style="font-size:18px;font-family:Arial;font-weight:bold; font-style: italic;margin-bottom:0;padding-bottom:0">Diseño y Transformaciones Metálicas S. de R.L. de C.V.</h4>
-                                <p style="font-size:13px;font-family:Arial;font-size:10px">C.Retorno Pablo Neruda No. 101, Complejo Industrial Chihuahua, C.P. 31136<br></br>
-                                Tel. 6144171943, 6144822665<br></br>
-                                Chihuahua. Chih.</p>
+                        <div class="padre" style="width:100%;padding-top:215px;text-align:center;margin-bottom:75px;margin-top:100px">
+                            <div class="left" style="float:left;width:100%;overflow: hidden;text-align: left;font-weight: bold;font-family: Calibri;font-size: 11px;">
+                                <p >Company: <span style="font-family:Calibri;font-size:15px; text-decoration: underline;font-weight: normal;" t-field="o.cliente"> </span></p>
+
+                            </div>
+                            <div class="left" style="width:100%;text-align: left;font-weight: bold;font-family: Calibri;font-size: 11px;padding-top:28px;">
+                                <p style="float: left;width:30%;">AT'n: <span style="font-family:Calibri;font-size:15px; text-decoration: underline;font-weight: normal;" t-field="o.atencion_id"> </span></p>
+                                <p style="float: left;width:70%;">c.c.: <span style="font-family:Calibri;font-size:15px; text-decoration: underline;font-weight: normal;" t-field="o.cliente"> </span></p>
+                            </div>
                         </div>
-                   </div>
 
-                      <div class="padre" style="padding-top:30px;text-align:center;margin-bottom:175px">
-                          <div class="left" style="float:left;width:82%;overflow: hidden;text-align: left;">
-                              <p style="font-size:13px;font-family:Arial;">Empresa: <span style="font-family:Calibri;font-size:15px; text-decoration: underline;" t-field="o.cliente"> </span></p>
-                              <p style="font-size:15px;font-family:Arial;">AT'n: <span style="font-family:Calibri;font-size:15px; text-decoration: underline;" t-field="o.atencion_id"> </span></p>
-                          </div>
-                          <div class="right" style="float:left;width:18%;overflow: hidden;text-align: left;">
-                              <p style="font-size:15px;font-family:Arial;font-style: italic;">No. De Cotización: <span style="font-family:Calibri;font-size:15px; text-decoration: underline;" t-field="o.no_cotizacion"> </span></p>
-                              <p style="font-size:15px;font-family:Arial;font-style: italic;">Fecha: <span style="font-family:Calibri;font-size:15px; text-decoration: underline;" t-field="o.date"> </span></p>
-                          </div>
-                      </div>
-                </div>
-
-                <div class="table" style="padding-top:130px;border-collapse: collapse;position: relative;top:30px,border:1px solid #fff">
-                    <table style="border-collapse: collapse;width: 100%;">
-                      <tr style="background-color: #008ae6;border-bottom: 1px solid #ddd;height:25px">
-                        <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif;width:60px">No</th>
-                        <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif;">Descripción</th>
-                        <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif;">Cantidad</th>
-                        <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif;width:120px">Precio Unitario</th>
-                        <th style=" text-align: center;color: white;font-size:13px;Calibri">Total</th>
-                      </tr>
-
-                      <t t-set="no_item" t-value="1"/>
-                      <t t-foreach="o.servicios_id" t-as="servicio">
-                          <tr style=" font-size:11px;border-bottom: 1px solid #fff;font-family:Arial;font-weight: bold;">
-                              <td style=" text-align: center;">
-                                    <span t-esc="no_item"></span>
-                                    <t t-set="no_item" t-value="no_item+1"/>
-                              </td>
-                              <td style=" text-align: left;">
-                                    <span t-field="servicio.descripcion"></span>
-                              </td>
-                              <td style=" text-align: center;">
-                                    <span t-field="servicio.cantidad"></span>
-                              </td>
-                              <td style="text-align:center;">
-                                  <div style="overflow:hidden;margin:0;padding:0">
-                                    <p style="float:left;margin:0;padding:0">$</p> <p style="float:right;margin:0;padding:0"><span t-field="servicio.precio_unitario" ></span></p>
-                                  </div>
-                              </td>
-                              <td style=" text-align: center;">
-                                     <div style="overflow:hidden;margin:0;padding:0">
-                                        <p style="float:left;margin:0;padding:0 0 0 8px">$</p> <p style="float:right;margin:0;padding:0"><span t-field="servicio.total" ></span></p>
-                                     </div>
-                              </td>
-                          </tr>
-
-                          <t t-foreach="servicio.items_id" t-as="item">
-<!--                            <t t-if="material.model_id.id == servicio.id">-->
-                              <tr style="font-size:13px;border-bottom: 1px solid #fff;font-family:Calibri;">
-                                   <td style=" text-align: center;">
-                                   </td>
-                                   <td style=" text-align: left;">
-                                            <span t-field="item.name" style="margin-left:10px"></span>
-                                   </td>
-                                   <td style=" text-align: center;">
-                                   </td>
-                                    <td style=" text-align: center;">
-                                   </td>
-                                    <td style=" text-align: center;">
-                                   </td>
+                        <div class="table" style="width:100%,margin-top:50px;border-collapse: collapse;border:1px solid #fff;float:center">
+                            <table style="border-collapse: collapse;width: 100%;">
+                              <tr style="background-color: #A6A6A6;border-bottom: 1px solid #ddd;height:25px;color:#000;">
+                                <th style=" text-align: center;font-size:13px;font-family: Arial, sans-serif;width:60px"></th>
+                                <th style=" text-align: center;font-size:13px;font-family: Arial, sans-serif;">Descriptión</th>
+                                <th style=" text-align: center;font-size:13px;font-family: Arial, sans-serif;">Qty</th>
+                                <th style=" text-align: center;font-size:13px;font-family: Arial, sans-serif;width:120px">Unit Price</th>
+                                <th style=" text-align: center;font-size:13px;Calibri">Total</th>
                               </tr>
-<!--                            </t>-->
-                          </t>
-                      </t>
-                    </table>
+
+                              <t t-set="no_item" t-value="1"/>
+                              <t t-foreach="o.servicios_id" t-as="servicio">
+                                  <tr style=" font-size:11px;border-bottom: 1px solid #fff;font-family:Arial;font-weight: bold;">
+                                      <td style=" text-align: center;">
+                                            <span t-esc="no_item"></span>
+                                            <t t-set="no_item" t-value="no_item+1"/>
+                                      </td>
+                                      <td style=" text-align: left;">
+                                            <span t-field="servicio.descripcion"></span>
+                                      </td>
+                                      <td style=" text-align: center;">
+                                            <span t-field="servicio.cantidad"></span>
+                                      </td>
+                                      <td style="text-align:center;">
+                                          <div style="overflow:hidden;margin:0;padding:0">
+                                            <p style="float:left;margin:0;padding:0">$</p> <p style="float:right;margin:0;padding:0"><span t-field="servicio.precio_unitario" ></span></p>
+                                          </div>
+                                      </td>
+                                      <td style=" text-align: center;">
+                                             <div style="overflow:hidden;margin:0;padding:0">
+                                                <p style="float:left;margin:0;padding:0 0 0 8px">$</p> <p style="float:right;margin:0;padding:0"><span t-field="servicio.total" ></span></p>
+                                             </div>
+                                      </td>
+                                  </tr>
+
+                                  <t t-foreach="servicio.items_id" t-as="item">
+                                      <tr style="font-size:13px;border-bottom: 1px solid #fff;font-family:Calibri;">
+                                           <td style=" text-align: center;">
+                                           </td>
+                                           <td style=" text-align: left;">
+                                                    <span t-field="item.name" style="margin-left:10px"></span>
+                                           </td>
+                                           <td style=" text-align: center;">
+                                           </td>
+                                            <td style=" text-align: center;">
+                                           </td>
+                                            <td style=" text-align: center;">
+                                           </td>
+                                      </tr>
+                                  </t>
+                              </t>
+                        </table>
                 </div>
+
+
+
+
+                </div>
+
 
                  <div class="container" style="position:absolute;bottom:0;width:100%;">
                      <div style="width:100%;">
-                         <p style="font-size:13px;font-weight:bold;padding-bottom:0;margin-bottom:0;font-family:Arial;">Condiciones</p>
-                         <p style="font-size:13px;padding-top:0;margin-top:0;font-family:Calibri;"><span t-field="o.curency"></span><br></br>
-                         Los Precios Descritos No incluyen IVA<br></br>
+                         <p style="font-size:13px;font-weight:bold;padding-bottom:0;margin-bottom:0;font-family:Arial;">Terms and Conditions:</p>
+                         <p style="font-size:13px;padding-top:0;margin-top:0;font-family:Calibri;">Currency US dlls<br></br>
+                         The price do not include taxes<br></br>
                          <span t-field="o.entrega"></span><br></br>
                          <span t-field="o.terminos_pago"></span><br></br>
-                         Vigencia: 15 dias<br></br>
-                         La recepción de la Orden de Compra se considera una aceptación del Servicio Cotizado.<br></br>
-                             Necesidades del Cliente:<span t-field="o.no_cotizacion"></span> </p>
+                         Quote valid: 15 days<br></br>
+                         </p>
+
                      </div>
-                     <div style="width:100%;text-align:center;margin-top:50px;">
-                        <p style="font-size:13px;padding-bottom:0;margin-bottom:0;font-family:Calibri;">Visitanos:</p>
-                        <a style="font-size:13px;padding-top:0;margin-top:0;color:#008ae6;font-family:Calibri;" href="https://dtmindustry.com/">www.dtmindustry.com</a>
-                     </div>
+
                  </div>
         </template>
 
-        <record id="formato_cotizacion" model="ir.actions.report">
+        <record id="formato_cotizacion_mtd" model="ir.actions.report">
             <field name="name">Cotización</field>
             <field name="model">dtm.cotizaciones</field>
             <field name="report_type">qweb-pdf</field>
