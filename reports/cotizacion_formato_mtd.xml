@@ -15,7 +15,7 @@
                         <div class="container_1 " style="text-align:center;position: relative;top:20px">
                             <div class="container_2" style="float:left;width:100%;text-align:center;overflow: hidden;">
                                 <div class="version_revision" style="width:25%;float:left;text-align:left;">
-                                        <img src="https://i.postimg.cc/hPHqhdXN/MDT-logotipo-2.jpg" alt="DTM logo" style="width:100%;margin:0;"/>
+                                        <img src="https://i.postimg.cc/7Y29VGL3/MTD-logo.png" alt="DTM logo" style="width:100%;margin:0;"/>
                                 </div>
                                 <div class="titulo" style="width:55%;float:left;text-align: left;font-family:'Rockwell Extra Bold';font-weight: bold;color: #16365C;">
                                     <h1 style="font-size:30px; margin-bottom: -14px;margin-left: -30px;margin-top: 65px;">Metal Tranformation and Design Inc.</h1>
@@ -37,7 +37,7 @@
                             </div>
                             <div class="left" style="width:100%;text-align: left;font-weight: bold;font-family: Calibri;font-size: 11px;padding-top:28px;">
                                 <p style="float: left;width:30%;">AT'n: <span style="font-family:Calibri;font-size:15px; text-decoration: underline;font-weight: normal;" t-field="o.atencion_id"> </span></p>
-                                <p style="float: left;width:70%;">c.c.: <span style="font-family:Calibri;font-size:15px; text-decoration: underline;font-weight: normal;" t-field="o.cliente"> </span></p>
+                                <p style="float: left;width:70%;">c.c.: <span style="font-family:Calibri;font-size:15px; text-decoration: underline;font-weight: normal;" t-field="o.correo_cc"> </span></p>
                             </div>
                         </div>
 
