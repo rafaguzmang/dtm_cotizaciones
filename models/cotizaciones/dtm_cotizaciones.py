@@ -130,7 +130,7 @@ class Requerimientos(models.Model):
     def _compute_total(self):
         for result in self:
             result.total = result.cantidad * result.precio_unitario
-            print(result.model_id.no_cotizacion,result.model_id)
+            # print(result.model_id.no_cotizacion,result.model_id)
 
 
 class Items(models.Model):

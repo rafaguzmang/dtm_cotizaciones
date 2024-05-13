@@ -27,7 +27,7 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_imprimir" type="object" string="Imprimir" class="btn btn-primary"/>
+                    <button name="action_imprimir" type="object" string="Imprimir" class="btn btn-primary" icon="fa-print"/>
 <!--                    <button name="action_send_email" type="object" string="Enviar Correo" class="btn btn-primary"/>-->
                 </header>
                 <sheet>
