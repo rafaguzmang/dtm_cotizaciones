@@ -88,27 +88,7 @@ class DTMCotizaciones(models.Model):
 
             self.correo = self.cliente_id.email
 
-    # def get_view(self, view_id=None, view_type='form', **options):# Llena la tabla dtm.ordenes.compra.precotizaciones con las cotizaciones(NO PRECOTIZACIONES) pendientes
-    #     res = super(DTMCotizaciones,self).get_view(view_id, view_type,**options)
-    #     get_cotizaciones =  self.env['dtm.cotizaciones'].search([("id", ">=", 107)], order='id asc')
-    #     nvo = 81
-    #     for get in get_cotizaciones:
-    #         snvo = ""
-    #         if len(str(nvo)) == 2:
-    #             snvo = "000" + str(nvo)
-    #         else:
-    #             snvo = "00" + str(nvo)
-    #         print(get.id,get.no_cotizacion, snvo)
-    #         cambio =self.env['dtm.cotizaciones'].search([("id","=",get.id)])
-    #         val={
-    #             "no_cotizacion":snvo
-    #         }
-    #         cambio.write(val)
-    #
-    #
-    #         nvo += 1
-    #
-    #     return res
+
 
 
 
