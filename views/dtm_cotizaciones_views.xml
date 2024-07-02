@@ -11,12 +11,12 @@
         <field name="name">dtm_cotizaciones.view.tree</field>
         <field name="model">dtm.cotizaciones</field>
         <field name="arch" type="xml">
-            <tree decoration-success="po_number=='po'" decoration-bf="po_number=='po'">
+            <tree decoration-success="po_number==True" >
                 <field name="no_cotizacion"/>
                 <field name="proveedor"/>
+                <field name="po_number"/>
                 <field name="cliente_id"/>
                 <field name="date" />
-                <field name="po_number" invisible="1"/>
             </tree>
         </field>
     </record>

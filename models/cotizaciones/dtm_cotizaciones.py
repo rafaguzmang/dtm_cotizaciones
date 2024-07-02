@@ -32,8 +32,6 @@ class DTMCotizaciones(models.Model):
         selection=[('dtm', 'DISEÑO Y TRANSFORMACIONES METALICAS S DE RL DE CV'), ('mtd', 'METAL TRANSFORMATION & DESIGN')],tracking=True)
 
     atencion_id = fields.Many2one("dtm.cotizacion.atencion")
-
-    # servicios_id = fields.One2many('dtm.cotizacion.requerimientos','model_id',compute="_compute_fill_servicios", string='Requerimientos', readonly=False)
     servicios_id = fields.One2many('dtm.cotizacion.requerimientos','model_id', string='Requerimientos', readonly=False)
 
     material_id = fields.Many2many('dtm.list.material.producto')
@@ -46,19 +44,23 @@ class DTMCotizaciones(models.Model):
                selection=[("mx","Precio Especificado en Pesos Mexicanos"),("us","Precio Especificado en Dolares Americanos")],tracking=True)
 
 
-
-    # subject = fields.Char(string="Asunto:",compute="_compute_subject", readonly=False)
     subject = fields.Char(string="Asunto:")
     dirigido = fields.Char(default="A quien corresponda :")
     body_email = fields.Text(default="Por este medio hago llegar la factura. \n Saludos cordiales")
-    # email_image = fields.Image(string="Firma", compute="_compute_image")
     email_image = fields.Image(string="Firma")
     status = fields.Char()
     po_number = fields.Char(string="PO")
 
-
-
     # -----------------------------------------------------------Provicional-------------------------------------------------------------
+    def get_view(self, view_id=None, view_type='form', **options):# Llena la tabla dtm.ordenes.compra.precotizaciones con las cotizaciones(NO PRECOTIZACIONES) pendientes
+        res = super(DTMCotizaciones,self).get_view(view_id, view_type,**options)
+
+        get_self = self.env['dtm.ordenes.compra'].search([])
+        for item in get_self:
+            get_po = self.env['dtm.cotizaciones'].search([("no_cotizacion","=",item.no_cotizacion)])
+            if get_po:
+                get_po.po_number = item.orden_compra
+        return res
 
     #-------------------------------------------------Acciones y Computes -----------------------------------------------------------------
 
