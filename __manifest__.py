@@ -5,6 +5,8 @@
     "data":[
         # Security
         'security/ir.model.access.csv',
+        'security/res_groups.xml',
+        'security/model_access.xml',
 
         # Views
         'views/dtm_client_needs_view.xml',
