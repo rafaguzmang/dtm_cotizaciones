@@ -1,7 +1,4 @@
 from odoo import api,fields,models,tools
-from odoo.modules import get_module_resource
-from odoo.exceptions import ValidationError
-import base64
 import datetime
 
 class DTMCotizaciones(models.Model):

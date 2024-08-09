@@ -1,5 +1,4 @@
 <odoo>
-
     <record id="module_category_dtm_cotizaciones" model = "ir.module.category">
         <field name="name">Cotizaciones</field>
         <field name="description">Ayuda para administrar permisos</field>

@@ -5,10 +5,7 @@
 <!--          <menuitem id="dtm_precotizacion_menu" action="dtm_precotizacion_action"/>-->
         <menuitem id="dtm_cotizaciones_menu" action="dtm_cotizaciones_action" />
         <menuitem id="menu_dtm_ordenes_compra"  action="dtm_ordenes_compra.dtm_ordenes_compra_accion" />
-        <menuitem name="Ordenes" id="menu_root_dtm_ordenes">
-            <menuitem id="menu_dtm_ordenes_diseno"  action="dtm_ordenes_compra.dtm_ordenes_diseno_action" />
-            <menuitem id="menu_dtm_ventas_ot"  action="dtm_ordenes_compra.dtm_ventas_ot_action" />
-        </menuitem>
+
         <menuitem id="dtm_ordenes_minutas_menu_action" action="dtm_ordenes_compra.dtm_ordenes_minutas_action"/>
         <menuitem id="menu_dtm_ordenes_compra_facturado"  action="dtm_ordenes_compra.dtm_ordenes_compra_facturado_accion" />
 <!--          <menuitem id="dtm_client_indicadores_menu" action="dtm_client_indicadores_action"/>-->
