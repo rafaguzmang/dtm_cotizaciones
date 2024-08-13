@@ -1,8 +1,8 @@
 from odoo import api,fields,models
 import datetime 
 import time
-import webbrowser as web
-import pyautogui as pg
+# import webbrowser as web
+# import pyautogui as pg
 
 class Probando():
     def __init__(self,phone,message):

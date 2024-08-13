@@ -24,5 +24,6 @@
     #     Reports
         'reports/cotizacion_formato.xml',
         'reports/cotizacion_formato_mtd.xml'
-    ]
+    ],
+    'license': 'LGPL-3',
 }

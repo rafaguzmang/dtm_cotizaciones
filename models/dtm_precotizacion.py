@@ -1,7 +1,7 @@
 from odoo import api,fields,models
 import time
-import webbrowser as web
-import pyautogui as pg
+# import webbrowser as web
+# import pyautogui as pg
 
 
 #------------------Mensajería Whatsapp---------------------------------------
