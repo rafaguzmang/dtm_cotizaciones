@@ -16,8 +16,8 @@ class DTMCotizaciones(models.Model):
         return  val
 
     no_cotizacion = fields.Char(string="No. De Cotización",  default=_default_init,readonly=True)
-    cliente_id = fields.Many2one("res.partner",tring="Cliente")
-    cliente = fields.Char(string="Cliente", related='cliente_id.name')
+    cliente_id = fields.Many2one("res.partner",string ="Cliente")
+    cliente = fields.Char(related='cliente_id.name')
     d = datetime
     date = fields.Date(string="Fecha" ,default= d.datetime.today())
     attachment_ids = fields.Many2many("dtm.documentos.anexos",string="Anexos")
@@ -26,7 +26,7 @@ class DTMCotizaciones(models.Model):
     correo_cc =  fields.Many2many("dtm.contactos.anexos",string="cc")
     precio_total = fields.Float(string="Precio total")
     proveedor = fields.Selection(string='Proveedor',default='dtm',
-        selection=[('dtm', 'DISEÑO Y TRANSFORMACIONES METALICAS S DE RL DE CV'), ('mtd', 'METAL TRANSFORMATION & DESIGN')],tracking=True)
+        selection=[('dtm', 'DISEÑO Y TRANSFORMACIONES METALICAS S DE RL DE CV'), ('mtd', 'METAL TRANSFORMATION & DESIGN')])
 
     atencion_id = fields.Many2one("dtm.cotizacion.atencion")
     servicios_id = fields.One2many('dtm.cotizacion.requerimientos','model_id', string='Requerimientos', readonly=False)
@@ -38,7 +38,7 @@ class DTMCotizaciones(models.Model):
     entrega = fields.Char(string="Entrega",default="L.A.B: Chihuahua, Chih.")
 
     curency = fields.Selection(string="Tipo de moneda",default="mx",
-               selection=[("mx","Precio Especificado en Pesos Mexicanos"),("us","Precio Especificado en Dolares Americanos")],tracking=True)
+               selection=[("mx","Precio Especificado en Pesos Mexicanos"),("us","Precio Especificado en Dolares Americanos")])
 
 
     subject = fields.Char(string="Asunto:")
@@ -87,10 +87,6 @@ class DTMCotizaciones(models.Model):
 
             self.correo = self.cliente_id.email
 
-
-
-
-
 class Requerimientos(models.Model):
     _name = "dtm.cotizacion.requerimientos"
     _description = "Servicios a cotizar"
@@ -110,7 +106,6 @@ class Requerimientos(models.Model):
         for result in self:
             result.total = result.cantidad * result.precio_unitario
             # print(result.model_id.no_cotizacion,result.model_id)
-
 
 class Items(models.Model):
     _name = "dtm.cotizacion.item"

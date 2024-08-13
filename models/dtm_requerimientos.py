@@ -16,7 +16,7 @@ class Requerimientos(models.Model):
     precio_total = fields.Float(string="Precio Total",compute="_compute_precio_total",  store=True)
     anexos_id = fields.Many2many('dtm.documentos.anexos', compute='_compute_fill_anexos')
     suma_total = fields.Float(string="TOTAL", compute='_compute_suma_total', store=True)
-    currency = fields.Selection(string="Moneda",defaul="mx", selection=[('mxn','MXN'),('usd','USD')])
+    currency = fields.Selection(string="Moneda",default="mx", selection=[('mxn','MXN'),('usd','USD')])
 
     @api.depends("precio_unitario")
     def _compute_precio_total(self):
@@ -57,12 +57,12 @@ class MaterialServicio(models.Model):
     _description = 'Se generan los servicios a realizar'
 
     model_id = fields.Many2one('dtm.requerimientos')
-    material_servicio = fields.Selection(strin="Servicio", selection=[('material', 'Material'),('servicio', 'Servicio') ])
+    material_servicio = fields.Selection(string="Servicio", selection=[('material', 'Material'),('servicio', 'Servicio') ])
     descripcion = fields.Text(string="Descripción")
     cantidad = fields.Integer(string = "Cantidad")
     precio_unitario = fields.Float(string = "Precio/Unitario")
     precio = fields.Float(string = "Precio Total")
-    currency = fields.Selection(string="Moneda",defaul="mx", selection=[('mxn','MXN'),('usd','USD')])
+    currency = fields.Selection(string="Moneda",default="mx", selection=[('mxn','MXN'),('usd','USD')])
 
 
     @api.onchange("precio_unitario")
