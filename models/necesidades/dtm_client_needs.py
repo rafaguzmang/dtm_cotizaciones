@@ -4,19 +4,19 @@ import time
 # import webbrowser as web
 # import pyautogui as pg
 
-class Probando():
-    def __init__(self,phone,message):
-        self.phone = phone
-        self.message = message
-
-    def send(self):
-        web.open("https://web.whatsapp.com/send?phone={}".format(self.phone))
-        time.sleep(10)
-        pg.typewrite(self.message)
-        time.sleep(3)
-        pg.press("enter")
-        time.sleep(5)
-        pg.hotkey("ctrl","w")
+# class Probando():
+#     def __init__(self,phone,message):
+#         self.phone = phone
+#         self.message = message
+#
+#     def send(self):
+#         web.open("https://web.whatsapp.com/send?phone={}".format(self.phone))
+#         time.sleep(10)
+#         pg.typewrite(self.message)
+#         time.sleep(3)
+#         pg.press("enter")
+#         time.sleep(5)
+#         pg.hotkey("ctrl","w")
         
 #------------------- Clase principal
 class ClientNeeds(models.Model):
@@ -208,11 +208,12 @@ class ClientNeeds(models.Model):
 
 class ListMaterial(models.Model):
     _name = "cot.list.material"
+    _description = "Modelo para almacenar los materiales para las precotizaciones"
     
     model_id = fields.Many2one("dtm.client.needs")
-    name = fields.Char(string="Producto o servicio", readonly=False, require=True)
-    descripcion = fields.Text(string="Descripción", readonly=False, require=True)
-    cantidad = fields.Integer(string="Cantidad", readonly=False, require=True)
+    name = fields.Char(string="Producto o servicio", readonly=False, required=True)
+    descripcion = fields.Text(string="Descripción", readonly=False, required=True)
+    cantidad = fields.Integer(string="Cantidad", readonly=False, required=True)
     attachment_ids = fields.Many2many("dtm.documentos.anexos", string="Archivos", readonly=False)
 
     #material_serv_ids = fields.Many2many("dtm.list.material.producto")
@@ -237,18 +238,18 @@ class ListMaterial(models.Model):
 
         
     
-    @api.model
-    def create(self,vals):
-        res = super(ListMaterial,self).create(vals)
-
-        get_servicio = self.env['dtm.client.needs'].search([('id','=',vals["model_id"])])
-        # print(get_servicio.no_cotizacion,
-
-        self.env['dtm.requerimientos'].create({
-            'servicio': get_servicio.no_cotizacion,
-            'nombre': vals["name"],
-            'cantidad': vals["cantidad"],
-            'descripcion': vals["descripcion"],
-        })
-
-        return res
+    # @api.model
+    # def create(self,vals):
+    #     res = super(ListMaterial,self).create(vals)
+    #
+    #     get_servicio = self.env['dtm.client.needs'].search([('id','=',vals["model_id"])])
+    #     # print(get_servicio.no_cotizacion,
+    #
+    #     self.env['dtm.requerimientos'].create({
+    #         'servicio': get_servicio.no_cotizacion,
+    #         'nombre': vals["name"],
+    #         'cantidad': vals["cantidad"],
+    #         'descripcion': vals["descripcion"],
+    #     })
+    #
+    #     return res

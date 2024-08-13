@@ -5,19 +5,19 @@ import time
 
 
 #------------------Mensajería Whatsapp---------------------------------------
-class Probando():
-    def __init__(self,phone,message):
-        self.phone = phone
-        self.message = message
-
-    def send(self):
-        web.open("https://web.whatsapp.com/send?phone={}".format(self.phone))
-        time.sleep(10)
-        pg.typewrite(self.message)
-        time.sleep(3)
-        pg.press("enter")
-        time.sleep(5)
-        pg.hotkey("ctrl","w")
+# class Probando():
+#     def __init__(self,phone,message):
+#         self.phone = phone
+#         self.message = message
+#
+#     def send(self):
+#         web.open("https://web.whatsapp.com/send?phone={}".format(self.phone))
+#         time.sleep(10)
+#         pg.typewrite(self.message)
+#         time.sleep(3)
+#         pg.press("enter")
+#         time.sleep(5)
+#         pg.hotkey("ctrl","w")
         
 
 #-----------------------Clase Principal------------------------------
@@ -59,7 +59,7 @@ class Precotizacion(models.Model):
     servicios_id = fields.Many2many('dtm.requerimientos', string='Requerimientos',compute="_compute_fill_servicios",readonly=False ) # Tabla con Nombre,Descripción,Cantidad,Precion Unitario,Precio Total
 
     precio_total = fields.Float(string="TOTAL", readonly=True)
-    currency = fields.Selection(string="Moneda",defaul="mx", selection=[('mxn','MXN'),('usd','USD')])
+    currency = fields.Selection(string="Moneda",default="mx", selection=[('mxn','MXN'),('usd','USD')])
 
 
     def suma_total(self):
