@@ -94,7 +94,8 @@ class Requerimientos(models.Model):
     model_id = fields.Many2one('dtm.cotizaciones')
 
     descripcion = fields.Char(string="Descripción")
-    unidad = fields.Selection(string="UM",selection=[("mxn","MXN"),("dlls","DLLS")],default="mxn")
+    unidad = fields.Selection(string="Moneda",selection=[("mxn","MXN"),("dlls","DLLS")],default="mxn")
+    tipo_cantidad = fields.Selection(string="UM",selection=[("unidad","Unidad"),("peso","Peso")],default="unidad")
     cantidad = fields.Integer(string="cantidad")
     precio_unitario = fields.Float(string="Precio Unitario")
     total = fields.Float(string="Total", store=True,compute="_compute_total")

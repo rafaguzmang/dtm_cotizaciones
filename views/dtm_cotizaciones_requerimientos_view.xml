@@ -16,8 +16,9 @@
                     <group>
                         <field name="descripcion" />
                         <field name="cantidad" options='{"type": "number"}' />
-                        <field name="unidad" />
+                        <field name="tipo_cantidad" />
                         <field name="precio_unitario"/>
+                        <field name="unidad" />
                         <field name="total"/>
                     </group>
                     <field name="items_id">
@@ -37,8 +38,9 @@
             <tree  >
                 <field name="descripcion" />
                 <field name="cantidad" options='{"type": "number"}' />
-                <field name="unidad" />
+                <field name="tipo_cantidad" />
                 <field name="precio_unitario"/>
+                <field name="unidad" />
                 <field name="total"/>
             </tree>
         </field>
