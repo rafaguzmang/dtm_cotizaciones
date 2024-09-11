@@ -102,7 +102,7 @@ class Requerimientos(models.Model):
 
     items_id = fields.One2many("dtm.cotizacion.item", "model_id")
 
-    @api.depends("precio_unitario")
+    @api.depends("precio_unitario","cantidad")
     def _compute_total(self):
         for result in self:
             result.total = result.cantidad * result.precio_unitario

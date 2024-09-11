@@ -15,8 +15,8 @@
                 <sheet>
                     <group>
                         <field name="descripcion" />
-                        <field name="cantidad" options='{"type": "number"}' />
                         <field name="tipo_cantidad" />
+                        <field name="cantidad" options='{"type": "number"}' />
                         <field name="precio_unitario"/>
                         <field name="unidad" />
                         <field name="total"/>
