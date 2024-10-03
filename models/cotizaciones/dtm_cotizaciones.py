@@ -5,6 +5,8 @@ class DTMCotizaciones(models.Model):
     _name = "dtm.cotizaciones"
     _description = "Cotizaciones"
     _order = "no_cotizacion desc"
+    _rec_name = "no_cotizacion"
+
 
     def _default_init(self): # Genera número consecutivo de NPI y OT del campo no_cotizacion
         # cant = self.env['dtm.cotizaciones'].search_count([])
@@ -90,6 +92,7 @@ class DTMCotizaciones(models.Model):
 class Requerimientos(models.Model):
     _name = "dtm.cotizacion.requerimientos"
     _description = "Servicios a cotizar"
+
 
     model_id = fields.Many2one('dtm.cotizaciones')
 
