@@ -1,5 +1,5 @@
 from odoo import api,fields,models,tools
-import datetime
+from datetime import datetime
 
 class DTMCotizaciones(models.Model):
     _name = "dtm.cotizaciones"
@@ -20,10 +20,10 @@ class DTMCotizaciones(models.Model):
     no_cotizacion = fields.Char(string="No. De Cotización",  default=_default_init,readonly=True)
     cliente_id = fields.Many2one("res.partner",string ="Cliente")
     cliente = fields.Char(related='cliente_id.name')
-    d = datetime
-    date = fields.Date(string="Fecha" ,default= d.datetime.today())
+
+    date = fields.Date(string="Fecha" ,default= datetime.today())
     attachment_ids = fields.Many2many("dtm.documentos.anexos",string="Anexos")
-    telefono = fields.Char(string="Telefono(s)", related='cliente_id.mobile')
+    telefono = fields.Char(string="Telefono(s)", related='cliente_id.phone')
     correo = fields.Char(string = "email(s)",readonly=True)
     correo_cc =  fields.Many2many("dtm.contactos.anexos",string="cc")
     precio_total = fields.Float(string="Precio total")
@@ -32,6 +32,7 @@ class DTMCotizaciones(models.Model):
 
     atencion_id = fields.Many2one("dtm.cotizacion.atencion")
     servicios_id = fields.One2many('dtm.cotizacion.requerimientos','model_id', string='Requerimientos', readonly=False)
+    prediseno_id = fields.One2many("dtm.cotizaciones.predisenos",'model_id')
 
     material_id = fields.Many2many('dtm.list.material.producto')
 
@@ -62,6 +63,26 @@ class DTMCotizaciones(models.Model):
         return res
 
     #-------------------------------------------------Acciones y Computes -----------------------------------------------------------------
+    def action_generar(self):
+        for prediseno in self.prediseno_id:
+            get_prediseno = self.env['dtm.odt.prediseno'].search([('ot_number','=',prediseno.ot_number)])
+            if get_prediseno:
+                get_prediseno.write({
+                    'name_client':self.cliente_id.id,
+                    'product_name':prediseno.product_name,
+                    'cuantity':prediseno.cuantity,
+                })
+            else:
+                get_prediseno.create({
+                    'ot_number':prediseno.ot_number,
+                    'tipe_order':'PD',
+                    'name_client':self.cliente_id.id,
+                    'product_name':prediseno.product_name,
+                    'date_in':prediseno.date_in,
+                    'cuantity':prediseno.cuantity,
+                })
+
+
 
     def action_imprimir(self):
         if self.proveedor == 'dtm':
@@ -96,14 +117,15 @@ class Requerimientos(models.Model):
 
     model_id = fields.Many2one('dtm.cotizaciones')
 
-    descripcion = fields.Char(string="Descripción")
+    descripcion = fields.Char(string="Nombre")
     unidad = fields.Selection(string="Moneda",selection=[("mxn","MXN"),("dlls","DLLS")],default="mxn")
     tipo_cantidad = fields.Selection(string="UM",selection=[("unidad","Unidad"),("peso","Peso")],default="unidad")
     cantidad = fields.Integer(string="cantidad")
     precio_unitario = fields.Float(string="Precio Unitario")
     total = fields.Float(string="Total", store=True,compute="_compute_total")
-
+    id_need= fields.Integer()
     items_id = fields.One2many("dtm.cotizacion.item", "model_id")
+
 
     @api.depends("precio_unitario","cantidad")
     def _compute_total(self):
@@ -125,5 +147,26 @@ class Atencion(models.Model):
     _rec_name = "atencion"
 
     atencion = fields.Char(string="AT'n")
+
+class Prediseno(models.Model):
+    _name = "dtm.cotizaciones.predisenos"
+    _description = "Modelo para guardar los prediseños solicitados"
+    # _rec_name = "descripcion"
+
+    def action_autoNum(self):
+        get_pd = self.env['dtm.odt'].search([("tipe_order","=","PD")],order='ot_number desc', limit=1)
+        get_self = self.env['dtm.odt.prediseno'].search([],order='ot_number desc', limit=1)
+        return get_pd.ot_number + 1 if get_pd.ot_number > get_self.id else get_self.id + 1
+
+    model_id = fields.Many2one('dtm.cotizaciones')
+    ot_number = fields.Integer(string="NO.",default=action_autoNum,readonly=True)
+    tipe_order = fields.Char(string="TIPO",readonly=True, default='PD')
+    name_client = fields.Many2one("res.partner",string ="Cliente")
+
+    product_name = fields.Char(string="NOMBRE DEL PRODUCTO")
+    date_in = fields.Date(string="CREACIÒN", default= datetime.today(),readonly=True)
+
+    cuantity = fields.Integer(string="CANTIDAD")
+    disenador = fields.Selection(string="DISEÑADOR", selection=[("andres","Andrés Orozco"),("luis","Luís García")])
 
 

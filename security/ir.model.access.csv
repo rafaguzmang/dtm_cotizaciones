@@ -14,4 +14,6 @@ access_dtm_client_indicadores,access.dtm.client.indicadores,model_dtm_client_ind
 access_dtm_client_graph,access.dtm.client.graph,model_dtm_client_graph,base.group_user,1,1,1,1
 access_dtm_cotizacion_item,access.dtm.cotizacion.item,model_dtm_cotizacion_item,base.group_user,1,1,1,1
 
+access_dtm_cotizaciones_predisenos,access.dtm.cotizaciones.predisenos,model_dtm_cotizaciones_predisenos,base.group_user,1,1,1,1
+
 
