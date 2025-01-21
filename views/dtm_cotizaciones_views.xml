@@ -52,6 +52,19 @@
                         <page string="Servicios">
                             <field name="servicios_id" options="{'no_create_edit': False}" />
                         </page>
+                        <page string="Prediseños">
+                            <field name="prediseno_id"  >
+                                <tree editable="bottom">
+                                    <field name="ot_number"/>
+                                    <field name="product_name"/>
+                                    <field name="cuantity" options='{"type": "number"} '/>
+                                    <field name="date_in" />
+                                </tree>
+                            </field>
+                            <div class="col-12" style="display:flex;flex-direction:row-reverse">
+                                <button type="object" name="action_generar" string="Generar"  class="btn btn-primary"/>
+                            </div>
+                        </page>
                         <page string="Correo">
                                 <div class="row">
                                     <div class="col-12">

@@ -43,16 +43,14 @@
             <field name="model">dtm.client.needs</field>
             <field name="arch" type="xml">
                 <form>
-                    <!-- <header>
-                        <button string="Send" name="action_sendmessage" type="object"/>
-                        <p>Esta cosa si funciona</p>
-                    </header> -->
+                    <header>
+                        <button type="object" name="action_cotizacion" string="Crear Cotización"  class="btn btn-primary"/>
+                    </header>
                     <sheet>
                         <group name="orden_servicio" >
                              <div>
                                  <h1>
                                     <field name="no_cotizacion" readonly="1"></field>
-
                                 </h1>
                             </div>                             
                         </group>
@@ -60,7 +58,7 @@
                             <group>
                                 <field name="cliente_ids" readonly="0"></field>
                                 <field name="atencion" widget="many2many_tags" readonly="0"></field>
-                                <field name="nivel" widget="radio" options="{'horizontal': true}"/>
+                                <field name="nivel" widget="radio" options="{'horizontal': true}" invisible="1"/>
                             </group>
                             <group> 
                                 <field name="correo" widget="email"></field>
@@ -81,12 +79,11 @@
                                             <field name="name"  readonly="0"></field>
                                             <field name="descripcion"  readonly="0"></field>
                                             <field name="cantidad" options='{"type": "number"}'  readonly="0"></field>
-                                            <!-- <field name="material_serv_ids" ></field> -->
-                                           
-                                            <field name="attachment_ids" widget='one2many' readonly='0' >  
+
+                                            <field name="attachment_ids" widget='one2many' readonly='0' >
                                                 <tree>
                                                     <field name="nombre" invisible="0"></field>
-                                                </tree>                           
+                                                </tree>
                                                 <form>
                                                     <group widget='one2many'>
                                                         <field name="documentos" filename="nombre" widget="pdf_viewer"></field>
