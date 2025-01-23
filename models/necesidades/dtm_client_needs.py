@@ -67,6 +67,7 @@ class ClientNeeds(models.Model):
                 get_cot_list.write({
                     'descripcion': item.name,
                     'cantidad': item.cantidad,
+                    'items_id': [(1,self.env['dtm.cotizacion.item'].search([('neces_id','=',item.id)]).id if self.env['dtm.cotizacion.item'].search([('neces_id','=',item.id)]) else 0 ,{'name':item.descripcion})]
                 })
             else:
                 get_cot_list.create({
@@ -74,7 +75,16 @@ class ClientNeeds(models.Model):
                     'descripcion': item.name,
                     'cantidad': item.cantidad,
                     'model_id':get_cotizacion.id,
+                    'items_id': [(0,0,{'name':item.descripcion,'neces_id':item.id})]
                 })
+
+
+            print(list(set(self.env['dtm.cotizacion.item'].search([('model_id','=',item.id)]).mapped('id'))))
+            print(get_cot_list)
+            # get_cot_list.write({'items_id':[6,0,list(set(self.env['dtm.cotizacion.item'].search([('model_id','=',item.id)]).mapped('id')))]})
+
+
+
 
     def action_prediseno(self):
         pass

@@ -140,6 +140,8 @@ class Items(models.Model):
     model_id = fields.Many2one("dtm.cotizacion.requerimientos")
 
     name = fields.Char(string="Descripción")
+    # FK para casar la descripción de necesidades con la cotización
+    neces_id = fields.Integer()
 
 class Atencion(models.Model):
     _name = "dtm.cotizacion.atencion"
