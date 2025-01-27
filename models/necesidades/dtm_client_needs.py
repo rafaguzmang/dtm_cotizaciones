@@ -11,7 +11,7 @@ class ClientNeeds(models.Model):
 
     #---------------Function------------------
     def _default_init(self): # Genera número consecutivo del campo no_cotizacion
-        get_cotizacion = self.env['dtm.cotizaciones'].search([],order="no_cotizacion desc",limit=1)
+        get_cotizacion = self.env['dtm.client.needs'].search([],order="no_cotizacion desc",limit=1)
         return str(int(get_cotizacion.no_cotizacion) + 1)
 
     no_cotizacion = fields.Char(string="No. De Necesidad", default=_default_init)

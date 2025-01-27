@@ -4,14 +4,12 @@
         <menuitem id="dtm_client_needs_menu" action="dtm_cotizaciones.dtm_client_needs_action"/>
 <!--          <menuitem id="dtm_precotizacion_menu" action="dtm_precotizacion_action"/>-->
         <menuitem id="dtm_cotizaciones_menu" action="dtm_cotizaciones_action" />
+        <menuitem id="dtm_ot_prediseno_action_menu" action="dtm_odt_interna.dtm_ot_prediseno_action"/>
         <menuitem id="menu_dtm_ordenes_compra"  action="dtm_ordenes_compra.dtm_ordenes_compra_accion" />
+        <menuitem id="menu_dtm_ordenes_compra_facturado"  action="dtm_ordenes_compra.dtm_ordenes_compra_facturado_accion" />
+        <menuitem id="dtm_client_indicadores_menu" action="dtm_client_indicadores_action"/>
 
 <!--        <menuitem id="dtm_ordenes_minutas_menu_action" action="dtm_ordenes_compra.dtm_ordenes_minutas_action"/>-->
-        <menuitem id="menu_dtm_ordenes_compra_facturado"  action="dtm_ordenes_compra.dtm_ordenes_compra_facturado_accion" />
-<!--&lt;!&ndash;          <menuitem id="dtm_client_indicadores_menu" action="dtm_client_indicadores_action"/>&ndash;&gt;-->
 <!--&lt;!&ndash;          <menuitem id="dtm_client_graph_menu" action="dtm_client_graph_action"/>&ndash;&gt;-->
-          <menuitem id="dtm_client_indicadores_menu" action="dtm_client_indicadores_action"/>
-<!--&lt;!&ndash;          <menuitem id="dtm_client_graph_menu" action="dtm_client_graph_action"/>&ndash;&gt;-->
-        <menuitem id="dtm_ot_prediseno_action_menu" action="dtm_odt_interna.dtm_ot_prediseno_action"/>
      </menuitem>
 </odoo>
