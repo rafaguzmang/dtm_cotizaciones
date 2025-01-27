@@ -1,7 +1,7 @@
 {
     "name":"dtm_cotizaciones",
     "description":"Requerimientos del cliente, cotizaciones",
-    "depends":["mail","contacts"],
+    "depends":["mail","contacts","dtm_odt_interna"],
     "data":[
         # Security
         'security/ir.model.access.csv',

@@ -21,11 +21,20 @@
                         <field name="unidad" />
                         <field name="total"/>
                     </group>
-                    <field name="items_id">
-                        <tree editable="bottom">
-                            <field name="name" />
-                        </tree>
-                    </field>
+                    <notebook>
+                        <page string="Descripción">
+                            <field name="items_id">
+                                <tree editable="bottom">
+                                    <field name="name" />
+                                </tree>
+                            </field>
+
+                        </page>
+                        <page string="Anexos">
+                            <field name="attachment_ids"/>
+                        </page>
+                    </notebook>
+
                 </sheet>
             </form>
         </field>

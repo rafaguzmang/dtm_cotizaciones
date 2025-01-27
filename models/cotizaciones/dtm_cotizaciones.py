@@ -125,6 +125,7 @@ class Requerimientos(models.Model):
     total = fields.Float(string="Total", store=True,compute="_compute_total")
     id_need= fields.Integer()
     items_id = fields.One2many("dtm.cotizacion.item", "model_id")
+    attachment_ids = fields.Many2many("dtm.documentos.anexos", string="Archivos", readonly=False)
 
 
     @api.depends("precio_unitario","cantidad")
@@ -155,13 +156,13 @@ class Prediseno(models.Model):
     _description = "Modelo para guardar los prediseños solicitados"
     # _rec_name = "descripcion"
 
-    def action_autoNum(self):
-        get_pd = self.env['dtm.odt'].search([("tipe_order","=","PD")],order='ot_number desc', limit=1)
-        get_self = self.env['dtm.odt.prediseno'].search([],order='ot_number desc', limit=1)
-        return get_pd.ot_number + 1 if get_pd.ot_number > get_self.id else get_self.id + 1
+    # def action_autoNum(self):
+    #     get_pd = self.env['dtm.odt'].search([("tipe_order","=","PD")],order='ot_number desc', limit=1)
+    #     get_self = self.env['dtm.odt.prediseno'].search([],order='ot_number desc', limit=1)
+    #     return get_pd.ot_number + 1 if get_pd.ot_number > get_self.id else get_self.id + 1
 
     model_id = fields.Many2one('dtm.cotizaciones')
-    ot_number = fields.Integer(string="NO.",default=action_autoNum,readonly=True)
+    ot_number = fields.Integer(string="NO.",readonly=True)
     tipe_order = fields.Char(string="TIPO",readonly=True, default='PD')
     name_client = fields.Many2one("res.partner",string ="Cliente")
 
