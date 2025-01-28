@@ -18,7 +18,7 @@
         <field name="arch" type="xml">
             <form >
                 <sheet>
-                     <field name="documentos" filename="nombre" widget="pdf_viewer"></field>
+                    <field name="documentos" filename="nombre" widget="pdf_viewer"></field>
                     <field name="nombre" invisible="1"></field>
                 </sheet>
             </form>
