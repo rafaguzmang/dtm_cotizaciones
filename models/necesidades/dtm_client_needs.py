@@ -77,7 +77,7 @@ class ClientNeeds(models.Model):
                     'cantidad': item.cantidad,
                     'model_id':get_cotizacion.id,
                     'items_id': [(0,0,{'name':item.descripcion,'neces_id':item.id})],
-                    'attachment_ids': [(6,0,self.attachment_ids.mapped('id'))]
+                    'attachment_ids': [(6,0,item.attachment_ids.mapped('id'))]
                 })
 
 
