@@ -45,9 +45,9 @@ class Indicadores(models.Model):
                         else:
                             noaceptadas += 1
                             if 'dlls' in self.env['dtm.cotizaciones'].search([('id','=',cotizacion[2])]).mapped('servicios_id').mapped('unidad'):
-                                costo_aceptado += sum(self.env['dtm.cotizaciones'].search([('id','=',cotizacion[2])]).mapped('servicios_id').mapped('total')) * get_month.costo_dlls
+                                costo_noaceptado += sum(self.env['dtm.cotizaciones'].search([('id','=',cotizacion[2])]).mapped('servicios_id').mapped('total')) * get_month.costo_dlls
                             else:
-                                costo_aceptado += sum(self.env['dtm.cotizaciones'].search([('id','=',cotizacion[2])]).mapped('servicios_id').mapped('total'))
+                                costo_noaceptado += sum(self.env['dtm.cotizaciones'].search([('id','=',cotizacion[2])]).mapped('servicios_id').mapped('total'))
 
                 # Si el mes existe lo actualiza si no lo crea
                 get_this = self.env['dtm.client.indicadores'].search([('no_month','=',month)])
