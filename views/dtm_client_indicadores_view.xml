@@ -19,6 +19,9 @@
                     <field name="cotizaciones_aceptadas" />
                     <field name="cotizaciones_pendientes" />
                     <field name="cotizaciones_noaceptadas" />
+                    <field name="cotizaciones_costo_total"/>
+                    <field name="cotizaciones_costo_aceptado"/>
+                    <field name="costo_dlls"/>
                 </tree>
             </field>
         </record>
@@ -46,10 +49,13 @@
                     </header>
                     <sheet>
                         <group>
+                            <field name="costo_dlls"/>
                             <field name="cotizaciones" />
                             <field name="cotizaciones_aceptadas" />
                             <field name="cotizaciones_pendientes" />
                             <field name="cotizaciones_noaceptadas" />
+                            <field name="cotizaciones_costo_total"/>
+                            <field name="cotizaciones_costo_aceptado"/>
                         </group>
 
                     </sheet>
