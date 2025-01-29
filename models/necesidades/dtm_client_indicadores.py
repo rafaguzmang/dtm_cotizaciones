@@ -11,6 +11,9 @@ class Indicadores(models.Model):
     cotizaciones_aceptadas = fields.Integer(string="Cotizaciones Aceptadas")
     cotizaciones_pendientes = fields.Integer(string="Cotizaciones Pendientes")
     cotizaciones_noaceptadas = fields.Integer(string="Cotizaciones No aceptadas")
+    cotizaciones_costo_total = fields.Float(string="Costo Total")
+    cotizaciones_costo_aceptado = fields.Float(string="Costo Aprobado")
+    costo_dlls = fields.Float(string="Costo Dolar")
 
 
     def get_view(self, view_id=None, view_type='form', **options):
@@ -20,19 +23,31 @@ class Indicadores(models.Model):
 
             if int(datetime.today().strftime("%m")) == month:
                 # Busca las cotizaciones del mes actual y del mes pasado
-                self.env.cr.execute(" SELECT date,po_number,precio_total FROM dtm_cotizaciones WHERE EXTRACT(MONTH FROM date) = "+str(month)+
+                self.env.cr.execute(" SELECT date,po_number,id FROM dtm_cotizaciones WHERE EXTRACT(MONTH FROM date) = "+str(month)+
                                     " AND EXTRACT(YEAR FROM date) = "+datetime.today().strftime("%Y")+";")
                 get_cotizaciones = self.env.cr.fetchall()
                 if get_cotizaciones:
                     # Obtiene los datos necesarios
                     aceptadas = 0
                     noaceptadas = 0
+                    costo_aceptado = 0
+                    costo_noaceptado = 0
                     # Ordenes aceptadas y rechazadas
                     for cotizacion in get_cotizaciones:
+                        get_month = self.env['dtm.client.indicadores'].search([('no_month','=',month)])
                         if cotizacion[1] is not None:
                             aceptadas += 1
+                            # Iguala el precio en pesos Mexicanos
+                            if 'dlls' in self.env['dtm.cotizaciones'].search([('id','=',cotizacion[2])]).mapped('servicios_id').mapped('unidad'):
+                                costo_aceptado += sum(self.env['dtm.cotizaciones'].search([('id','=',cotizacion[2])]).mapped('servicios_id').mapped('total')) * get_month.costo_dlls
+                            else:
+                                costo_aceptado += sum(self.env['dtm.cotizaciones'].search([('id','=',cotizacion[2])]).mapped('servicios_id').mapped('total'))
                         else:
                             noaceptadas += 1
+                            if 'dlls' in self.env['dtm.cotizaciones'].search([('id','=',cotizacion[2])]).mapped('servicios_id').mapped('unidad'):
+                                costo_aceptado += sum(self.env['dtm.cotizaciones'].search([('id','=',cotizacion[2])]).mapped('servicios_id').mapped('total')) * get_month.costo_dlls
+                            else:
+                                costo_aceptado += sum(self.env['dtm.cotizaciones'].search([('id','=',cotizacion[2])]).mapped('servicios_id').mapped('total'))
 
                 # Si el mes existe lo actualiza si no lo crea
                 get_this = self.env['dtm.client.indicadores'].search([('no_month','=',month)])
@@ -42,6 +57,8 @@ class Indicadores(models.Model):
                         'cotizaciones_aceptadas':aceptadas,
                         'cotizaciones_noaceptadas':noaceptadas,
                         'cotizaciones_pendientes':self.cotizaciones_pendientes,
+                        'cotizaciones_costo_total':costo_noaceptado + costo_aceptado,
+                        'cotizaciones_costo_aceptado':costo_aceptado
                     })
                 else:
                     get_this.create({
@@ -49,8 +66,8 @@ class Indicadores(models.Model):
                         'month_name':datetime.today().strftime("%B"),
                         'cotizaciones':len(get_cotizaciones),
                         'cotizaciones_aceptadas':aceptadas,
-                        'cotizaciones_noaceptadas':noaceptadas,
-                        'cotizaciones_pendientes':self.cotizaciones_pendientes,
+                        'cotizaciones_costo_total':costo_noaceptado + costo_aceptado,
+                        'cotizaciones_costo_aceptado':costo_aceptado
                     })
 
 
