@@ -6,7 +6,6 @@
         <template id="dtm_cotizaciones.cotizaciones_template_header">
                <div class="header " >
                    <div class="oe_structure" />
-                   
                </div>
         </template>
         <template id="dtm_cotizaciones.cotizaciones_template_page">
@@ -47,14 +46,14 @@
                       </div>
                 </div>
 
-                <div class="table" style="padding-top:130px;border-collapse: collapse;position: relative;top:30px,border:1px solid #fff">
+                <div class="table" style="padding-top:130px;border-collapse: collapse;position: relative;top:30px border:1px solid #fff">
                     <table style="border-collapse: collapse;width: 100%;">
                       <tr style="background-color: #008ae6;border-bottom: 1px solid #ddd;height:25px">
                         <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif;width:60px">No</th>
                         <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif;">Descripción</th>
                         <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif;">Cantidad</th>
                         <th style=" text-align: center;color: white;font-size:13px;font-family: Arial, sans-serif;width:120px">Precio Unitario</th>
-                        <th style=" text-align: center;color: white;font-size:13px;Calibri">Total</th>
+                        <th style="text-align: center; color: white; font-size: 13px; font-family: Calibri, Arial, sans-serif;">Total</th>
                       </tr>
 
                       <t t-set="no_item" t-value="1"/>
