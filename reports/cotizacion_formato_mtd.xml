@@ -3,13 +3,13 @@
 
     <data>
 
-        <template id="dtm_cotizaciones.cotizaciones_template_header">
+        <template id="dtm_cotizaciones.cotizaciones_template_mtd_header">
                <div class="header " >
                    <div class="oe_structure" />
                    
                </div>
         </template>
-        <template id="dtm_cotizaciones.cotizaciones_template_page">
+        <template id="dtm_cotizaciones.cotizaciones_template_mtd_page">
                 <div class="page">
                     <div class="oe_structure" />
                         <div class="container_1 " style="text-align:center;position: relative;top:20px">
@@ -41,14 +41,14 @@
                             </div>
                         </div>
 
-                        <div class="table" style="width:100%,margin-top:50px;border-collapse: collapse;border:1px solid #fff;float:center">
+                        <div class="table" style="width:100%;margin-top:50px;border-collapse: collapse;border:1px solid #fff;float:center">
                             <table style="border-collapse: collapse;width: 100%;">
                               <tr style="background-color: #A6A6A6;border-bottom: 1px solid #ddd;height:25px;color:#000;">
                                 <th style=" text-align: center;font-size:13px;font-family: Arial, sans-serif;width:60px"></th>
                                 <th style=" text-align: center;font-size:13px;font-family: Arial, sans-serif;">Descriptión</th>
                                 <th style=" text-align: center;font-size:13px;font-family: Arial, sans-serif;">Qty</th>
                                 <th style=" text-align: center;font-size:13px;font-family: Arial, sans-serif;width:120px">Unit Price</th>
-                                <th style=" text-align: center;font-size:13px;Calibri">Total</th>
+                                <th style="text-align: center; color: white; font-size: 13px; font-family: Calibri, Arial, sans-serif;">Total</th>
                               </tr>
 
                               <t t-set="no_item" t-value="1"/>
@@ -120,23 +120,19 @@
             <field name="name">Cotización</field>
             <field name="model">dtm.cotizaciones</field>
             <field name="report_type">qweb-pdf</field>
-            <field name="report_name">dtm_cotizaciones.dtm_cotizaciones_template</field>
-            <field name="report_file">dtm_cotizaciones.dtm_cotizaciones_template</field>
-<!--            <field name="paperformat_id" ref="dtm_cotizaciones.papperformat_ordendetrabajo" />-->
-<!--            <field name="print_report_name">(object._get_report_base_filename())</field>-->
-<!--            <field name="attachment">((object.name)+'.pdf')</field>-->
-<!--            <field name="binding_model_id" ref="dtm_cotizaciones.dtm_cotizaciones_template"/>-->
+            <field name="report_name">dtm_cotizaciones.dtm_cotizaciones_mtd_template</field>
+            <field name="report_file">dtm_cotizaciones.dtm_cotizaciones_mtd_template</field>
             <field name="binding_type">report</field>
         </record>
 
-        <template id="dtm_cotizaciones_template" >
+        <template id="dtm_cotizaciones_mtd_template" >
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="o">
                     <head>
                         <meta charset="UTF-8"/>
                     </head>
-                   <t t-call="dtm_cotizaciones.cotizaciones_template_header" />
-                   <t t-call="dtm_cotizaciones.cotizaciones_template_page" />
+                   <t t-call="dtm_cotizaciones.cotizaciones_template_mtd_header" />
+                   <t t-call="dtm_cotizaciones.cotizaciones_template_mtd_page" />
                 </t>
             </t>
         </template>
