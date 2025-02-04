@@ -22,7 +22,7 @@ class DTMCotizaciones(models.Model):
     cliente = fields.Char(related='cliente_id.name')
 
     date = fields.Date(string="Fecha" ,default= datetime.today())
-    attachment_ids = fields.Many2many("dtm.documentos.anexos",string="Anexos")
+    # attachment_ids = fields.Many2many("dtm.documentos.anexos",string="Anexos")
     telefono = fields.Char(string="Telefono(s)", related='cliente_id.phone')
     correo = fields.Char(string = "email(s)",readonly=True)
     correo_cc =  fields.Many2many("dtm.contactos.anexos",string="cc")
@@ -63,24 +63,23 @@ class DTMCotizaciones(models.Model):
         return res
 
     #-------------------------------------------------Acciones y Computes -----------------------------------------------------------------
+    @api.onchange('prediseno_id')
     def action_generar(self):
         for prediseno in self.prediseno_id:
-            get_prediseno = self.env['dtm.odt.prediseno'].search([('ot_number','=',prediseno.ot_number)])
-            if get_prediseno:
-                get_prediseno.write({
-                    'name_client':self.cliente_id.id,
-                    'product_name':prediseno.product_name,
-                    'cuantity':prediseno.cuantity,
-                })
-            else:
-                get_prediseno.create({
-                    'ot_number':prediseno.ot_number,
-                    'tipe_order':'PD',
-                    'name_client':self.cliente_id.id,
-                    'product_name':prediseno.product_name,
-                    'date_in':prediseno.date_in,
-                    'cuantity':prediseno.cuantity,
-                })
+            vals = {
+                "od_number":prediseno.od_number,
+                "tipe_order":'PD',
+                "name_client":self.cliente,
+                "product_name":prediseno.product_name,
+                "date_in":prediseno.date_in,
+                "date_rel":prediseno.date_rel,
+                "cuantity":prediseno.cuantity,
+                "disenador":'Andrés Orozco' if prediseno.disenador == 'andres' else 'Luis García',
+                "description":prediseno.description,
+                "archivos_id": [(6,0,[self.servicios_id.attachment_ids._origin.id])],
+            }
+            get_od = self.env['dtm.odt'].search([("od_number","=",prediseno.od_number)])
+            get_od.write(vals) if get_od else get_od.create(vals)
 
 
 
@@ -154,22 +153,25 @@ class Atencion(models.Model):
 class Prediseno(models.Model):
     _name = "dtm.cotizaciones.predisenos"
     _description = "Modelo para guardar los prediseños solicitados"
-    # _rec_name = "descripcion"
 
-    # def action_autoNum(self):
-    #     get_pd = self.env['dtm.odt'].search([("tipe_order","=","PD")],order='ot_number desc', limit=1)
-    #     get_self = self.env['dtm.odt.prediseno'].search([],order='ot_number desc', limit=1)
-    #     return get_pd.ot_number + 1 if get_pd.ot_number > get_self.id else get_self.id + 1
+    def action_autoNum(self):
+        get_pd = self.env['dtm.odt'].search([('od_number','!=',0)],order='od_number desc', limit=1)
+        return get_pd.od_number + 1
 
-    model_id = fields.Many2one('dtm.cotizaciones')
-    ot_number = fields.Integer(string="NO.",readonly=True)
-    tipe_order = fields.Char(string="TIPO",readonly=True, default='PD')
-    name_client = fields.Many2one("res.partner",string ="Cliente")
+    model_id = fields.Many2one('dtm.cotizaciones')#Enlaza con el modelo padre
+    od_number = fields.Integer(string="NO.",readonly=True,default=action_autoNum)
 
     product_name = fields.Char(string="NOMBRE DEL PRODUCTO")
     date_in = fields.Date(string="CREACIÒN", default= datetime.today(),readonly=True)
+    description = fields.Text(string="Descripción")
 
     cuantity = fields.Integer(string="CANTIDAD")
     disenador = fields.Selection(string="DISEÑADOR", selection=[("andres","Andrés Orozco"),("luis","Luís García")])
+    date_rel = fields.Date(string="FECHA DE ENTREGA")
+
+
+
+
+
 
 

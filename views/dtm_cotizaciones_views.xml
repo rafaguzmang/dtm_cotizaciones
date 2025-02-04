@@ -53,10 +53,34 @@
                             <field name="servicios_id" options="{'no_create_edit': False}" />
                         </page>
                         <page string="Prediseños">
-                            <field name="prediseno_id"/>
-                            <div class="col-12" style="display:flex;flex-direction:row-reverse">
-                                <button type="object" name="action_generar" string="Generar"  class="btn btn-primary"/>
-                            </div>
+                            <field name="prediseno_id">
+                                <tree>
+                                    <field name="od_number"/>
+                                    <field name="product_name"/>
+                                    <field name="date_in"/>
+                                    <field name="cuantity" />
+                                    <field name="disenador"/>
+                                </tree>
+                                <form>
+                                    <div class="container" style="display:flex;justify-content:space-between;font-size:25px;
+                                        color: #71649c;margin-bottom: 20px;border-bottom: 1px solid rgba(0, 0, 0, 0.1);padding-bottom: 5px;">
+                                        <field name="od_number"/>
+                                        <field name="date_in"/>
+                                    </div>
+                                    <group>
+                                        <field name="product_name"/>
+                                        <field name="description"/>
+                                    </group>
+
+                                    <div class="col-4">
+                                        <group>
+                                            <field name="cuantity" options='{"type": "number"}'/>
+                                            <field name="date_rel"/>
+                                            <field name="disenador"/>
+                                        </group>
+                                    </div>
+                                </form>
+                            </field>
                         </page>
                         <page string="Correo">
                                 <div class="row">
