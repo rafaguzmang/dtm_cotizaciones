@@ -12,17 +12,12 @@
             <field name="name">dtm_client_needs.view.tree</field>
             <field name="model">dtm.client.needs</field>
             <field name="arch" type="xml">
-                <tree string="" decoration-muted="cotizacion!=True"
-                                decoration-bf="cotizacion==True"
-                                decoration-it="cotizacion==True"
-                                decoration-info="cotizacion==True">
-
+                <tree>
                     <field name="cliente_ids"></field>
                     <field name="no_cotizacion"></field>
+                    <field name="cotizacion"/>
                     <field name="date"/>
                     <field name="status"/>
-                    <field name="cotizacion" invisible="1"/>
-
                 </tree>
             </field>
         </record>
