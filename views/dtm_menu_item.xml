@@ -12,6 +12,5 @@
 <!--&lt;!&ndash;          <menuitem id="dtm_client_graph_menu" action="dtm_client_graph_action"/>&ndash;&gt;-->
           <menuitem id="dtm_client_indicadores_menu" action="dtm_client_indicadores_action"/>
 <!--&lt;!&ndash;          <menuitem id="dtm_client_graph_menu" action="dtm_client_graph_action"/>&ndash;&gt;-->
-        <menuitem id="dtm_ot_prediseno_action_menu" action="dtm_odt_interna.dtm_ot_prediseno_action"/>
      </menuitem>
 </odoo>

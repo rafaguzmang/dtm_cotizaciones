@@ -5,7 +5,6 @@ access_dtm_documentos_anexos,access.dtm.documentos.anexos,model_dtm_documentos_a
 access_dtm_contactos_anexos,access.dtm.contactos.anexos,model_dtm_contactos_anexos,base.group_user,1,1,1,1
 access_dtm_list_material_producto,access.dtm.list.material.producto,model_dtm_list_material_producto,base.group_user,1,1,1,1
 access_dtm_contactos_anexos,access.dtm.contactos.anexos,model_dtm_contactos_anexos,base.group_user,1,1,1,1
-access_dtm_precotizacion,access.dtm.precotizacion,model_dtm_precotizacion,base.group_user,1,1,1,1
 access_dtm_requerimientos,access.dtm.requerimientos,model_dtm_requerimientos,base.group_user,1,1,1,1
 access_dtm_cotizaciones,access.dtm.cotizaciones,model_dtm_cotizaciones,base.group_user,1,1,1,1
 access_dtm_cotizacion_requerimientos,access.dtm.cotizacion.requerimientos,model_dtm_cotizacion_requerimientos,base.group_user,1,1,1,1
