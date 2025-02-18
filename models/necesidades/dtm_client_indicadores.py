@@ -20,18 +20,22 @@ class Indicadores(models.Model):
         res = super(Indicadores,self).get_view(view_id, view_type,**options)
 
         for month in range(1,13):
-
-            if int(datetime.today().strftime("%m")) == month:
+            if month <= int(datetime.today().strftime("%m")):
                 # Busca las cotizaciones del mes actual y del mes pasado
                 self.env.cr.execute(" SELECT date,po_number,id FROM dtm_cotizaciones WHERE EXTRACT(MONTH FROM date) = "+str(month)+
                                     " AND EXTRACT(YEAR FROM date) = "+datetime.today().strftime("%Y")+";")
                 get_cotizaciones = self.env.cr.fetchall()
+
+                self.env.cr.execute(" SELECT date,po_number,id FROM dtm_cotizaciones WHERE EXTRACT(MONTH FROM date) = "+str(month)+
+                                    " AND EXTRACT(YEAR FROM date) = "+datetime.today().strftime("%Y")+";")
+                get_cotizaciones_old = self.env.cr.fetchall()
+
+                aceptadas = 0
+                noaceptadas = 0
+                costo_aceptado = 0
+                costo_noaceptado = 0
                 if get_cotizaciones:
                     # Obtiene los datos necesarios
-                    aceptadas = 0
-                    noaceptadas = 0
-                    costo_aceptado = 0
-                    costo_noaceptado = 0
                     # Ordenes aceptadas y rechazadas
                     for cotizacion in get_cotizaciones:
                         get_month = self.env['dtm.client.indicadores'].search([('no_month','=',month)])

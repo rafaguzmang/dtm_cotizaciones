@@ -28,7 +28,7 @@ class ClientNeeds(models.Model):
 
     correo = fields.Char(string = "email(s)", readonly=True, compute="_compute_onchange", store=True)
 
-    cotizacion = fields.Boolean(default=False)
+    cotizacion = fields.Boolean(default=False,compute="_compute_cotizacion")
 
     nivel = fields.Selection(string="Nivel", default="uno",selection=[('uno',1),('dos',2),('tres',3)])
 
@@ -81,8 +81,9 @@ class ClientNeeds(models.Model):
                 })
 
 
-    def action_prediseno(self):
-        pass
+    def _compute_cotizacion(self):
+        for result in self:
+            result.cotizacion = True if self.env['dtm.cotizaciones'].search([('no_cotizacion','=',result.no_cotizacion)]) else False
 
 
 
