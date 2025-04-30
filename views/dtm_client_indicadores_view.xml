@@ -17,6 +17,7 @@
                     <field name="month_name" />
                     <field name="cotizaciones" />
                     <field name="cotizaciones_aceptadas" />
+                    <field name="porcentaje" widget="percentage"/>
                     <field name="cotizaciones_pendientes" />
                     <field name="cotizaciones_noaceptadas" />
                     <field name="cotizaciones_costo_total"/>
@@ -26,17 +27,46 @@
             </field>
         </record>
 
-<!--         <record id="dtm_client_indicadores_view_graph" model="ir.ui.view">-->
-<!--            <field name="name">dtm_client_indicadores.view.graph</field>-->
-<!--            <field name="model">dtm.client.indicadores</field>-->
-<!--            <field name="arch" type="xml">-->
-<!--                <graph>-->
-<!--                    <field name="uno_days"/>-->
-<!--                    <field name="dos_days"/>-->
-<!--                    <field name="tres_days"/>-->
-<!--                </graph>-->
-<!--            </field>-->
-<!--        </record>-->
+        <record id="dtm_client_indicadores_form" model="ir.ui.view">
+            <field name="name">dtm_client_indicadores_form</field>
+            <field name="model">dtm.client.indicadores</field>
+            <field name="arch" type="xml">
+
+                <form>
+                    <group>
+                        <field name="no_month" />
+                        <field name="month_name" />
+                        <field name="cotizaciones" />
+                        <field name="cotizaciones_aceptadas" />
+                        <field name="porcentaje" widget="percentage"/>
+                        <field name="cotizaciones_pendientes" />
+                        <field name="cotizaciones_noaceptadas" />
+                        <field name="cotizaciones_costo_total"/>
+                        <field name="cotizaciones_costo_aceptado"/>
+                        <field name="costo_dlls"/>
+                    </group>
+                    <graph string="Gráfica de Ejemplo" type="bar">
+                        <field name="create_date" type="row"/>
+                        <field name="cotizaciones" type="measure"/>
+                        <field name="porcentaje" type="measure" widget="percentage"/>
+                    </graph>
+                </form>
+            </field>
+        </record>
+
+        <record id="dtm_client_indicadores_view_graph" model="ir.ui.view">
+            <field name="name">dtm_client_indicadores.view.graph</field>
+            <field name="model">dtm.client.indicadores</field>
+            <field name="arch" type="xml">
+                <graph string="Gráfica de Ejemplo" type="bar">
+                    <field name="month_name" type="row"/>
+                    <field name="cotizaciones" type="measure"/>
+                    <field name="cotizaciones_aceptadas" type="measure"/>
+                    <field name="cotizaciones_noaceptadas" type="measure"/>
+                    <field name="cotizaciones_costo_total" type="measure"/>
+                </graph>
+            </field>
+        </record>
 
         <record id="dtm_client_indicadores_view_form" model="ir.ui.view">
             <field name="name">dtm_client_indicadores.view.form</field>

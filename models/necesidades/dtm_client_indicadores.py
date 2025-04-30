@@ -1,3 +1,5 @@
+from email.policy import default
+
 from odoo import fields,models,api
 from datetime import datetime
 
@@ -14,7 +16,8 @@ class Indicadores(models.Model):
     cotizaciones_costo_total = fields.Float(string="Costo Total")
     cotizaciones_costo_aceptado = fields.Float(string="Costo Aprobado")
     costo_dlls = fields.Float(string="Costo Dolar")
-
+    porcentaje = fields.Float(string="%")
+    aprovado = fields.Float(default=6.0)
 
     def get_view(self, view_id=None, view_type='form', **options):
         res = super(Indicadores,self).get_view(view_id, view_type,**options)
@@ -62,7 +65,9 @@ class Indicadores(models.Model):
                         'cotizaciones_noaceptadas':noaceptadas,
                         'cotizaciones_pendientes':self.cotizaciones_pendientes,
                         'cotizaciones_costo_total':costo_noaceptado + costo_aceptado,
-                        'cotizaciones_costo_aceptado':costo_aceptado
+                        'cotizaciones_costo_aceptado':costo_aceptado,
+                        'porcentaje': (aceptadas * 1)/len(get_cotizaciones) if len(get_cotizaciones) > 0 else 0,
+
                     })
                 else:
                     get_this.create({
@@ -71,7 +76,8 @@ class Indicadores(models.Model):
                         'cotizaciones':len(get_cotizaciones),
                         'cotizaciones_aceptadas':aceptadas,
                         'cotizaciones_costo_total':costo_noaceptado + costo_aceptado,
-                        'cotizaciones_costo_aceptado':costo_aceptado
+                        'cotizaciones_costo_aceptado':costo_aceptado,
+                        'porcentaje': (aceptadas * 1)/len(get_cotizaciones) if len(get_cotizaciones) > 0 else 0,
                     })
 
 
