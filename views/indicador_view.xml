@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="dtm_cotizaciones_indicadores_action" model="ir.actions.client">
+        <field name="name">Indicadores</field>
+        <field name="tag">dtm_cotizaciones.indicadores</field>
+    </record>
+
+<!--    <menuitem id="dtm_cotizaciones_indicadores_menu" action ="dtm_cotizaciones_indicadores_action"/>-->
+</odoo>

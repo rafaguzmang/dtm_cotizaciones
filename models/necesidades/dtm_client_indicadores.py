@@ -5,7 +5,7 @@ from datetime import datetime
 
 class Indicadores(models.Model):
     _name = "dtm.client.indicadores"
-    _description = "Tabla con los indicadores de eficiencia de ventas"
+    _description = "Tabla con los xml de eficiencia de ventas"
 
     no_month = fields.Integer()
     month_name = fields.Char(string="Mes")
@@ -22,6 +22,7 @@ class Indicadores(models.Model):
     def get_view(self, view_id=None, view_type='form', **options):
         res = super(Indicadores,self).get_view(view_id, view_type,**options)
 
+        # Lógica para obtener indicadores de Ventas
         for month in range(1,13):
             if month <= int(datetime.today().strftime("%m")):
                 # Busca las cotizaciones del mes actual y del mes pasado

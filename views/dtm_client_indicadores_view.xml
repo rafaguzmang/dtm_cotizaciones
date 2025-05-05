@@ -2,7 +2,7 @@
 <odoo>
 
     <data>
-        <record id="dtm_client_indicadores_action" model="ir.actions.act_window">
+        <record id="dtm_client_indicadores_old_action" model="ir.actions.act_window">
             <field name="name">Indicadores</field>
             <field name="res_model">dtm.client.indicadores</field>
             <field name="view_mode">tree,form,graph</field>
@@ -60,10 +60,7 @@
             <field name="arch" type="xml">
                 <graph string="Gráfica de Ejemplo" type="bar">
                     <field name="month_name" type="row"/>
-                    <field name="cotizaciones" type="measure"/>
-                    <field name="cotizaciones_aceptadas" type="measure"/>
-                    <field name="cotizaciones_noaceptadas" type="measure"/>
-                    <field name="cotizaciones_costo_total" type="measure"/>
+                    <field name="porcentaje" type="measure"/>
                 </graph>
             </field>
         </record>

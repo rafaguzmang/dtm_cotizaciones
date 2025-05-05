@@ -1,0 +1,41 @@
+<template xml:space="preseve">
+    <t t-name="dtm_cotizaciones.indicadores" owl="1">
+        <div class="container mt-4" >
+            <h3>Tabla</h3>
+            <table class="table  table-striped">
+              <thead class="table-primary">
+                <tr>
+                    <th>Mes</th>
+                    <th>Cotizaciones</th>
+                    <th>C. Aceptadas</th>
+                    <th>%</th>
+<!--                    <th>C. Pendientes</th>-->
+                    <th>C. No aceptadas</th>
+                    <th>Costo Total</th>
+                    <th>Costo Aceptado</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <t t-foreach="state.items" t-as="item" t-key="item.id">
+                    <tr>
+                        <td><t t-esc="item.month_name"/></td>
+                        <td><t t-esc="item.cotizaciones"/></td>
+                        <td><t t-esc="item.cotizaciones_aceptadas"/></td>
+<!--                        <td><t t-esc="item.cotizaciones_pendientes"/></td>-->
+                        <td><t t-esc="item.cotizaciones_noaceptadas"/></td>
+                        <td><t t-esc="item.porcentaje"/></td>
+                        <td><t t-esc="item.cotizaciones_costo_total"/></td>
+                        <td><t t-esc="item.cotizaciones_costo_aceptado"/></td>
+                    </tr>
+                  </t>
+              </tbody>
+            </table>
+            <h3 class="mt-4">Gráfica</h3>
+            <canvas t-ref="grafico" width="400" height="200"></canvas>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.1.0"></script>
+
+    </t>
+</template>
