@@ -21,10 +21,10 @@ export class Indicadores extends Component{
         // Espera un poco para asegurar que los scripts externos hayan cargado
         await new Promise(resolve => setTimeout(resolve, 100));
 
-//        // Asegura que el plugin esté disponible y lo registra
-//        if (window['chartjs-plugin-annotation']) {
-//            Chart.register(window['chartjs-plugin-annotation']);
-//        }
+        // Asegura que el plugin esté disponible y lo registra
+        if (window['chartjs-plugin-annotation']) {
+            Chart.register(window['chartjs-plugin-annotation']);
+        }
 
         console.log("Cargando datos...");
 
@@ -133,7 +133,7 @@ export class Indicadores extends Component{
                                     type: 'line',
                                     yMin: 60,  // 60% en escala de 0 a 100
                                     yMax: 60,  // 60% en escala de 0 a 100
-                                    borderColor: 'rgba(255, 0, 0, 0.4)',
+                                    borderColor: 'rgba(0, 255, 0, 0.8)',
                                     borderWidth: 1,
                                     label: {
                                         content: '',

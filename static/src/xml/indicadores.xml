@@ -8,9 +8,9 @@
                     <th>Mes</th>
                     <th>Cotizaciones</th>
                     <th>C. Aceptadas</th>
-                    <th>%</th>
 <!--                    <th>C. Pendientes</th>-->
                     <th>C. No aceptadas</th>
+                    <th>%</th>
                     <th>Costo Total</th>
                     <th>Costo Aceptado</th>
                 </tr>
