@@ -227,6 +227,7 @@ class ListMaterial(models.Model):
     descripcion = fields.Text(string="Descripción", readonly=False, required=True)
     cantidad = fields.Integer(string="Cantidad", readonly=False, required=True)
     attachment_ids = fields.Many2many("dtm.documentos.anexos", string="Archivos", readonly=False)
+    color = fields.Char(string='Color')
 
     #material_serv_ids = fields.Many2many("dtm.list.material.producto")
 
