@@ -133,7 +133,7 @@ export class Indicadores extends Component{
                                     type: 'line',
                                     yMin: 60,  // 60% en escala de 0 a 100
                                     yMax: 60,  // 60% en escala de 0 a 100
-                                    borderColor: 'rgba(255, 0, 0, 0.4)',
+                                    borderColor: 'rgba(0, 255, 0, 0.4)',
                                     borderWidth: 1,
                                     label: {
                                         content: '',
