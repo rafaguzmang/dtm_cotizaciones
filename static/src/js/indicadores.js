@@ -6,7 +6,7 @@ import { useService } from "@web/core/utils/hooks";
 
 
 
-console.log("Indicador cargado");
+//console.log("Indicador cargado");
 
 export class Indicadores extends Component{
     setup() {
@@ -26,7 +26,7 @@ export class Indicadores extends Component{
             Chart.register(window['chartjs-plugin-annotation']);
         }
 
-        console.log("Cargando datos...");
+//        console.log("Cargando datos...");
 
         // Autenticación
         const body = {
@@ -48,7 +48,7 @@ export class Indicadores extends Component{
             credentials: "include", // Muy importante para mantener la sesión
           });
           const data = await response.json();
-          console.log("🔐 Data:", data.result);
+//          console.log("🔐 Data:", data.result);
         } catch (error) {
           console.error("❌ Error al obtener datos:", error);
         }
@@ -92,7 +92,7 @@ export class Indicadores extends Component{
             });
 
             const readData = await readResponse.json();
-            console.log("📦 Datos obtenidos:", readData.result);
+//            console.log("📦 Datos obtenidos:", readData.result);
 
               // Asigna los datos al estado
             this.state.items = readData.result;
@@ -108,7 +108,7 @@ export class Indicadores extends Component{
                 cotizaciones_costo_aceptado: row.cotizaciones_costo_aceptado.toFixed(2)
 
             }));
-            console.log(this.state.items);
+//            console.log(this.state.items);
             const labels = this.state.items.map(item => item.month_name);
             const data = this.state.items.map(item => item.porcentaje);
 //            Grafica
@@ -166,5 +166,5 @@ Indicadores.template = "dtm_cotizaciones.indicadores";
 
 registry.category("actions").add("dtm_cotizaciones.indicadores", Indicadores);
 
-console.log("Indicadores registrado")
+//console.log("Indicadores registrado")
 

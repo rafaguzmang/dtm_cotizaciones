@@ -30,10 +30,6 @@ class Indicadores(models.Model):
                                     " AND EXTRACT(YEAR FROM date) = "+datetime.today().strftime("%Y")+";")
                 get_cotizaciones = self.env.cr.fetchall()
 
-                self.env.cr.execute(" SELECT date,po_number,id FROM dtm_cotizaciones WHERE EXTRACT(MONTH FROM date) = "+str(month)+
-                                    " AND EXTRACT(YEAR FROM date) = "+datetime.today().strftime("%Y")+";")
-                get_cotizaciones_old = self.env.cr.fetchall()
-
                 aceptadas = 0
                 noaceptadas = 0
                 costo_aceptado = 0

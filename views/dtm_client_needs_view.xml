@@ -67,12 +67,15 @@
                                     <tree name="listmat" > 
                                         <field name="name" readonly="0"></field>
                                         <field name="descripcion" readonly="0"></field>
-                                        <field name="cantidad"  options='{"type": "number"}' readonly="0"></field>                                        
+                                        <field name="color" readonly="0"></field>
+                                        <field name="cantidad"  options='{"type": "number"}' readonly="0"></field>
                                     </tree>
                                     <form >
                                         <group >
                                             <field name="name"  readonly="0"></field>
                                             <field name="descripcion"  readonly="0"></field>
+                                            <field name="color" readonly="0"></field>
+
                                             <field name="cantidad" options='{"type": "number"}'  readonly="0"></field>
 
                                             <field name="attachment_ids" widget='one2many' readonly='0' >
