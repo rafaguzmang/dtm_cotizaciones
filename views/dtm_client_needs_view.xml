@@ -54,6 +54,8 @@
                                 <field name="cliente_ids" readonly="0"></field>
                                 <field name="atencion" widget="many2many_tags" readonly="0"></field>
                                 <field name="nivel" widget="radio" options="{'horizontal': true}" invisible="1"/>
+                                <field name="via_solicitud" />
+
                             </group>
                             <group> 
                                 <field name="correo" widget="email"></field>
@@ -84,7 +86,7 @@
                                                 </tree>
                                                 <form>
                                                     <group widget='one2many'>
-                                                        <field name="documentos" filename="nombre" widget="pdf_viewer"></field>
+                                                        <field name="documentos" filename="nombre" widget="many2many_kanban"></field>
                                                         <field name="nombre" invisible="1"></field>
                                                     </group>
                                                 </form>
@@ -96,6 +98,57 @@
 
                             <page name="notas" string="Anotaciones">
                                 <field name="notes"></field>
+                            </page>
+                             <page name="prediseno" string="Prediseño">
+                                <field name="prediseno_id">
+                                    <tree>
+                                        <field name="od_number"/>
+                                        <field name="product_name"/>
+                                        <field name="date_in"/>
+                                        <field name="cuantity"/>
+                                        <field name="disenador"/>
+                                        <field name="date_rel"/>
+                                    </tree>
+                                    <form>
+
+                                            <h1 class="d-flex justify-content-between">
+                                                <field name="od_number"/>
+                                                <field name="date_in"/>
+                                            </h1>
+                                        <div class="row">
+                                            <group class="col-6">
+                                                <field name="product_name"/>
+                                                <field name="disenador"/>
+
+                                            </group>
+                                            <group class="col-3">
+                                                <field name="date_rel"/>
+                                                <field name="cuantity"/>
+
+                                            </group>
+                                        </div>
+                                        <group>
+                                            <field name="description"/>
+                                        </group>
+                                        <div class="row d-flex justify-content-between">
+                                            <field name="anexos_id" widget="many2many_binary"/>
+                                            <field name="prediseno_id" widget="many2many_binary"/>
+                                            <field name="liga_id"/>
+
+                                        </div>
+                                        <div class="row text-end">
+                                            <div class="">
+                                                <button name="action_prediseno" type="object" string="Solicitar" class="btn btn-primary" icon="fa-paint-brush"/>
+                                            </div>
+                                        </div>
+
+
+                                    </form>
+
+                                </field>
+                            </page>
+                            <page name="autorizacion" string="Autorización Cliente">
+                                <field name="autorizacion_id" widget="many2many_binary"/>
                             </page>
                         </notebook>
                         <div class="oe_chatter">

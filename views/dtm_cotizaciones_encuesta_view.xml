@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="ModelName_form_view" model="ir.ui.view">
+            <field name="name">ProjectName.ModelName.form</field>
+            <field name="model">dtm.cotizaciones.encuesta</field>
+            <field name="arch" type="xml">
+                <form string="ModelTitle">
+                    <sheet>
+                        <div class="d-flex justify-content-between" style="margin-bottom:15px">
+                            <h1>ENCUESTA TELEFÓNICA DE SATISFACCIÓN DEL CLIENTE</h1>
+                            <h1><field name="mes"/> <field name="ano"/></h1>
+
+                        </div>
+                        <field name="clientes_id">
+                            <tree>
+                                <field name="empresa"/>
+                                <field name="responde"/>
+                                <field name="fecha"/>
+                            </tree>
+                            <form>
+                                <group class="col-6">
+                                    <field name="empresa"/>
+                                    <field name="responde"/>
+                                    <field name="fecha"/>
+                                </group>
+                                <hr/>
+                                <div class="d-flex">
+                                    <group class="col-6">
+                                        <field name="pregunta1"/>
+                                        <field name="pregunta3"/>
+                                        <field name="pregunta5"/>
+                                        <field name="pregunta7"/>
+                                    </group>
+
+                                    <group class="col-6">
+                                        <field name="pregunta2"/>
+                                        <field name="pregunta4"/>
+                                        <field name="pregunta6"/>
+                                        <field name="pregunta8"/>
+                                    </group>
+                                </div>
+                                <hr/>
+
+                                <group>
+                                    <field name="comentarios"/>
+                                </group>
+
+                            </form>
+                        </field>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="dtm_cotizaciones_encuesta_tree_view" model="ir.ui.view">
+            <field name="name">dtm_cotizaciones_encuesta_tree</field>
+            <field name="model">dtm.cotizaciones.encuesta</field>
+            <field name="arch" type="xml">
+                <tree >
+                    <field name="mes"/>
+                    <field name="ano"/>
+                </tree>
+            </field>
+        </record>
+
+<!--        <record id="ModelName_search_view" model="ir.ui.view">-->
+<!--            <field name="name">dtm.cotizaciones.encuesta.search</field>-->
+<!--            <field name="model">dtm.cotizaciones.encuesta</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <search string="ModelTitle">-->
+<!--                    <group expand="1" string="Group By">-->
+<!--                        <filter string="Example Field" name="example_field" domain="[]"-->
+<!--                                context="{'group_by':'example_field'}"/>-->
+<!--                    </group>-->
+<!--                </search>-->
+<!--            </field>-->
+<!--        </record>-->
+
+        <record id="dtm_cotizaciones_encuesta_act_window" model="ir.actions.act_window">
+            <field name="name">Encuestas</field>
+            <field name="res_model">dtm.cotizaciones.encuesta</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+<!--        <menuitem id="tm_cotizaciones_encuesta_menu"  action="dtm_cotizaciones_encuesta_act_window"/>-->
+
+    </data>
+</odoo>

@@ -20,6 +20,7 @@ class DTMCotizaciones(models.Model):
     no_cotizacion = fields.Char(string="No. De Cotización",  default=_default_init,readonly=True)
     cliente_id = fields.Many2one("res.partner",string ="Cliente")
     cliente = fields.Char(related='cliente_id.name')
+    no_recotizacion = fields.Integer(string='Recotización', default=0,readonly=True)
 
     date = fields.Date(string="Fecha" ,default= datetime.today())
     # attachment_ids = fields.Many2many("dtm.documentos.anexos",string="Anexos")
@@ -32,7 +33,6 @@ class DTMCotizaciones(models.Model):
 
     atencion_id = fields.Many2one("dtm.cotizacion.atencion")
     servicios_id = fields.One2many('dtm.cotizacion.requerimientos','model_id', string='Requerimientos', readonly=False)
-    prediseno_id = fields.One2many("dtm.cotizaciones.predisenos",'model_id')
 
     material_id = fields.Many2many('dtm.list.material.producto')
 
@@ -50,6 +50,7 @@ class DTMCotizaciones(models.Model):
     email_image = fields.Image(string="Firma")
     status = fields.Char()
     po_number = fields.Char(string="PO")
+    recotizacion = fields.Integer(string='Recotización')
 
     # -----------------------------------------------------------Provicional-------------------------------------------------------------
     def get_view(self, view_id=None, view_type='form', **options):# Llena la tabla dtm.ordenes.compra.precotizaciones con las cotizaciones(NO PRECOTIZACIONES) pendientes
@@ -91,6 +92,38 @@ class DTMCotizaciones(models.Model):
             self.entrega= "F.O.B Chihuahua, Chih."
             return self.env.ref("dtm_cotizaciones.formato_cotizacion_mtd").report_action(self)
 
+    def action_refacturar(self):
+        refacturar = self.env['dtm.cotizaciones.recotizacion'].search([('no_cotizacion','=',self.no_cotizacion),('no_recotizacion','=',self.no_recotizacion)])
+        # refacturar = self.env['dtm.cotizaciones.recotizacion'].search([('no_cotizacion','=',self.no_cotizacion)])
+
+        vals = {
+            'no_cotizacion':self.no_cotizacion,
+            'cliente':self.cliente,
+            'no_recotizacion':self.no_recotizacion,
+            'date':self.date,
+            'telefono':self.telefono,
+            'correo':self.correo,
+            'precio_total':self.precio_total,
+            'proveedor':self.proveedor,
+            'terminos_pago':self.terminos_pago,
+            'entrega':self.entrega,
+            'curency':self.curency,
+            'atencion':self.atencion_id.atencion,
+            'servicios_id':[(6, 0, self.servicios_id.mapped('id'))],
+            'prediseno_id':[(6,0,self.prediseno_id.mapped('id'))],
+        }
+        if not refacturar:
+            refacturar.create(vals)
+            self.no_recotizacion += 1
+
+    def action_versiones(self):
+        get_versiones = self.env['dtm.cotizaciones.versiones'].search([('no_cotizacion','=',self.no_cotizacion),('cliente','=',self.cliente_id.name)])
+        if not get_versiones:
+            self.env['dtm.cotizaciones.versiones'].create({'no_cotizacion':self.no_cotizacion,'cliente':self.cliente_id.name})
+        self.action_refacturar()
+        self_versiones = self.env['dtm.cotizaciones.recotizacion'].search([('no_cotizacion','=',self.no_cotizacion)])
+        print(self_versiones)
+        get_versiones.write({'versiones_id':self_versiones.ids})
 
     @api.onchange('cliente_id') # Carga correo y número de telefono de los contactos del campo atencion
     def _onchange_cliente_ids(self):
@@ -125,6 +158,7 @@ class Requerimientos(models.Model):
     id_need= fields.Integer()
     items_id = fields.One2many("dtm.cotizacion.item", "model_id")
     attachment_ids = fields.Many2many("dtm.documentos.anexos", string="Archivos", readonly=False)
+    cotizacion_materiales_id = fields.One2many("dtm.cotizacion.materiales","model_id")
 
 
     @api.depends("precio_unitario","cantidad")
@@ -150,25 +184,97 @@ class Atencion(models.Model):
 
     atencion = fields.Char(string="AT'n")
 
-class Prediseno(models.Model):
-    _name = "dtm.cotizaciones.predisenos"
-    _description = "Modelo para guardar los prediseños solicitados"
 
-    def action_autoNum(self):
-        get_pd = self.env['dtm.odt'].search([('od_number','!=',0)],order='od_number desc', limit=1)
-        return get_pd.od_number + 1
+class CotizacionMateriales(models.Model):
+    _name = "dtm.cotizacion.materiales"
+    _description = "Modelo para solicitar la cotización de los materiales"
 
-    model_id = fields.Many2one('dtm.cotizaciones')#Enlaza con el modelo padre
-    od_number = fields.Integer(string="NO.",readonly=True,default=action_autoNum)
+    model_id = fields.Many2one("dtm.cotizacion.requerimientos")
 
-    product_name = fields.Char(string="NOMBRE DEL PRODUCTO")
-    date_in = fields.Date(string="CREACIÒN", default= datetime.today(),readonly=True)
-    description = fields.Text(string="Descripción")
+    material_id = fields.Many2one("dtm.materiales",string="Material")
+    precio = fields.Float(string="Costo", readonly=True)
+    # espera = fields.Boolean(string="En espera")
 
-    cuantity = fields.Integer(string="CANTIDAD")
-    disenador = fields.Selection(string="DISEÑADOR", selection=[("andres","Andrés Orozco"),("luis","Luís García")])
-    date_rel = fields.Date(string="FECHA DE ENTREGA")
+    @api.onchange('material_id')
+    def _onchage_costo(self):
+        print(self.material_id._origin.id)
+        find = self.env['dtm.compras.precios'].search([('codigo','=',self.material_id._origin.id)],limit=1).precio
+        if find > 0:
+            print('mayor a cero')
+            self.precio = find
+        elif find == 0:
+            compras = self.env['dtm.compras.requerido'].search([('codigo','=',self.material_id._origin.id),('tipo_orden','=','Cotización')])
+            vals = {
+                'codigo':self.material_id._origin.id,
+                'nombre':self.material_id.nombre,
+                'cantidad':1,
+                'tipo_orden':'Cotización',
+                'aprovacion': True,
+                'fecha_recepcion':datetime.today(),
+                'orden_compra':'-----',
+                'disenador': 'Ventas'
+            }
+            print(compras)
+            if self.material_id._origin.id and self.material_id.nombre:
+                compras.write(vals) if compras else compras.create(vals)
 
+    def action_recotizar(self):
+        compras = self.env['dtm.compras.requerido'].search(
+            [('codigo', '=', self.material_id._origin.id), ('tipo_orden', '=', 'Cotización')])
+        vals = {
+            'codigo': self.material_id._origin.id,
+            'nombre': self.material_id.nombre,
+            'cantidad': 1,
+            'tipo_orden': 'Cotización',
+            'aprovacion': True,
+            'fecha_recepcion': datetime.today(),
+            'orden_compra': '-----',
+            'disenador': 'Ventas',
+            'unitario':self.precio
+        }
+        print(compras)
+        if self.material_id._origin.id and self.material_id.nombre:
+            compras.write(vals) if compras else compras.create(vals)
+
+class Versiones(models.Model):
+    _name = 'dtm.cotizaciones.versiones'
+    _description = 'Modelo para llevar el historials de las cotizaciones'
+    _rec_name = "no_cotizacion"
+
+    no_cotizacion = fields.Char(string="No. De Cotización",readonly=True)
+    cliente = fields.Char(strin='cliente',readonly=True)
+    versiones_id = fields.Many2many('dtm.cotizaciones.recotizacion')
+
+class Recotizacion(models.Model):
+    _name = 'dtm.cotizaciones.recotizacion'
+    _description = 'Modelo para llevar el historials de las cotizaciones'
+    _rec_name = "no_cotizacion"
+
+    no_cotizacion = fields.Char(string="No. De Cotización",readonly=True)
+    cliente = fields.Char(strin='cliente',readonly=True)
+    no_recotizacion = fields.Integer(string='Recotización', default=0,readonly=True)
+
+    date = fields.Date(string="Fecha" ,readonly=True)
+    # attachment_ids = fields.Many2many("dtm.documentos.anexos",string="Anexos")
+    telefono = fields.Char(string="Telefono(s)",readonly=True)
+    correo = fields.Char(string = "email(s)",readonly=True)
+    # correo_cc =  fields.Many2many("dtm.contactos.anexos",string="cc",readonly=True)
+    precio_total = fields.Float(string="Precio total",readonly=True)
+    proveedor = fields.Selection(string='Proveedor',default='dtm',
+        selection=[('dtm', 'DISEÑO Y TRANSFORMACIONES METALICAS S DE RL DE CV'), ('mtd', 'METAL TRANSFORMATION & DESIGN')],readonly=True)
+
+    atencion = fields.Char(string="Atención",readonly=True)
+    servicios_id = fields.Many2many('dtm.cotizacion.requerimientos', readonly=True)
+    # prediseno_id = fields.One2many("dtm.cotizaciones.predisenos",'model_id',readonly=True)
+
+    material_id = fields.Many2many('dtm.list.material.producto',readonly=True)
+
+    terminos_pago = fields.Char(string="Terminos de pago",default="Terminos de Pago: Credito 45 dias",readonly=True)
+
+    entrega = fields.Char(string="Entrega",default="L.A.B: Chihuahua, Chih.",readonly=True)
+
+    curency = fields.Selection(string="Tipo de moneda",default="mx",
+               selection=[("mx","Precio Especificado en Pesos Mexicanos"),("us","Precio Especificado en Dolares Americanos")],readonly=True)
 
 
 

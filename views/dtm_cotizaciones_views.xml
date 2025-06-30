@@ -25,10 +25,18 @@
         <field name="name">dtm_cotizaciones.view.form</field>
         <field name="model">dtm.cotizaciones</field>
         <field name="arch" type="xml">
+
             <form>
+                <style>
+                    .o_statusbar_buttons {
+                        width:100%;
+                    }
+                </style>
                 <header>
-                    <button name="action_imprimir" type="object" string="Imprimir" class="btn btn-primary" icon="fa-print"/>
-<!--                    <button name="action_send_email" type="object" string="Enviar Correo" class="btn btn-primary"/>-->
+                    <div class="d-flex justify-content-around" style="width:100%">
+                        <button name="action_imprimir" type="object" string="Imprimir" class="btn btn-primary" icon="fa-print"/>
+                        <button name="action_versiones" type="object" string="Nueva Versión" class="btn btn-primary px-3"/>
+                    </div>
                 </header>
                 <sheet>
                     <group>
@@ -46,6 +54,7 @@
                             <field name="entrega"/>
                             <field name="curency"/>
                             <field name="atencion_id"/>
+                            <field name="no_recotizacion"/>
                         </group>
                    </group>
                     <notebook>
@@ -53,34 +62,7 @@
                             <field name="servicios_id" options="{'no_create_edit': False}" />
                         </page>
                         <page string="Prediseños">
-                            <field name="prediseno_id">
-                                <tree>
-                                    <field name="od_number"/>
-                                    <field name="product_name"/>
-                                    <field name="date_in"/>
-                                    <field name="cuantity" />
-                                    <field name="disenador"/>
-                                </tree>
-                                <form>
-                                    <div class="container" style="display:flex;justify-content:space-between;font-size:25px;
-                                        color: #71649c;margin-bottom: 20px;border-bottom: 1px solid rgba(0, 0, 0, 0.1);padding-bottom: 5px;">
-                                        <field name="od_number"/>
-                                        <field name="date_in"/>
-                                    </div>
-                                    <group>
-                                        <field name="product_name"/>
-                                        <field name="description"/>
-                                    </group>
 
-                                    <div class="col-4">
-                                        <group>
-                                            <field name="cuantity" options='{"type": "number"}'/>
-                                            <field name="date_rel"/>
-                                            <field name="disenador"/>
-                                        </group>
-                                    </div>
-                                </form>
-                            </field>
                         </page>
                         <page string="Correo">
                                 <div class="row">

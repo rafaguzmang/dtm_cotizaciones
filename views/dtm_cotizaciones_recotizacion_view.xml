@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <record id="dtm_cotizaciones_recotizacion_action" model="ir.actions.act_window">
+        <field name="name">Recotización</field>
+        <field name="res_model">dtm.cotizaciones.recotizacion</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="dtm_cotizaciones_recotizaciones_view_tree" model="ir.ui.view">
+        <field name="name">dtm_cotizaciones_recotizacion_view.tree</field>
+        <field name="model">dtm.cotizaciones.recotizacion</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="no_cotizacion"/>
+                <field name="no_recotizacion"/>
+                <field name="proveedor"/>
+                <field name="cliente"/>
+                <field name="date" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="dtm_cotizaciones_recotizacion_view_form" model="ir.ui.view">
+        <field name="name">dtm_cotizaciones.view.form</field>
+        <field name="model">dtm.cotizaciones.recotizacion</field>
+        <field name="arch" type="xml">
+
+            <form>
+                <style>
+                    .o_statusbar_buttons {
+                        width:100%;
+                    }
+                </style>
+                <sheet>
+                    <group>
+                        <field name="proveedor"/>
+                    </group>
+                   <group>
+                        <group>
+                            <field name="no_cotizacion"/>
+                            <field name="cliente"/>
+                            <field name="telefono"  widget="phone"/>
+                            <field name="date" />
+                        </group>
+                        <group>
+                            <field name="terminos_pago"/>
+                            <field name="entrega"/>
+                            <field name="curency"/>
+                            <field name="atencion"/>
+                        </group>
+                   </group>
+                    <notebook>
+                        <page string="Servicios">
+                            <field name="servicios_id" options="{'no_create_edit': False}" />
+                        </page>
+<!--                        <page string="Prediseños">-->
+<!--                            <field name="prediseno_id">-->
+<!--                                <tree>-->
+<!--                                    <field name="od_number"/>-->
+<!--                                    <field name="product_name"/>-->
+<!--                                    <field name="date_in"/>-->
+<!--                                    <field name="cuantity" />-->
+<!--                                    <field name="disenador"/>-->
+<!--                                </tree>-->
+<!--                                <form>-->
+<!--                                    <div class="container" style="display:flex;justify-content:space-between;font-size:25px;-->
+<!--                                        color: #71649c;margin-bottom: 20px;border-bottom: 1px solid rgba(0, 0, 0, 0.1);padding-bottom: 5px;">-->
+<!--                                        <field name="od_number"/>-->
+<!--                                        <field name="date_in"/>-->
+<!--                                    </div>-->
+<!--                                    <group>-->
+<!--                                        <field name="product_name"/>-->
+<!--                                        <field name="description"/>-->
+<!--                                    </group>-->
+
+<!--                                    <div class="col-4">-->
+<!--                                        <group>-->
+<!--                                            <field name="cuantity" options='{"type": "number"}'/>-->
+<!--                                            <field name="date_rel"/>-->
+<!--                                            <field name="disenador"/>-->
+<!--                                        </group>-->
+<!--                                    </div>-->
+<!--                                </form>-->
+<!--                            </field>-->
+<!--                        </page>-->
+<!--                        <page string="Correo">-->
+<!--                                <div class="row">-->
+<!--                                    <div class="col-12">-->
+<!--                                        <group>-->
+<!--                                            <field name="correo"  widget="email"/>-->
+<!--                                            <field name="correo_cc" widget="many2many_tags"/>-->
+<!--                                            <field name="subject" />-->
+<!--                                            <field name="dirigido" />-->
+<!--                                            <field name="body_email" />-->
+<!--                                            <field name="email_image" widget="image"/>-->
+<!--                                        </group>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                        </page>-->
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+<!--    <record id = "dtm_cotizaciones_search" model="ir.ui.view">-->
+<!--               <field name="name">dtm.cotizaciones.recotizacion.search</field>-->
+<!--               <field name="model">dtm.cotizaciones.recotizacion</field>-->
+<!--               <field name ="arch" type="xml">-->
+<!--                   <search>-->
+<!--                        <field name="proveedor"></field>-->
+<!--                        <field name="po_number"/>-->
+<!--                        <filter string="DTM" name="proveedor_dtm" domain="[('proveedor','=','dtm')]"/>-->
+<!--                        <filter string="MTD" name="proveedor_mtd" domain="[('proveedor','=','mtd')]"/>-->
+
+<!--                        <filter string="Con PO" name="po_number_con" domain="[('po_number','=','po')]"/>-->
+<!--                        <filter string="Sin PO" name="po_number_sin" domain="[('po_number','!=','po')]"/>-->
+
+<!--                   </search>-->
+<!--               </field>-->
+<!--           </record>-->
+<!--    <menuitem id="dtm_cotizaciones_recotizacion_menu" action="dtm_cotizaciones_recotizacion_action" />-->
+</odoo>
+
