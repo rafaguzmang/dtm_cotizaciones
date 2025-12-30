@@ -32,6 +32,11 @@ class ClientNeeds(models.Model):
 
     nivel = fields.Selection(string="Nivel", default="uno",selection=[('uno',1),('dos',2),('tres',3)])
 
+    via_solicitud = fields.Selection(string="Vía de solicitud", selection=[
+        ('telefonica', 'Telefónica'), ('correo', 'Correo'), ('planos', 'Planos'), ('dibujos', 'Dibujos')])
+
+    prediseno_id = fields.One2many('dtm.cotizaciones.predisenos','model_id',string='Prediseño')
+
     # Datos para medición de metricos
     status = fields.Integer()
     notes = fields.Text()
@@ -42,6 +47,8 @@ class ClientNeeds(models.Model):
     message_ids = fields.One2many()    
     has_message = fields.Boolean()
     body = fields.Html()
+
+    autorizacion_id = fields.Many2many("ir.attachment")
 
     def action_cotizacion(self):
         get_cotizacion = self.env['dtm.cotizaciones'].search([('no_cotizacion','=',self.no_cotizacion)])
@@ -229,6 +236,7 @@ class ListMaterial(models.Model):
     attachment_ids = fields.Many2many("dtm.documentos.anexos", string="Archivos", readonly=False)
     color = fields.Char(string='Color')
 
+
     #material_serv_ids = fields.Many2many("dtm.list.material.producto")
 
 
@@ -239,6 +247,53 @@ class ListMaterial(models.Model):
             line = (1,result.id,{})
             lines.append(line)
         self.material_serv_ids = lines
+
+
+class Prediseno(models.Model):
+    _name = "dtm.cotizaciones.predisenos"
+    _description = "Modelo para guardar los prediseños solicitados"
+
+    def action_autoNum(self):
+        get_pd = self.env['dtm.odt'].search([('od_number','!=',0)],order='od_number desc', limit=1)
+        return get_pd.od_number + 1
+
+    model_id = fields.Many2one('dtm.client.needs')#Enlaza con el modelo padre
+    od_number = fields.Integer(string="NO.",readonly=True,default=action_autoNum)
+
+    product_name = fields.Char(string="NOMBRE DEL PRODUCTO")
+    date_in = fields.Date(string="CREACIÒN", default= datetime.datetime.today(),readonly=True)
+    description = fields.Text(string="Descripción")
+
+    cuantity = fields.Integer(string="CANTIDAD")
+    disenador = fields.Selection(string="DISEÑADOR", selection=[("andres","Andrés Orozco"),("luis","Luís García")])
+    date_rel = fields.Date(string="FECHA DE ENTREGA")
+    anexos_id = fields.Many2many('ir.attachment','prediseno_send')
+    firma_disenador = fields.Char(string="Firma diseñador")
+
+    prediseno_id = fields.Many2many('ir.attachment','prediseno_final',string="Prediseño")
+    liga_id = fields.Many2many('ir.attachment','prediseno_liga',string="Ligas")
+
+    def action_prediseno(self):
+
+        dtm_odt = self.env['dtm.odt'].search([('od_number','=',self.od_number)],limit=1)
+        print(self.model_id.cliente_ids.name)
+        vals = {
+            'od_number':self.od_number,
+            'tipe_order':'Diseño',
+            'name_client':self.model_id.cliente_ids.name,
+            'product_name':self.product_name,
+            'date_in':self.date_in,
+            'date_rel':self.date_rel,
+            'cuantity':self.cuantity,
+            'disenador':self.disenador,
+            'description':self.description,
+            'anexos_ventas_id':[(6,0,self.anexos_id.ids)]
+        }
+
+        dtm_odt.write({'anexos_ventas_id':[(5,0,{})]}) if dtm_odt else None
+        dtm_odt.write(vals) if dtm_odt else dtm_odt.create(vals)
+
+
 
         
     

@@ -18,6 +18,9 @@
         'views/dtm_cotizaciones_requerimientos_view.xml',
         'views/dtm_menu_item.xml',
         'views/indicador_view.xml',
+        'views/dtm_cotizaciones_recotizacion_view.xml',
+        'views/dtm_cotizaciones_encuesta_view.xml',
+        'views/dtm_cotizaciones_versiones_view.xml',
         # Data
         # 'data/cotizacion_email_template.xml',
 
@@ -30,7 +33,6 @@
             'dtm_cotizaciones/static/src/xml/indicadores.xml',
             'dtm_cotizaciones/static/src/js/indicadores.js',
             'dtm_cotizaciones/static/src/css/styles.css',
-
         ],
     },
     'license': 'LGPL-3',

@@ -8,7 +8,7 @@
     </record>
 
     <record id="dtm_cotizacion_requerimientos_form" model="ir.ui.view">
-        <field name="name">dtm.cotizacion.requerimientos.form</field>
+        <field name="name">dtm_cotizacion_requerimientos_form</field>
         <field name="model">dtm.cotizacion.requerimientos</field>
         <field name="arch" type="xml">
             <form >
@@ -33,6 +33,16 @@
                         <page string="Anexos">
                             <field name="attachment_ids"/>
                         </page>
+                         <page string="Cotización Materiales">
+                            <field name="cotizacion_materiales_id">
+                                <tree editable="bottom">
+                                    <field name="material_id"/>
+                                    <field name="precio"/>
+                                     <button name="action_recotizar" type="object" string="" class="btn btn-primary" icon="fa-refresh"
+                                        attrs="{'invisible': [('precio', '=', 0)]}"/>
+                                </tree>
+                            </field>
+                        </page>
                     </notebook>
 
                 </sheet>
@@ -41,7 +51,7 @@
     </record>
 
     <record id="dtm_cotizacion_requerimientos_tree" model="ir.ui.view">
-        <field name="name">dtm.cotizacion.requerimientos.tree</field>
+        <field name="name">dtm_cotizacion_requerimientos_tree</field>
         <field name="model">dtm.cotizacion.requerimientos</field>
         <field name="arch" type="xml">
             <tree  >
