@@ -12,6 +12,8 @@
 <!--&lt;!&ndash;          <menuitem id="dtm_client_graph_menu" action="dtm_client_graph_action"/>&ndash;&gt;-->
 <!--        <menuitem id="dtm_client_indicadores_menu" action="dtm_client_indicadores_old_action"/>-->
         <menuitem id="dtm_cotizaciones_indicadores_menu" action ="dtm_cotizaciones_indicadores_action"/>
+        <menuitem id="dtm_ordenes_compra_seguimiento_menu" action="dtm_ordenes_compra.dtm_ventas_seguimiento_action"/>
+
 
 <!--&lt;!&ndash;          <menuitem id="dtm_client_graph_menu" action="dtm_client_graph_action"/>&ndash;&gt;-->
      </menuitem>
