@@ -90,10 +90,16 @@ class DTMCotizaciones(models.Model):
             get_od = self.env['dtm.odt'].search([("od_number","=",prediseno.od_number)])
             get_od.write(vals) if get_od else get_od.create(vals)
 
-
+    @api.onchange('proveedor')
+    def action_proveedor(self):
+        if self.proveedor == 'dtm':
+            self.entrega = "L.A.B: Chihuahua, Chih."
+        else:
+            self.entrega = "F.O.B El Paso, Texas, USA"
 
     def action_imprimir(self):
         if self.proveedor == 'dtm':
+            self.entrega = "L.A.B: Chihuahua, Chih."
             return self.env.ref("dtm_cotizaciones.formato_cotizacion").report_action(self)
         else:
             self.terminos_pago = "Payment terms: 30 days net"
