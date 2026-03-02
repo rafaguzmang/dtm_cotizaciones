@@ -36,7 +36,7 @@ class DTMCotizaciones(models.Model):
 
     material_id = fields.Many2many('dtm.list.material.producto')
 
-    terminos_pago = fields.Char(string="Terminos de pago",default="Terminos de Pago: Credito 45 dias")
+    terminos_pago = fields.Char(string="Terminos de pago",default="Terminos de Pago: Credito 30 dias")
 
     entrega = fields.Char(string="Entrega",default="L.A.B: Chihuahua, Chih.")
 
@@ -51,6 +51,14 @@ class DTMCotizaciones(models.Model):
     status = fields.Char()
     po_number = fields.Char(string="PO")
     recotizacion = fields.Integer(string='Recotización')
+
+    # -----------------------------------------------------------Write-------------------------------------------------------------------
+    def write(self, vals):
+
+        for record in self:
+            if record.proveedor == 'mtd':
+                [servicio.write({'unidad':'dlls'}) for servicio in self.servicios_id]
+        return super(DTMCotizaciones, self).write(vals)
 
     # -----------------------------------------------------------Provicional-------------------------------------------------------------
     def get_view(self, view_id=None, view_type='form', **options):# Llena la tabla dtm.ordenes.compra.precotizaciones con las cotizaciones(NO PRECOTIZACIONES) pendientes
@@ -122,7 +130,6 @@ class DTMCotizaciones(models.Model):
             self.env['dtm.cotizaciones.versiones'].create({'no_cotizacion':self.no_cotizacion,'cliente':self.cliente_id.name})
         self.action_refacturar()
         self_versiones = self.env['dtm.cotizaciones.recotizacion'].search([('no_cotizacion','=',self.no_cotizacion)])
-        print(self_versiones)
         get_versiones.write({'versiones_id':self_versiones.ids})
 
     @api.onchange('cliente_id') # Carga correo y número de telefono de los contactos del campo atencion

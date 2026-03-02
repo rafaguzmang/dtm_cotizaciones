@@ -2,6 +2,7 @@ from email.policy import default
 
 from odoo import fields,models,api
 from datetime import datetime
+import requests
 
 class Indicadores(models.Model):
     _name = "dtm.client.indicadores"
@@ -19,8 +20,24 @@ class Indicadores(models.Model):
     porcentaje = fields.Float(string="%")
     aprovado = fields.Float(default=6.0)
 
+    @api.model
+    def actualizar_precio_dolar(self):
+        try:
+            token = "48ae5fcf525e8658eb784d0c4030054d7aa97bf2b5859747015820245978f739"
+            url = f"https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF60653/datos/oportuno?token={token}"
+            result = requests.get(url, timeout=5)
+            result.raise_for_status()
+            data = result.json()
+            valor = float(data["bmx"]["series"][0]["datos"][0]["dato"])  # Aquí puedes guardar el valor en un campo del modelo
+            self.env['dtm.client.indicadores'].create({"costo_dlls": valor})
+            return valor
+        except Exception as e:
+            return str(e)
+
     def get_view(self, view_id=None, view_type='form', **options):
         res = super(Indicadores,self).get_view(view_id, view_type,**options)
+
+
 
         # Lógica para obtener indicadores de Ventas
         for month in range(1,13):

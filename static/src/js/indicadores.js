@@ -10,12 +10,13 @@ import { useService } from "@web/core/utils/hooks";
 
 export class Indicadores extends Component{
     setup() {
-    super.setup();
-    const http = useService("http");
-    this.canvasRef = useRef("grafico");
-    this.state = useState({
-      items: []
-    });
+        super.setup();
+        const http = useService("http");
+        this.canvasRef = useRef("grafico");
+        this.state = useState({
+          items: []
+        });
+        this.rpc = useService("rpc")
 
       onMounted(async () => {
         // Espera un poco para asegurar que los scripts externos hayan cargado
@@ -51,6 +52,14 @@ export class Indicadores extends Component{
 //          console.log("🔐 Data:", data.result);
         } catch (error) {
           console.error("❌ Error al obtener datos:", error);
+        }
+
+        try{
+            const data = await this.rpc("dtm_precio_dollar",{})
+            const precio_dollar = Math.round(data.bmx.series[0].datos[0].dato * 100) / 100;
+            console.log("🔐 Dollar:", precio_dollar);
+        }catch(error){
+            console.error("Esta madre ya falló:", error);
         }
 
         // Obtener datos para la tabla

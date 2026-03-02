@@ -22,7 +22,7 @@
             </field>
         </record>
 
-         <record id="dtm_client_needs_view_graph" model="ir.ui.view">
+        <record id="dtm_client_needs_view_graph" model="ir.ui.view">
             <field name="name">dtm_client_needs.view.graph</field>
             <field name="model">dtm.client.needs</field>
             <field name="arch" type="xml">
@@ -43,11 +43,16 @@
                     </header>
                     <sheet>
                         <group name="orden_servicio" >
-                             <div>
-                                 <h1>
+                             <div class=" ">
+                                <h1>
                                     <field name="no_cotizacion" readonly="1"></field>
                                 </h1>
-                            </div>                             
+
+                            </div>
+                            <div class="o_inner_group grid d-flex justify-content-end">
+                                <button name="action_ir" type="object" string="Cotización" class="btn btn-primary" icon="fa-arrow-right" attrs="{'invisible':[('cotizacion','!=',True)]}"/>
+                                <field name="cotizacion" invisible="1"/>
+                            </div>
                         </group>
                         <group >
                             <group>
@@ -105,7 +110,7 @@
                                         <field name="od_number"/>
                                         <field name="product_name"/>
                                         <field name="date_in"/>
-                                        <field name="cuantity"/>
+<!--                                        <field name="cuantity"/>-->
                                         <field name="disenador"/>
                                         <field name="date_rel"/>
                                     </tree>
@@ -123,8 +128,7 @@
                                             </group>
                                             <group class="col-3">
                                                 <field name="date_rel"/>
-                                                <field name="cuantity"/>
-
+<!--                                                <field name="cuantity"/>-->
                                             </group>
                                         </div>
                                         <group>
@@ -133,7 +137,11 @@
                                         <div class="row d-flex justify-content-between">
                                             <field name="anexos_id" widget="many2many_binary"/>
                                             <field name="prediseno_id" widget="many2many_binary"/>
-                                            <field name="liga_id"/>
+                                            <field name="liga_id">
+                                                <tree>
+                                                    <field name="liga"/>
+                                                </tree>
+                                            </field>
 
                                         </div>
                                         <div class="row text-end">

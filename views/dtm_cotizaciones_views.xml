@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-     <record id="dtm_cotizaciones_action" model="ir.actions.act_window">
+    <record id="dtm_cotizaciones_action" model="ir.actions.act_window">
         <field name="name">Cotizaciones</field>
         <field name="res_model">dtm.cotizaciones</field>
         <field name="view_mode">tree,form</field>
@@ -25,7 +25,6 @@
         <field name="name">dtm_cotizaciones.view.form</field>
         <field name="model">dtm.cotizaciones</field>
         <field name="arch" type="xml">
-
             <form>
                 <style>
                     .o_statusbar_buttons {
@@ -98,11 +97,7 @@
                         <filter string="Sin PO" name="po_number_sin" domain="[('po_number','!=','po')]"/>
 
                    </search>
-
-
                </field>
-
-
            </record>
 
 

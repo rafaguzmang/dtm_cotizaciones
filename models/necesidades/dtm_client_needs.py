@@ -65,8 +65,6 @@ class ClientNeeds(models.Model):
                                                 'cliente_id': self.cliente_ids.id
                                                 })
             get_cotizacion = self.env['dtm.cotizaciones'].search([('no_cotizacion','=',self.no_cotizacion)])
-
-
         for item in self.list_materials_ids:
             get_cot_list = self.env['dtm.cotizacion.requerimientos'].search([('model_id','=',get_cotizacion.id),
                                                                              ('id_need','=',item.id)])
@@ -88,14 +86,25 @@ class ClientNeeds(models.Model):
                 })
 
 
+
     def _compute_cotizacion(self):
         for result in self:
-            result.cotizacion = True if self.env['dtm.cotizaciones'].search([('no_cotizacion','=',result.no_cotizacion)]) else False
+            result.cotizacion = True if self.env['dtm.cotizaciones'].search([('no_cotizacion','=',result.no_cotizacion)],limit=1) else False
 
+    def action_ir(self):
+        res_id = self.env['dtm.cotizaciones'].search([('no_cotizacion','=',self.no_cotizacion)],limit=1)
+        if res_id:
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Cotización',
+                'res_model': 'dtm.cotizaciones',
+                'view_mode': 'form',
+                'views': [(False, 'form')],
+                'res_id': res_id.id,
+                'target': 'current',
+            }
 
-
-
-     #--------------Onchange-----------------
+    #--------------Onchange-----------------
     @api.onchange('cliente_ids') # Carga correo y número de telefono de los contactos del campo clientes
     def onchange_cliente_ids(self):
         data = self.env['res.partner'].search([('id','=',self.cliente_ids.id)])
@@ -252,7 +261,6 @@ class ListMaterial(models.Model):
 class Prediseno(models.Model):
     _name = "dtm.cotizaciones.predisenos"
     _description = "Modelo para guardar los prediseños solicitados"
-
     def action_autoNum(self):
         get_pd = self.env['dtm.odt'].search([('od_number','!=',0)],order='od_number desc', limit=1)
         return get_pd.od_number + 1
@@ -265,21 +273,21 @@ class Prediseno(models.Model):
     description = fields.Text(string="Descripción")
 
     cuantity = fields.Integer(string="CANTIDAD")
-    disenador = fields.Selection(string="DISEÑADOR", selection=[("andres","Andrés Orozco"),("luis","Luís García")])
+    disenador = fields.Selection(string="DISEÑADOR", selection=[("andres","Andrés Orozco")])
     date_rel = fields.Date(string="FECHA DE ENTREGA")
     anexos_id = fields.Many2many('ir.attachment','prediseno_send')
     firma_disenador = fields.Char(string="Firma diseñador")
 
-    prediseno_id = fields.Many2many('ir.attachment','prediseno_final',string="Prediseño")
-    liga_id = fields.Many2many('ir.attachment','prediseno_liga',string="Ligas")
+    prediseno_id = fields.Many2many('ir.attachment','prediseno_final',string="Prediseño",readonly=True)
+    liga_id = fields.One2many('dtm.client.needs.liga','model_id',string="Ligas",readonly=True)
 
     def action_prediseno(self):
 
         dtm_odt = self.env['dtm.odt'].search([('od_number','=',self.od_number)],limit=1)
-        print(self.model_id.cliente_ids.name)
+        # print(self.model_id.cliente_ids.name)
         vals = {
             'od_number':self.od_number,
-            'tipe_order':'Diseño',
+            'tipe_order':'Pre',
             'name_client':self.model_id.cliente_ids.name,
             'product_name':self.product_name,
             'date_in':self.date_in,
@@ -292,6 +300,14 @@ class Prediseno(models.Model):
 
         dtm_odt.write({'anexos_ventas_id':[(5,0,{})]}) if dtm_odt else None
         dtm_odt.write(vals) if dtm_odt else dtm_odt.create(vals)
+
+
+class LigasPrediseno(models.Model):
+    _name = "dtm.client.needs.liga"
+    _description = "Modelo para guardar la ligas de los prediseños echos por el área de diseño"
+
+    model_id = fields.Many2one('dtm.cotizaciones.predisenos')
+    liga = fields.Char(string="Ligas")
 
 
 

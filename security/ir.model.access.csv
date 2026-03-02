@@ -25,5 +25,6 @@ access_dtm_cotizaciones_encuest_empresas,access.dtm.cotizaciones.encuest.empresa
 
 
 access_dtm_cotizaciones_predisenos,access.dtm.cotizaciones.predisenos,model_dtm_cotizaciones_predisenos,base.group_user,1,1,1,1
+access_dtm_client_needs_liga,access.dtm.client.needs.liga,model_dtm_client_needs_liga,base.group_user,1,1,1,1
 
 
