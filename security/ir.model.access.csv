@@ -1,30 +1,34 @@
 id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
-access_dtm_client_needs,access.dtm.client.needs,model_dtm_client_needs,base.group_user,1,1,1,1
-access_cot_list_material,access.cot.list.material,model_cot_list_material,base.group_user,1,1,1,1
-access_dtm_documentos_anexos,access.dtm.documentos.anexos,model_dtm_documentos_anexos,base.group_user,1,1,1,1
-access_dtm_contactos_anexos,access.dtm.contactos.anexos,model_dtm_contactos_anexos,base.group_user,1,1,1,1
-access_dtm_list_material_producto,access.dtm.list.material.producto,model_dtm_list_material_producto,base.group_user,1,1,1,1
-access_dtm_contactos_anexos,access.dtm.contactos.anexos,model_dtm_contactos_anexos,base.group_user,1,1,1,1
-access_dtm_requerimientos,access.dtm.requerimientos,model_dtm_requerimientos,base.group_user,1,1,1,1
-access_dtm_cotizaciones,access.dtm.cotizaciones,model_dtm_cotizaciones,base.group_user,1,1,1,1
-access_dtm_cotizacion_requerimientos,access.dtm.cotizacion.requerimientos,model_dtm_cotizacion_requerimientos,base.group_user,1,1,1,1
-access_dtm_cotizacion_atencion,access.dtm.cotizacion.atencion,model_dtm_cotizacion_atencion,base.group_user,1,1,1,1
-access_dtm_client_indicadores,access.dtm.client.indicadores,model_dtm_client_indicadores,base.group_user,1,1,1,1
-access_dtm_client_graph,access.dtm.client.graph,model_dtm_client_graph,base.group_user,1,1,1,1
-access_dtm_cotizacion_item,access.dtm.cotizacion.item,model_dtm_cotizacion_item,base.group_user,1,1,1,1
+access_dtm_client_needs_admin,access.dtm.client.needs.admin,model_dtm_client_needs,group_ventas_admin,1,1,1,1
+access_dtm_client_needs_restriccion,access.dtm.client.needs.restriccion,model_dtm_client_needs,group_ventas_restriccion,1,0,0,0
+access_cot_list_material,access.cot.list.material,model_cot_list_material,group_ventas_admin,1,1,1,1
+access_dtm_documentos_anexos,access.dtm.documentos.anexos,model_dtm_documentos_anexos,group_ventas_admin,1,1,1,1
+access_dtm_contactos_anexos,access.dtm.contactos.anexos,model_dtm_contactos_anexos,group_ventas_admin,1,1,1,1
+access_dtm_list_material_producto,access.dtm.list.material.producto,model_dtm_list_material_producto,group_ventas_admin,1,1,1,1
+access_dtm_contactos_anexos,access.dtm.contactos.anexos,model_dtm_contactos_anexos,group_ventas_admin,1,1,1,1
+access_dtm_requerimientos,access.dtm.requerimientos,model_dtm_requerimientos,group_ventas_admin,1,1,1,1
+access_dtm_cotizaciones_admin,access.dtm.cotizaciones.admin,model_dtm_cotizaciones,group_ventas_admin,1,1,1,1
+access_dtm_cotizaciones_restriccion,access.dtm.cotizaciones.restriccion,model_dtm_cotizaciones,group_ventas_restriccion,1,0,0,0
+access_dtm_cotizacion_requerimientos_admin,access.dtm.cotizacion.requerimientos.admin,model_dtm_cotizacion_requerimientos,group_ventas_admin,1,1,1,1
+access_dtm_cotizacion_requerimientos_restriccion,access.dtm.cotizacion.requerimientos.restriccion,model_dtm_cotizacion_requerimientos,group_ventas_restriccion,1,0,0,0
+access_dtm_cotizacion_atencion,access.dtm.cotizacion.atencion,model_dtm_cotizacion_atencion,group_ventas_admin,1,1,1,1
+access_dtm_client_indicadores_admin,access.dtm.client.indicadores.admin,model_dtm_client_indicadores,group_ventas_admin,1,1,1,1
+access_dtm_client_indicadores_restriccion,access.dtm.client.indicadores.restriccion,model_dtm_client_indicadores,group_ventas_restriccion,1,1,0,0
+access_dtm_client_graph,access.dtm.client.graph,model_dtm_client_graph,group_ventas_admin,1,1,1,1
+access_dtm_cotizacion_item,access.dtm.cotizacion.item,model_dtm_cotizacion_item,group_ventas_admin,1,1,1,1
 
-access_dtm_cotizacion_materiales,access.dtm.cotizacion.materiales,model_dtm_cotizacion_materiales,base.group_user,1,1,1,1
-
-
-access_dtm_cotizaciones_recotizacion,access.dtm.cotizaciones.recotizacion,model_dtm_cotizaciones_recotizacion,base.group_user,1,1,1,1
-access_dtm_cotizaciones_versiones,access.dtm.cotizaciones.versiones,model_dtm_cotizaciones_versiones,base.group_user,1,1,1,1
-
-access_dtm_cotizaciones_encuesta,access.dtm.cotizaciones.encuesta,model_dtm_cotizaciones_encuesta,base.group_user,1,1,1,1
-
-access_dtm_cotizaciones_encuest_empresas,access.dtm.cotizaciones.encuest.empresas,model_dtm_cotizaciones_encuest_empresas,base.group_user,1,1,1,1
+access_dtm_cotizacion_materiales,access.dtm.cotizacion.materiales,model_dtm_cotizacion_materiales,group_ventas_admin,1,1,1,1
 
 
-access_dtm_cotizaciones_predisenos,access.dtm.cotizaciones.predisenos,model_dtm_cotizaciones_predisenos,base.group_user,1,1,1,1
-access_dtm_client_needs_liga,access.dtm.client.needs.liga,model_dtm_client_needs_liga,base.group_user,1,1,1,1
+access_dtm_cotizaciones_recotizacion,access.dtm.cotizaciones.recotizacion,model_dtm_cotizaciones_recotizacion,group_ventas_admin,1,1,1,1
+access_dtm_cotizaciones_versiones,access.dtm.cotizaciones.versiones,model_dtm_cotizaciones_versiones,group_ventas_admin,1,1,1,1
+
+access_dtm_cotizaciones_encuesta,access.dtm.cotizaciones.encuesta,model_dtm_cotizaciones_encuesta,group_ventas_admin,1,1,1,1
+
+access_dtm_cotizaciones_encuest_empresas,access.dtm.cotizaciones.encuest.empresas,model_dtm_cotizaciones_encuest_empresas,group_ventas_admin,1,1,1,1
+
+
+access_dtm_cotizaciones_predisenos,access.dtm.cotizaciones.predisenos,model_dtm_cotizaciones_predisenos,group_ventas_admin,1,1,1,1
+access_dtm_client_needs_liga,access.dtm.client.needs.liga,model_dtm_client_needs_liga,group_ventas_admin,1,1,1,1
 
 

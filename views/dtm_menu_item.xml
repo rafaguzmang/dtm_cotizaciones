@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
      <menuitem name="Ventas" id="menu_root_dtm_ventas">
-        <menuitem id="dtm_client_needs_menu" action="dtm_cotizaciones.dtm_client_needs_action"/>
-        <menuitem name="Cotizaciones" id="menu_root_dtm_cotizaciones">
+        <menuitem id="dtm_client_needs_menu" action="dtm_cotizaciones.dtm_client_needs_action" groups="group_ventas_admin"/>
+        <menuitem name="Cotizaciones" id="menu_root_dtm_cotizaciones" groups="group_ventas_admin">
             <menuitem id="dtm_cotizaciones_menu" action="dtm_cotizaciones_action" />
             <menuitem id="dtm_cotizaciones_recotizacion_menu" action="dtm_cotizaciones_recotizacion_action" />
         </menuitem>
@@ -12,8 +12,8 @@
 
 <!--        <menuitem id="dtm_ordenes_minutas_menu_action" action="dtm_ordenes_compra.dtm_ordenes_minutas_action"/>-->
 
-        <menuitem id="dtm_cotizaciones_indicadores_menu" action ="dtm_cotizaciones_indicadores_action"/>
-        <menuitem id="dtm_ordenes_compra_seguimiento_menu" action="dtm_ordenes_compra.dtm_ventas_seguimiento_action"/>
+        <menuitem id="dtm_cotizaciones_indicadores_menu" action ="dtm_cotizaciones_indicadores_action" groups="group_ventas_admin"/>
+        <menuitem id="dtm_ordenes_compra_seguimiento_menu" action="dtm_ordenes_compra.dtm_ventas_seguimiento_action" groups="group_ventas_admin"/>
 
 
 <!--        <menuitem id="tm_cotizaciones_encuesta_menu"  action="dtm_cotizaciones_encuesta_act_window"/>-->

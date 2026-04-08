@@ -1,4 +1,4 @@
-<template xml:space="preseve">
+<template xml:space="preserve">
     <t t-name="dtm_cotizaciones.indicadores" owl="1">
         <div class="container mt-4" >
             <h3>Tabla</h3>
