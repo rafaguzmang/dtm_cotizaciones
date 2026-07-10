@@ -1,3 +1,7 @@
+from odoo import fields
+from odoo import fields
+from odoo import fields
+from odoo import fields
 from odoo import api,fields,models,tools
 from datetime import datetime
 
@@ -172,6 +176,7 @@ class Requerimientos(models.Model):
     items_id = fields.One2many("dtm.cotizacion.item", "model_id")
     attachment_ids = fields.Many2many("dtm.documentos.anexos", string="Archivos", readonly=False)
     cotizacion_materiales_id = fields.One2many("dtm.cotizacion.materiales","model_id")
+    total_materiales = fields.Float(string="Total", store=True,compute="_compute_total_materiales")
 
 
     @api.depends("precio_unitario","cantidad")
@@ -179,6 +184,11 @@ class Requerimientos(models.Model):
         for result in self:
             result.total = result.cantidad * result.precio_unitario
             # print(result.model_id.no_cotizacion,result.model_id)
+
+    @api.depends("cotizacion_materiales_id")
+    def _compute_total_materiales(self):
+        for result in self:
+            result.total_materiales = sum(result.cotizacion_materiales_id.mapped('total'))
 
 class Items(models.Model):
     _name = "dtm.cotizacion.item"
@@ -204,50 +214,38 @@ class CotizacionMateriales(models.Model):
 
     model_id = fields.Many2one("dtm.cotizacion.requerimientos")
 
-    material_id = fields.Many2one("dtm.materiales",string="Material")
-    precio = fields.Float(string="Costo", readonly=True)
-    # espera = fields.Boolean(string="En espera")
+    material_descripcion = fields.Char(string="Material")
+    proveedor = fields.Char(string="Proveedor")
+    cantidad = fields.Integer(string="Cantidad")
+    precio_unitario = fields.Float(string="Costo", readonly=False)
+    total = fields.Float(string="Total", store=True,compute="_compute_total")
+    espera = fields.Boolean(string="En espera", default=False,compute="_compute_espera")
 
-    @api.onchange('material_id')
-    def _onchage_costo(self):
-        print(self.material_id._origin.id)
-        find = self.env['dtm.compras.precios'].search([('codigo','=',self.material_id._origin.id)],limit=1).precio
-        if find > 0:
-            print('mayor a cero')
-            self.precio = find
-        elif find == 0:
-            compras = self.env['dtm.compras.requerido'].search([('codigo','=',self.material_id._origin.id),('tipo_orden','=','Cotización')])
-            vals = {
-                'codigo':self.material_id._origin.id,
-                'nombre':self.material_id.nombre,
-                'cantidad':1,
-                'tipo_orden':'Cotización',
-                'aprovacion': True,
-                'fecha_recepcion':datetime.today(),
-                'orden_compra':'-----',
-                'disenador': 'Ventas'
-            }
-            print(compras)
-            if self.material_id._origin.id and self.material_id.nombre:
-                compras.write(vals) if compras else compras.create(vals)
 
-    def action_recotizar(self):
-        compras = self.env['dtm.compras.requerido'].search(
-            [('codigo', '=', self.material_id._origin.id), ('tipo_orden', '=', 'Cotización')])
+    @api.depends("precio_unitario","cantidad")
+    def _compute_total(self):
+        for result in self:
+            result.total = result.cantidad * result.precio_unitario
+
+    def _compute_espera(self):
+        for result in self:
+            get_compras = self.env['dtm.compras.requerido'].search([('nombre','like',result.material_descripcion),('orden_trabajo','=',result.model_id.model_id.no_cotizacion),('tipo_orden','=','Cotización')],limit=1)
+            result.espera = True if get_compras else False
+
+    def action_cotizar(self):       
+        compras = self.env['dtm.compras.requerido'].search([('orden_trabajo','=',self.model_id.model_id.no_cotizacion),('tipo_orden','=','Cotización')])
         vals = {
-            'codigo': self.material_id._origin.id,
-            'nombre': self.material_id.nombre,
-            'cantidad': 1,
-            'tipo_orden': 'Cotización',
-            'aprovacion': True,
-            'fecha_recepcion': datetime.today(),
-            'orden_compra': '-----',
-            'disenador': 'Ventas',
-            'unitario':self.precio
-        }
-        print(compras)
-        if self.material_id._origin.id and self.material_id.nombre:
-            compras.write(vals) if compras else compras.create(vals)
+                'orden_trabajo':self.model_id.model_id.no_cotizacion,
+                'tipo_orden':'Cotización',
+                'revision_ot':1,
+                'codigo':0,
+                'nombre':self.material_descripcion,
+                'cantidad':self.cantidad,
+                'disenador': 'Ventas',
+                'nesteo':False,
+            }
+        compras.write(vals) if compras else compras.create(vals)
+    
 
 class Versiones(models.Model):
     _name = 'dtm.cotizaciones.versiones'

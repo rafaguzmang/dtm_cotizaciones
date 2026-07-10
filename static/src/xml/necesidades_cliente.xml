@@ -1,0 +1,98 @@
+<template xml:space="preserve">
+    <t t-name="dtm_cotizaciones.dtm_necesidades_cliente_component" owl="1">
+        <!-- ROW 1: título + fecha -->
+        <div class="nav-top">
+        <div class="mod-title">Necesidades del cliente</div>
+        <div class="mod-date" id="today-date"></div>
+        </div>
+
+        <!-- ROW 2: acciones -->
+        <div class="nav-actions">
+        <button class="btn-new" t-on-click="(ev)=>this.openModalNecesidades(ev)">+ Nueva necesidad</button>
+        </div>
+
+        <!-- ROW 3: filtros -->
+        <div class="filters-row">
+        <span class="filter-label">Buscar</span>
+        <input class="search-input" type="text" id="f-search" placeholder="Cliente o # necesidad..." oninput="applyFilters()"/>
+
+        <div class="filter-divider"></div>
+
+        <span class="filter-label">Status</span>
+        <select class="filter-select" id="f-status" onchange="applyFilters()">
+            <option value="">Todos</option>
+            <option value="cotizada">Cotizada</option>
+            <option value="pendiente">Pendiente</option>
+            <option value="sin cotizar">Sin cotizar</option>
+        </select>
+
+        <div class="filter-divider"></div>
+
+        <span class="filter-label">Desde</span>
+        <input class="search-input" type="date" id="f-desde" style="width:140px;" oninput="applyFilters()"/>
+
+        <span class="filter-label">Hasta</span>
+        <input class="search-input" type="date" id="f-hasta" style="width:140px;" oninput="applyFilters()"/>
+
+        <button class="btn-clear" onclick="clearFilters()">&#10005; Limpiar</button>
+        <span class="count-pill" id="count-pill">12 registros</span>
+        </div>
+
+        <!-- Lista -->
+        <div class="need-list" id="need-list">
+            <t t-foreach="state.necesidades" t-as="need" t-key="need.no_cotizacion">
+                <div class="need-item">
+                    <div class="need-row" t-on-click="(ev)=>this.toggle(ev)">
+                        <!-- <div class="logo-wrap">NA</div> -->
+                        <div class="need-main">
+                            <div class="need-top">
+                                <!-- Nombre del cliente -->
+                                <div class="need-client"><t t-esc="need.cliente_ids"/></div>
+                                <div class="need-meta">
+                                    <!-- # de cotización -->
+                                    <span># <t t-esc="need.no_cotizacion"/></span>
+                                    <!-- Fecha de solicitud -->
+                                    <span>&#128197; Lev. <t t-esc="need.date"/></span>
+                                    <!-- Fecha del sistema -->
+                                    <span>&#128187; Sistema <t t-esc="need.create_date"/></span>
+                                </div>                            
+                            </div>
+                            <!-- Producto -->
+                            <div class="need-product"><t t-esc="need.product_id"/></div>                        
+                        </div>
+                        <!-- Estado de la necesidad -->
+                        <div class="need-right">
+                            <span class="badge b-green"><t t-esc="need.status"/></span>
+                            <span class="chev"></span>
+                        </div>
+                    </div>
+                    <div class="need-preview">
+                        <div class="pblock">
+                            <div class="plabel">Atención</div>
+                            <div class="pval"><t t-esc="need.atencion"/></div>
+                        </div>
+                        <div class="pblock">
+                            <div class="plabel">Vía de solicitud</div>
+                            <div class="pval"><t t-esc="need.via_solicitud"/></div>
+                        </div>                        
+                        <div class="pblock">
+                            <div class="plabel">Correos</div>
+                            <div class="pval"><t t-esc="need.correo"/></div>
+                        </div>                        
+                        <div class="preview-actions">
+                            <button class="btn-cot">Crear cotización</button>
+                            <button class="btn-det">Ver detalle</button>
+                        </div>
+                    </div>
+                </div>
+            </t>
+        </div>
+
+        <t t-if="state.showModalNecesidades">
+            <NecesidadesClienteModal close="closeModalNecesidades"/>
+        </t>
+
+        
+    </t>
+
+</template>

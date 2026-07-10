@@ -1,0 +1,344 @@
+ body {
+     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+     background: #f5f5f3;
+     color: #1a1a18;
+     padding: 24px;
+ }
+
+ /* ── NAV ── */
+ .nav-top {
+     display: flex;
+     align-items: flex-start;
+     justify-content: space-between;
+     padding: 16px 0 10px;
+ }
+
+ .mod-title {
+     font-size: 20px;
+     font-weight: 500;
+     color: #1a1a18;
+ }
+
+ .mod-date {
+     font-size: 13px;
+     color: #6b6b68;
+     text-align: right;
+     margin-top: 4px;
+ }
+
+ .nav-actions {
+     display: flex;
+     align-items: center;
+     gap: 8px;
+     padding-bottom: 12px;
+     border-bottom: 0.5px solid rgba(0, 0, 0, 0.12);
+     margin-bottom: 12px;
+ }
+
+ .btn-new {
+     background: #534AB7;
+     color: #fff;
+     border: none;
+     border-radius: 8px;
+     padding: 7px 16px;
+     font-size: 13px;
+     cursor: pointer;
+     font-weight: 500;
+ }
+
+ .btn-new:hover {
+     background: #3C3489;
+ }
+
+ /* ── FILTROS ── */
+ .filters-row {
+     display: flex;
+     align-items: center;
+     gap: 8px;
+     flex-wrap: wrap;
+     padding: 10px 12px;
+     background: #ffffff;
+     border-radius: 12px;
+     border: 0.5px solid rgba(0, 0, 0, 0.12);
+     margin-bottom: 14px;
+ }
+
+ .filter-label {
+     font-size: 12px;
+     color: #6b6b68;
+     white-space: nowrap;
+ }
+
+ .search-input {
+     border: 0.5px solid rgba(0, 0, 0, 0.15);
+     border-radius: 8px;
+     padding: 5px 10px;
+     font-size: 13px;
+     background: #f5f5f3;
+     color: #1a1a18;
+     width: 180px;
+ }
+
+ .filter-select {
+     border: 0.5px solid rgba(0, 0, 0, 0.15);
+     border-radius: 8px;
+     padding: 5px 8px;
+     font-size: 13px;
+     background: #f5f5f3;
+     color: #1a1a18;
+     cursor: pointer;
+ }
+
+ .filter-divider {
+     width: 0.5px;
+     height: 18px;
+     background: rgba(0, 0, 0, 0.12);
+     margin: 0 2px;
+ }
+
+ .btn-clear {
+     background: transparent;
+     border: none;
+     font-size: 12px;
+     color: #6b6b68;
+     cursor: pointer;
+     padding: 4px 6px;
+     border-radius: 8px;
+ }
+
+ .btn-clear:hover {
+     background: #f5f5f3;
+ }
+
+ .count-pill {
+     margin-left: auto;
+     font-size: 12px;
+     color: #6b6b68;
+     background: #f5f5f3;
+     border: 0.5px solid rgba(0, 0, 0, 0.12);
+     border-radius: 99px;
+     padding: 3px 10px;
+ }
+
+ /* ── LISTA ── */
+ .need-list {
+     display: flex;
+     flex-direction: column;
+     gap: 6px;
+ }
+
+ .need-item {
+     border: 0.5px solid rgba(0, 0, 0, 0.12);
+     border-radius: 12px;
+     background: #ffffff;
+     overflow: hidden;
+     transition: border-color 0.15s;
+ }
+
+ .need-item:hover {
+     border-color: rgba(0, 0, 0, 0.25);
+ }
+
+ .need-item.expanded {
+     border-color: #534AB7;
+ }
+
+ .need-row {
+     display: flex;
+     align-items: center;
+     gap: 12px;
+     padding: 12px 14px;
+     cursor: pointer;
+     user-select: none;
+ }
+
+ .logo-wrap {
+     flex-shrink: 0;
+     width: 38px;
+     height: 38px;
+     border-radius: 50%;
+     background: #E6F1FB;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     font-size: 12px;
+     font-weight: 500;
+     color: #185FA5;
+     border: 0.5px solid rgba(0, 0, 0, 0.12);
+     overflow: hidden;
+ }
+
+ .logo-wrap img {
+     width: 100%;
+     height: 100%;
+     object-fit: contain;
+ }
+
+ .need-main {
+     flex: 1;
+     min-width: 0;
+     display: flex;
+     align-items: center;
+     justify-content: start;
+ }
+
+ .need-client {
+     font-size: 14px;
+     font-weight: 500;
+     color: #1a1a18;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+ }
+
+ .need-top {
+     display: flex;
+     flex-direction: column;
+ }
+
+ .need-product {
+     font-size: 18px;
+     font-weight: 500;
+     color: #50525b;
+     white-space: nowrap;
+     overflow: hidden;
+     text-overflow: ellipsis;
+     align-self: center;
+     padding-left: 4%;
+ }
+
+ .need-meta {
+     font-size: 12px;
+     color: #6b6b68;
+     margin-top: 2px;
+     display: flex;
+     gap: 12px;
+     flex-wrap: wrap;
+ }
+
+ .need-right {
+     display: flex;
+     align-items: center;
+     gap: 10px;
+     flex-shrink: 0;
+ }
+
+ .badge {
+     display: inline-flex;
+     align-items: center;
+     padding: 3px 9px;
+     border-radius: 8px;
+     font-size: 11px;
+     font-weight: 500;
+     white-space: nowrap;
+ }
+
+ .b-green {
+     background: #EAF3DE;
+     color: #3B6D11;
+ }
+
+ .b-amber {
+     background: #FAEEDA;
+     color: #854F0B;
+ }
+
+ .b-red {
+     background: #FCEBEB;
+     color: #A32D2D;
+ }
+
+ .chev {
+     width: 8px;
+     height: 8px;
+     border-right: 1.5px solid #6b6b68;
+     border-bottom: 1.5px solid #6b6b68;
+     transform: rotate(45deg);
+     transition: transform 0.2s;
+     position: relative;
+     top: -2px;
+     flex-shrink: 0;
+ }
+
+ .chev.open {
+     transform: rotate(-135deg);
+     top: 2px;
+ }
+
+ /* ── PREVIEW ── */
+ .need-preview {
+     display: none;
+     border-top: 0.5px solid rgba(0, 0, 0, 0.12);
+     background: #f5f5f3;
+     padding: 14px 16px;
+     gap: 16px;
+     flex-wrap: wrap;
+ }
+
+ .need-preview.visible {
+     display: flex;
+ }
+
+ .pblock {
+     min-width: 140px;
+ }
+
+ .plabel {
+     font-size: 11px;
+     color: #6b6b68;
+     text-transform: uppercase;
+     letter-spacing: 0.04em;
+     margin-bottom: 4px;
+ }
+
+ .pval {
+     font-size: 13px;
+     color: #1a1a18;
+ }
+
+ .ptag {
+     display: inline-block;
+     background: #ffffff;
+     border: 0.5px solid rgba(0, 0, 0, 0.12);
+     border-radius: 8px;
+     font-size: 12px;
+     padding: 3px 8px;
+     color: #1a1a18;
+     margin: 2px 2px 0 0;
+ }
+
+ .preview-actions {
+     display: flex;
+     gap: 8px;
+     align-items: center;
+     margin-top: 6px;
+     width: 100%;
+ }
+
+ .btn-cot {
+     background: #534AB7;
+     color: #fff;
+     border: none;
+     border-radius: 8px;
+     padding: 6px 14px;
+     font-size: 12px;
+     cursor: pointer;
+ }
+
+ .btn-cot:hover {
+     background: #3C3489;
+ }
+
+ .btn-det {
+     background: transparent;
+     border: 0.5px solid rgba(0, 0, 0, 0.25);
+     border-radius: 8px;
+     padding: 6px 14px;
+     font-size: 12px;
+     cursor: pointer;
+     color: #1a1a18;
+ }
+
+ .btn-det:hover {
+     background: #ffffff;
+ }

@@ -1,0 +1,125 @@
+<template xml:space="preserve">
+    <t t-name="dtm_cotizaciones.necesidades_modal" owl="1">
+        <div class="dtm-modal-backdrop">
+            <div class="dtm-modal-dialog modal-xl">
+                <div class="dtm-modal-content">
+
+                    <!-- Header -->
+                    <div class="dtm-modal-header">
+                        <h5 class="dtm-modal-title">Nueva Necesidad</h5>
+                        <button type="button" class="dtm-btn-close" aria-label="Close" t-on-click="this.props.close">
+                            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="dtm-modal-body">
+
+                        <!-- Campos principales -->
+                        <div class="dtm-fields-grid">
+
+                            <div class="dtm-field-group">
+                                <label>Cliente <span class="dtm-required">*</span></label>
+                                <input type="text" placeholder="Buscar cliente…" id="cliente" t-on-input="onInputCliente"/>
+                                <div class="dtm-dropdown" t-if="state.mostrarDropdown">
+                                    <t t-foreach="state.clientes" t-as="cliente" t-key="cliente.id">
+                                        <div class="dtm-dropdown-item" t-att-data-id="cliente.id" t-on-click="() => this.selectCliente(cliente)">
+                                            <t t-esc="cliente.name"/>
+                                        </div>
+                                    </t>
+                                </div>
+                            </div>
+
+                            <div class="dtm-field-group">
+                                <label>Fecha</label>
+                                <input type="date" id="fecha" value="2026-03-18"/>
+                            </div>
+
+                            <div class="dtm-field-group">
+                                <label class="dtm-label">Nombre del requisitor</label>
+                                <div class="dtm-requisitores-wrap">
+                                    <div class="dtm-req-header">
+                                        <span>Contactos del cliente</span>
+                                        <span class="dtm-req-count">
+                                            <t t-esc="state.requisitoresSeleccionados.length"/> seleccionados
+                                        </span>
+                                    </div>
+                                    <div class="dtm-req-list">
+                                            <div class="dtm-req-item">
+                                                <!-- <div class="dtm-avatar" t-esc="getInitials(req.name)"/> -->
+                                                <div class="dtm-req-info">
+                                                    <div class="dtm-req-name" >Rafael Guzmán</div>
+                                                    <div class="dtm-req-email" >rguzman@compania</div>
+                                                </div>
+                                                <div class="dtm-check">
+                                                    <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                                                        <path d="M1 4L3.5 6.5L9 1" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>                           
+
+                            <div class="dtm-field-group">
+                                <label>Vía de solicitud</label>
+                                <select>
+                                    <option value="">— Selecciona —</option>
+                                    <option>Correo</option>
+                                    <option>Llamada</option>
+                                    <option>Visita</option>
+                                    <option>WhatsApp</option>
+                                </select>
+                            </div>                          
+
+                        </div>
+
+                        <!-- Tabs -->
+                        <div class="dtm-tabs-wrap">
+                            <div class="dtm-tabs">
+                                <button class="dtm-tab-btn active">Requerimientos</button>
+                                <button class="dtm-tab-btn">Anotaciones</button>
+                            </div>
+
+                            <!-- Tab: Requerimientos -->
+                            <div class="dtm-tab-panel active" id="tab-requerimientos">
+                                <div class="dtm-table-wrap">
+                                    <table id="req-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Producto o servicio</th>
+                                                <th>Descripción</th>
+                                                <th>Color</th>
+                                                <th style="width:80px; text-align:center;">Cantidad</th>
+                                                <th style="width:36px;"></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="req-body"></tbody>
+                                    </table>
+                                </div>
+                                <button class="dtm-btn-add-line">＋ Agregar una línea</button>
+                            </div>
+
+                            <!-- Tab: Anotaciones -->
+                            <div class="dtm-tab-panel" id="tab-anotaciones">
+                                <textarea placeholder="Escribe aquí las anotaciones o comentarios adicionales…"></textarea>
+                            </div>
+                        </div>
+
+                    </div><!-- /dtm-modal-body -->
+
+                    <!-- Footer -->
+                    <div class="dtm-modal-footer">
+                        <button class="dtm-btn dtm-btn-secondary">Cancelar</button>
+                        <button class="dtm-btn dtm-btn-primary">Guardar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </t>
+
+
+</template>

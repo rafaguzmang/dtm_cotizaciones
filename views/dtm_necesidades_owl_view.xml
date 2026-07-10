@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <record id="dtm_necesidades_cliente_owl" model="ir.actions.client">
+      <field name="name">Necesidades de Cliente Nuevo</field>
+      <field name="tag">dtm_cotizaciones.dtm_necesidades_cliente_component</field>
+   </record>
+   <menuitem id="dtm_necesidades_cliente_owl_menu" action="dtm_necesidades_cliente_owl"/>
+</odoo>

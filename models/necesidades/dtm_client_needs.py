@@ -1,6 +1,7 @@
+from pkg_resources import require
 from odoo import api,fields,models
 import datetime
-
+from odoo.exceptions import ValidationError
 #------------------- Clase principal
 class ClientNeeds(models.Model):
     _name = "dtm.client.needs"
@@ -33,7 +34,7 @@ class ClientNeeds(models.Model):
     nivel = fields.Selection(string="Nivel", default="uno",selection=[('uno',1),('dos',2),('tres',3)])
 
     via_solicitud = fields.Selection(string="Vía de solicitud", selection=[
-        ('telefonica', 'Telefónica'), ('correo', 'Correo'), ('planos', 'Planos'), ('dibujos', 'Dibujos')])
+        ('telefonica', 'Telefónica'), ('correo', 'Correo'), ('planos', 'Planos'), ('dibujos', 'Dibujos')], require=True)
 
     prediseno_id = fields.One2many('dtm.cotizaciones.predisenos','model_id',string='Prediseño')
 
@@ -50,7 +51,11 @@ class ClientNeeds(models.Model):
 
     autorizacion_id = fields.Many2many("ir.attachment")
 
+    po_necesaria = fields.Boolean(string="Requiere PO", default=True) #Habilita la pestaña para ingresar el pdf de la PO en ordenes de compra.
+
     def action_cotizacion(self):
+        if self.correo in ['N/A',''] or self.telefono in ['N/A','']:
+            raise ValidationError("Correo y telefono son obligatorios")
         get_cotizacion = self.env['dtm.cotizaciones'].search([('no_cotizacion','=',self.no_cotizacion)])
         if get_cotizacion:
             get_cotizacion = self.env['dtm.cotizaciones'].search([('no_cotizacion','=',self.no_cotizacion)])
