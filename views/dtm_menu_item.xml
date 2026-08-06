@@ -14,7 +14,7 @@
 
         <menuitem id="dtm_cotizaciones_indicadores_menu" action ="dtm_cotizaciones_indicadores_action" groups="group_ventas_admin"/>
         <menuitem id="dtm_ordenes_compra_seguimiento_menu" action="dtm_ordenes_compra.dtm_ventas_seguimiento_action" groups="group_ventas_admin"/>
-
+        <menuitem id="menu_dtm_ordenes_compra_audit_log"  action="dtm_ordenes_compra.dtm_ordenes_compra_audit_log_action" groups="dtm_ordenes_compra.group_dtm_admin_ordenes_compra"/>        
 
 <!--        <menuitem id="tm_cotizaciones_encuesta_menu"  action="dtm_cotizaciones_encuesta_act_window"/>-->
 
